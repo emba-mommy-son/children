@@ -1,3 +1,13 @@
+import chattingFocus from 'assets/icons/chatting-focus.png';
+import chattingUnfocus from 'assets/icons/chatting-unfocus.png';
+import friendsFocus from 'assets/icons/friends-focus.png';
+import friendsUnfocus from 'assets/icons/friends-unfocus.png';
+import healthFocus from 'assets/icons/health-focus.png';
+import healthUnfocus from 'assets/icons/health-unfocus.png';
+import homeFocus from 'assets/icons/home-focus.png';
+import homeUnfocus from 'assets/icons/home-unfocus.png';
+import locationFocus from 'assets/icons/location-focus.png';
+import locationUnfocus from 'assets/icons/location-unfocus.png';
 import {Fragment} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -12,32 +22,32 @@ const ROUTES = [
   {
     name: '홈',
     hasIcon: true,
-    focusIcon: require('../../../assets/icons/home-focus.png'),
-    unfocusIcon: require('../../../assets/icons/home-unfocus.png'),
+    focusIcon: homeFocus,
+    unfocusIcon: homeUnfocus,
   },
   {
     name: '위치',
     hasIcon: true,
-    focusIcon: require('../../../assets/icons/location-focus.png'),
-    unfocusIcon: require('../../../assets/icons/location-unfocus.png'),
+    focusIcon: locationFocus,
+    unfocusIcon: locationUnfocus,
   },
   {
     name: '채팅',
     hasIcon: false,
-    focusIcon: require('../../../assets/icons/chatting-focus.png'),
-    unfocusIcon: require('../../../assets/icons/chatting-unfocus.png'),
+    focusIcon: chattingFocus,
+    unfocusIcon: chattingUnfocus,
   },
   {
     name: '친구',
     hasIcon: true,
-    focusIcon: require('../../../assets/icons/friends-focus.png'),
-    unfocusIcon: require('../../../assets/icons/friends-unfocus.png'),
+    focusIcon: friendsFocus,
+    unfocusIcon: friendsUnfocus,
   },
   {
     name: '건강',
     hasIcon: true,
-    focusIcon: require('../../../assets/icons/health-focus.png'),
-    unfocusIcon: require('../../../assets/icons/health-unfocus.png'),
+    focusIcon: healthFocus,
+    unfocusIcon: healthUnfocus,
   },
 ];
 
