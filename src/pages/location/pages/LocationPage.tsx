@@ -1,11 +1,11 @@
 import CustomSafeAreaView from 'components/common/CustomSafeAreaView';
 import {Text, View} from 'react-native';
 
-export const AlarmPage = () => {
+export const LocationPage = () => {
   return (
     <CustomSafeAreaView>
       <View>
-        <Text>AlarmPage</Text>
+        <Text>LocationPage</Text>
       </View>
     </CustomSafeAreaView>
   );

@@ -1,9 +1,12 @@
+import CustomSafeAreaView from 'components/common/CustomSafeAreaView';
 import {Text, View} from 'react-native';
 
 export const FriendPage = () => {
   return (
-    <View>
-      <Text>Friend</Text>
-    </View>
+    <CustomSafeAreaView>
+      <View>
+        <Text>FriendPage</Text>
+      </View>
+    </CustomSafeAreaView>
   );
 };

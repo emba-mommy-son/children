@@ -6,7 +6,7 @@ export const BestFriend = () => {
   return (
     <View className="flex flex-col bg-primary w-[180px] h-[180px] rounded-2xl p-5 mr-3">
       <View className="flex flex-row items-center mb-2">
-        <Text className="text-white text-SubHeading font-semibold">
+        <Text className="text-white text-subheading font-semibold mb-1">
           단짝친구
         </Text>
         <Icons name="right" color="white" size={20} />
