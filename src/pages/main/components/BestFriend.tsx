@@ -1,5 +1,6 @@
 import friend from 'assets/icons/friend.png';
 import {Image, Text, View} from 'react-native';
+import Icons from 'react-native-vector-icons/AntDesign';
 
 export const BestFriend = () => {
   return (
@@ -8,6 +9,7 @@ export const BestFriend = () => {
         단짝친구
       </Text>
       <Text className="text-white text-Body-Text font-semibold">민준수</Text>
+      <Icons name="stepforward" />
       <Image source={friend} className="w-[50px] h-[50px] ml-auto mt-auto" />
     </View>
   );
