@@ -1,16 +1,7 @@
-import chattingFocus from 'assets/icons/chatting-focus.png';
-import chattingUnfocus from 'assets/icons/chatting-unfocus.png';
-import friendsFocus from 'assets/icons/friends-focus.png';
-import friendsUnfocus from 'assets/icons/friends-unfocus.png';
-import healthFocus from 'assets/icons/health-focus.png';
-import healthUnfocus from 'assets/icons/health-unfocus.png';
-import homeFocus from 'assets/icons/home-focus.png';
-import homeUnfocus from 'assets/icons/home-unfocus.png';
-import locationFocus from 'assets/icons/location-focus.png';
-import locationUnfocus from 'assets/icons/location-unfocus.png';
 import {Fragment} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Icons from 'react-native-vector-icons/Ionicons';
 
 interface BottomNavigationBarProps {
   state: any;
@@ -22,32 +13,32 @@ const ROUTES = [
   {
     name: '홈',
     hasIcon: true,
-    focusIcon: homeFocus,
-    unfocusIcon: homeUnfocus,
-  },
-  {
-    name: '위치',
-    hasIcon: true,
-    focusIcon: locationFocus,
-    unfocusIcon: locationUnfocus,
-  },
-  {
-    name: '채팅',
-    hasIcon: false,
-    focusIcon: chattingFocus,
-    unfocusIcon: chattingUnfocus,
+    focusIcon: 'home',
+    unfocusIcon: 'home-outline',
   },
   {
     name: '친구',
     hasIcon: true,
-    focusIcon: friendsFocus,
-    unfocusIcon: friendsUnfocus,
+    focusIcon: 'person',
+    unfocusIcon: 'person-outline',
   },
   {
-    name: '건강',
+    name: '채팅',
+    hasIcon: false,
+    focusIcon: 'chatbubble-ellipses',
+    unfocusIcon: 'chatbubble-ellipses-outline',
+  },
+  {
+    name: '수면',
     hasIcon: true,
-    focusIcon: healthFocus,
-    unfocusIcon: healthUnfocus,
+    focusIcon: 'moon',
+    unfocusIcon: 'moon-outline',
+  },
+  {
+    name: '위치',
+    hasIcon: true,
+    focusIcon: 'location',
+    unfocusIcon: 'location-outline',
   },
 ];
 
@@ -85,37 +76,20 @@ const BottomNavigationBar = (props: BottomNavigationBarProps) => {
             testID={options.tabBarTestID}
             style={{flex: 1}}
             onPress={onPress}>
-            {ROUTES[index].hasIcon ? (
+            {
               <Fragment>
                 <View className="flex justify-center items-center mb-2">
-                  <Image
-                    className="w-6 h-6"
-                    source={ROUTES[index][`${focus}Icon`]}
+                  <Icons
+                    name={ROUTES[index][`${focus}Icon`]}
+                    size={25}
+                    color={isFocused ? '#000000' : '#8C8C8C'}
                   />
                 </View>
-                <Text style={{color: isFocused ? '#000000' : '#A0A0A0'}}>
+                <Text style={{color: isFocused ? '#000000' : '#8C8C8C'}}>
                   {ROUTES[index].name}
                 </Text>
               </Fragment>
-            ) : (
-              <View
-                className="w-14 h-14 rounded-full flex justify-center items-center relative"
-                style={{
-                  backgroundColor: isFocused ? '#000000' : '#EEEEEE',
-                }}>
-                {message > 0 && !isFocused && (
-                  <View className="text-xs absolute -top-1 -right-1 bg-red-400 rounded-full w-6 h-6 flex justify-center items-center">
-                    <Text className="text-sm text-white font-bold">
-                      {message}
-                    </Text>
-                  </View>
-                )}
-                <Image
-                  className="w-6 h-6"
-                  source={ROUTES[index][`${focus}Icon`]}
-                />
-              </View>
-            )}
+            }
           </TouchableOpacity>
         );
       })}
