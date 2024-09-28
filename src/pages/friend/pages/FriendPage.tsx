@@ -1,5 +1,9 @@
-import { View } from "react-native"
+import {Text, View} from 'react-native';
 
 export const FriendPage = () => {
-  return <View></View>
-}
+  return (
+    <View>
+      <Text>Friend</Text>
+    </View>
+  );
+};

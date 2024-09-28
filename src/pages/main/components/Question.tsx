@@ -6,7 +6,7 @@ import {Image, Text, View} from 'react-native';
 export const Question = () => {
   return (
     <View className="bg-navy w-[311px] h-[149px] rounded-2xl p-5 flex flex-col justify-center space-y-3 mt-8">
-      <Text className="text-white text-SubHeading font-semibold mb-2 text-center">
+      <Text className="text-white text-subheading font-semibold mb-2 text-center">
         어제 하루는 어땠나요?
       </Text>
       <View className="flex flex-row justify-evenly">

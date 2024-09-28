@@ -11,7 +11,7 @@ export const BestFriend = () => {
         </Text>
         <Icons name="right" color="white" size={20} />
       </View>
-      <Text className="text-white text-Body-Text font-semibold">민준수</Text>
+      <Text className="text-white text-body-text font-semibold">민준수</Text>
       <Image source={Friend} className="w-[50px] h-[50px] ml-auto mt-auto" />
     </View>
   );

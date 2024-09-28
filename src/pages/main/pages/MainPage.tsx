@@ -12,7 +12,7 @@ export const MainPage = () => {
     <CustomSafeAreaView>
       <View className="h-screen relative bg-secondary px-5">
         <View className="flex flex-row justify-between items-center mt-5 mb-8">
-          <Text className="text-white text-SubHeading font-bold">김도영</Text>
+          <Text className="text-white text-subheading font-bold">김도영</Text>
           <Image source={alarm} className="w-[20px] h-[20px]" />
         </View>
         <View className="flex flex-col items-center space-y-3">
