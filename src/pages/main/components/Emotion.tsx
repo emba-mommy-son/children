@@ -1,4 +1,4 @@
-import graph from 'assets/icons/graph.png';
+import Graph from 'assets/icons/graph.png';
 import {Image, Text, View} from 'react-native';
 
 export const Emotion = () => {
@@ -8,7 +8,7 @@ export const Emotion = () => {
         요즘 기분
       </Text>
       <Text className="text-white text-Body-Text font-semibold">행복해요</Text>
-      <Image source={graph} className="w-[50px] h-[50px] ml-auto mt-auto" />
+      <Image source={Graph} className="w-[50px] h-[50px] ml-auto mt-auto" />
     </View>
   );
 };

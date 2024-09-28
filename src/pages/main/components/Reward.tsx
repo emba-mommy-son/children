@@ -1,14 +1,18 @@
-import card from 'assets/icons/card.png';
+import Card from 'assets/icons/card.png';
 import {Image, Text, View} from 'react-native';
+import Icons from 'react-native-vector-icons/AntDesign';
 
 export const Reward = () => {
   return (
     <View className="flex flex-col bg-yellow w-[120px] h-[180px] rounded-2xl p-5 mr-3">
-      <Text className="text-white text-SubHeading font-semibold mb-2">
-        리워드
-      </Text>
+      <View className="flex flex-row items-center mb-2">
+        <Text className="text-white text-SubHeading font-semibold mb-1">
+          리워드
+        </Text>
+        <Icons name="right" color="white" size={20} />
+      </View>
       <Text className="text-white text-Body-Text font-semibold">6,000</Text>
-      <Image source={card} className="w-[50px] h-[50px] ml-auto mt-auto" />
+      <Image source={Card} className="w-[50px] h-[50px] ml-auto mt-auto" />
     </View>
   );
 };

@@ -1,5 +1,5 @@
-import {Image, Text, View} from 'react-native';
-import sleep from 'assets/icons/sleep.png';
+import Moon from 'assets/icons/moon.png';
+import { Image, Text, View } from 'react-native';
 
 export const Sleep = () => {
   return (
@@ -8,7 +8,7 @@ export const Sleep = () => {
         수면
       </Text>
       <Text className="text-white text-Body-Text font-semibold">잘잤어요</Text>
-      <Image source={sleep} className="w-[50px] h-[50px] ml-auto mt-auto" />
+      <Image source={Moon} className="w-[50px] h-[50px] ml-auto mt-auto" />
     </View>
   );
 };

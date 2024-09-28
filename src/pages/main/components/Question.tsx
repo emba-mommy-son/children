@@ -1,6 +1,6 @@
-import angry from 'assets/icons/emotion/angry.png';
-import bad from 'assets/icons/emotion/bad.png';
-import good from 'assets/icons/emotion/good.png';
+import Angry from 'assets/icons/emotion/angry.png';
+import Bad from 'assets/icons/emotion/bad.png';
+import Good from 'assets/icons/emotion/good.png';
 import {Image, Text, View} from 'react-native';
 
 export const Question = () => {
@@ -10,9 +10,9 @@ export const Question = () => {
         어제 하루는 어땠나요?
       </Text>
       <View className="flex flex-row justify-evenly">
-        <Image source={bad} className="w-[50px] h-[50px]" />
-        <Image source={good} className="w-[50px] h-[50px]" />
-        <Image source={angry} className="w-[50px] h-[50px]" />
+        <Image source={Bad} className="w-[50px] h-[50px]" />
+        <Image source={Good} className="w-[50px] h-[50px]" />
+        <Image source={Angry} className="w-[50px] h-[50px]" />
       </View>
     </View>
   );
