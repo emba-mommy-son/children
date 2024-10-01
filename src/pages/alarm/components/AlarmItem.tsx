@@ -1,13 +1,4 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  FlatList,
-} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {AlarmItem} from '@pages/alarm/components/AlarmItem';
+import {View, Text} from 'react-native';
 
 interface AlarmItem {
   id: number;
@@ -69,28 +60,15 @@ const mockData: AlarmItem[] = [
   },
 ];
 
-export const AlarmPage: React.FC = () => {
-  const nav = useNavigation();
-
-  const handleBackPress = () => {
-    nav.goBack();
-  };
-
-  const renderItem = ({item}: {item: AlarmItem}) => <AlarmItem item={item} />;
-  return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="bg-secondary p-4 flex-row items-center">
-        <TouchableOpacity onPress={handleBackPress} className="mr-4">
-          <Text className="text-white text-2xl">←</Text>
-        </TouchableOpacity>
-        <Text className="text-white text-lg font-semibold">알림</Text>
+export const AlarmItem: React.FC<{item: AlarmItem}> = ({item}) => (
+  <View className="bg-white p-5 mb-4 rounded-xl shadow-lg shadow-black/10">
+    <Text className="text-xs mb-2">{item.date}</Text>
+    <View className="flex-row items-center">
+      <Text className="text-2xl mr-2">{item.icon}</Text>
+      <View className="flex-1">
+        <Text className="text-sm">{item.content}</Text>
+        <Text className="text-xs mt-1">{item.time}</Text>
       </View>
-      <FlatList
-        data={mockData}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-        className="flex-1 px-8 pt-7 pb-4"
-      />
-    </SafeAreaView>
-  );
-};
+    </View>
+  </View>
+);
