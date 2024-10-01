@@ -42,7 +42,7 @@ const ROUTES = [
   },
 ];
 
-const BottomNavigationBar = (props: BottomNavigationBarProps) => {
+export const BottomNavigationBar = (props: BottomNavigationBarProps) => {
   const insets = useSafeAreaInsets();
   const message = 1;
 
@@ -96,5 +96,3 @@ const BottomNavigationBar = (props: BottomNavigationBarProps) => {
     </View>
   );
 };
-
-export default BottomNavigationBar;
