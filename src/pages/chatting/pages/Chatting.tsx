@@ -1,19 +1,16 @@
-import {useRealm} from '@realm/react';
 import {useEffect, useState} from 'react';
+import {useRealm} from '@realm/react';
 import {Alert, Button, ScrollView, Text, TextInput, View} from 'react-native';
-import instance from '../../../api/client';
-import CustomSafeAreaView from '../../../components/common/CustomSafeAreaView';
-import useMessage from '../../../database/query/useMessage';
-import useRefineMessage from '../../../database/query/useRefineMessage';
-import useSentiment from '../../../database/query/useSentiment';
-import {Message} from '../../../database/schemas/MessageSchema';
-import {RefineMessage} from '../../../database/schemas/RefineMessageSchema';
-import {
-  Sentiment,
-  SentimentType,
-} from '../../../database/schemas/SentimentSchema';
-import Receive from '../components/Receive';
-import Send from '../components/Send';
+import Receive from '@pages/chatting/components/Receive';
+import Send from '@pages/chatting/components/Send';
+import instance from '@api/client';
+import useMessage from '@database/query/useMessage';
+import useRefineMessage from '@database/query/useRefineMessage';
+import useSentiment from '@database/query/useSentiment';
+import {Message} from '@database/schemas/MessageSchema';
+import {RefineMessage} from '@database/schemas/RefineMessageSchema';
+import {Sentiment, SentimentType} from '@database/schemas/SentimentSchema';
+import {CustomSafeAreaView} from '@components/common/CustomSafeAreaView';
 
 const TIME_LIMIT: number = 5000;
 

@@ -1,7 +1,7 @@
-import Angry from 'assets/icons/emotion/angry.png';
-import Bad from 'assets/icons/emotion/bad.png';
-import Good from 'assets/icons/emotion/good.png';
 import {Image, Text, View} from 'react-native';
+import Angry from '@assets/icons/emotion/angry.png';
+import Bad from '@assets/icons/emotion/bad.png';
+import Good from '@assets/icons/emotion/good.png';
 
 export const Question = () => {
   return (

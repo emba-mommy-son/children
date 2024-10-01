@@ -1,10 +1,10 @@
-import CustomSafeAreaView from 'components/common/CustomSafeAreaView';
-import {BestFriend} from 'pages/main/components/BestFriend';
-import {Emotion} from 'pages/main/components/Emotion';
-import {Question} from 'pages/main/components/Question';
-import {Reward} from 'pages/main/components/Reward';
-import {Sleep} from 'pages/main/components/Sleep';
 import {Text, View} from 'react-native';
+import {CustomSafeAreaView} from '@components/common/CustomSafeAreaView';
+import {BestFriend} from '@pages/main/components/BestFriend';
+import {Emotion} from '@pages/main/components/Emotion';
+import {Question} from '@pages/main/components/Question';
+import {Reward} from '@pages/main/components/Reward';
+import {Sleep} from '@pages/main/components/Sleep';
 import Icons from 'react-native-vector-icons/Ionicons';
 
 export const MainPage = ({navigation}: any) => {

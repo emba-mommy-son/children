@@ -6,7 +6,10 @@ interface CustomSafeAreaViewProps {
   className?: string;
 }
 
-const CustomSafeAreaView = ({children, className}: CustomSafeAreaViewProps) => {
+export const CustomSafeAreaView = ({
+  children,
+  className,
+}: CustomSafeAreaViewProps) => {
   const insets = useSafeAreaInsets();
 
   return (
@@ -22,5 +25,3 @@ const CustomSafeAreaView = ({children, className}: CustomSafeAreaViewProps) => {
     </View>
   );
 };
-
-export default CustomSafeAreaView;

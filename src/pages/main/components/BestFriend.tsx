@@ -1,6 +1,6 @@
-import Friend from 'assets/icons/friend.png';
 import {Image, Text, View} from 'react-native';
 import Icons from 'react-native-vector-icons/AntDesign';
+import Friend from '@assets/icons/friend.png';
 
 export const BestFriend = () => {
   return (

@@ -1,5 +1,5 @@
-import CustomSafeAreaView from 'components/common/CustomSafeAreaView';
 import {Text, View} from 'react-native';
+import {CustomSafeAreaView} from 'components/common/CustomSafeAreaView';
 
 export const AlarmPage = () => {
   return (
