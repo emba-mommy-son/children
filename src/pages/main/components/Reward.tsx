@@ -1,6 +1,6 @@
-import Card from 'assets/icons/card.png';
 import {Image, Text, View} from 'react-native';
 import Icons from 'react-native-vector-icons/AntDesign';
+import Card from '@assets/icons/card.png';
 
 export const Reward = () => {
   return (

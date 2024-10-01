@@ -1,5 +1,5 @@
-import Graph from 'assets/icons/graph.png';
 import {Image, Text, View} from 'react-native';
+import Graph from '@assets/icons/graph.png';
 
 export const Emotion = () => {
   return (

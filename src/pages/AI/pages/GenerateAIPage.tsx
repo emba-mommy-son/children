@@ -1,11 +1,11 @@
 import {useState} from 'react';
 import {ScrollView, TextInput, View} from 'react-native';
+import {CustomSafeAreaView} from '@components/common/CustomSafeAreaView';
+import Receive from '@pages/chatting/components/Receive';
+import useGenerateMessage from '@database/query/useGenerateMessage';
+import {GenerateMessage} from '@database/schemas/GenerateMessageSchema';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import CustomSafeAreaView from '../../../components/common/CustomSafeAreaView';
-import useGenerateMessage from '../../../database/query/useGenerateMessage';
-import {GenerateMessage} from '../../../database/schemas/GenerateMessageSchema';
-import Receive from '../../chatting/components/Receive';
 
 export const GenerateAIPage = () => {
   const [message, setMessage] = useState('');

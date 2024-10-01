@@ -1,5 +1,5 @@
-import Moon from 'assets/icons/moon.png';
 import {Image, Text, View} from 'react-native';
+import Moon from '@assets/icons/moon.png';
 
 export const Sleep = () => {
   return (
