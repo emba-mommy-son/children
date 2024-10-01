@@ -11,7 +11,7 @@ export const MainPage = ({navigation}: any) => {
   const onPress = () => {
     navigation.navigate('Alarm');
   };
-  
+
   return (
     <CustomSafeAreaView>
       <View className="h-screen relative bg-secondary px-5">

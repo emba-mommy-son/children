@@ -7,7 +7,7 @@ import useGenerateMessage from '../../../database/query/useGenerateMessage';
 import {GenerateMessage} from '../../../database/schemas/GenerateMessageSchema';
 import Receive from '../../chatting/components/Receive';
 
-const GenerateAIPage = () => {
+export const GenerateAIPage = () => {
   const [message, setMessage] = useState('');
   const messages = useGenerateMessage();
 
@@ -64,5 +64,3 @@ const GenerateAIPage = () => {
     </CustomSafeAreaView>
   );
 };
-
-export default GenerateAIPage;
