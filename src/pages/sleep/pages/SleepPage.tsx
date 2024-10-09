@@ -1,12 +1,12 @@
-import {Text, View} from 'react-native';
-import {CustomSafeAreaView} from 'components/common/CustomSafeAreaView';
+// 리액트
+import {SafeAreaView, Text, View} from 'react-native';
 
 export const SleepPage = () => {
   return (
-    <CustomSafeAreaView>
+    <SafeAreaView>
       <View>
         <Text>SleepPage</Text>
       </View>
-    </CustomSafeAreaView>
+    </SafeAreaView>
   );
 };

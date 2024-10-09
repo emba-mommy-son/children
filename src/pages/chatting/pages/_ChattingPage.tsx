@@ -1,26 +1,35 @@
-import {useEffect, useState} from 'react';
-import {useRealm} from '@realm/react';
-import {Alert, Button, ScrollView, Text, TextInput, View} from 'react-native';
-import Receive from '@pages/chatting/components/Receive';
-import Send from '@pages/chatting/components/Send';
 import instance from '@api/client';
+import Friend from '@assets/icons/friend/friendImage.png';
+import {CustomSafeAreaView} from '@components/common/CustomSafeAreaView';
 import useMessage from '@database/query/useMessage';
 import useRefineMessage from '@database/query/useRefineMessage';
 import useSentiment from '@database/query/useSentiment';
 import {Message} from '@database/schemas/MessageSchema';
 import {RefineMessage} from '@database/schemas/RefineMessageSchema';
 import {Sentiment, SentimentType} from '@database/schemas/SentimentSchema';
-import {CustomSafeAreaView} from '@components/common/CustomSafeAreaView';
+import Receive from '@pages/chatting/components/Receive';
+import Send from '@pages/chatting/components/Send';
+import {useNavigation} from '@react-navigation/native';
+import {useRealm} from '@realm/react';
+import {useEffect, useState} from 'react';
+import {Alert, Image, ScrollView, Text, TextInput, View} from 'react-native';
+import AntDesignIcons from 'react-native-vector-icons/AntDesign';
+import FeatherIcons from 'react-native-vector-icons/Feather';
 
 const TIME_LIMIT: number = 5000;
 
-const Chatting = () => {
+export const ChattingPage = () => {
   const sender = 'doyoung';
   const [message, setMessage] = useState('');
   const realm = useRealm();
   const messages = useMessage();
   const sentiments = useSentiment();
   const refineMessages = useRefineMessage();
+  const nav = useNavigation();
+
+  const goBack = () => {
+    nav.goBack();
+  };
 
   useEffect(() => {
     async function test() {
@@ -224,12 +233,20 @@ const Chatting = () => {
 
   return (
     <CustomSafeAreaView>
-      <View className="m-3 flex flex-col h-full">
-        <View className="border border-black p-2 rounded-xl mb-2">
-          <Text>Sender : {sender}</Text>
+      <View className="flex flex-col h-full p-4">
+        <View className="flex flex-row items-center space-x-3">
+          <AntDesignIcons
+            name="arrowleft"
+            color="#000000"
+            size={30}
+            onPress={goBack}
+          />
+          <Image source={Friend} className="w-12 h-12" />
+          <Text className="text-black text-subheading">김도영</Text>
         </View>
 
         <ScrollView className="flex flex-col px-3 my-5">
+          // !FIXME : 사용자에 따라 send, receive 구분
           {messages
             .findAll('group1', 'user1', 'kakao')
             .map((message, index) => (
@@ -250,17 +267,24 @@ const Chatting = () => {
             ))}
         </ScrollView>
 
-        <View className="flex flex-row items-center pt-2 mb-14">
+        <View className="flex flex-row items-center pt-2 space-x-3">
           <TextInput
-            className="border border-black p-2 rounded-xl flex-1 mr-2"
+            className="bg-gray-700 px-4 flex-1 rounded-3xl text-body-text"
             onChangeText={enteredText => setMessage(enteredText)}
             value={message}
+            placeholder="메시지를 입력하세요."
+            placeholderTextColor="#B7B7B7"
+            style={{
+              shadowColor: 'black', // 그림자 색상
+              shadowOffset: {width: 0, height: 1}, // 그림자 크기 (x, y)
+              shadowOpacity: 0.25, // 그림자 불투명도
+              shadowRadius: 3.84, // 그림자 흐림 정도
+              elevation: 2, // Android에서의 그림자 효과
+            }}
           />
-          <Button onPress={createMessageDB} title="메시지 보내기" />
+          <FeatherIcons name="send" size={30} onPress={createMessageDB} />
         </View>
       </View>
     </CustomSafeAreaView>
   );
 };
-
-export default Chatting;

@@ -1,12 +1,17 @@
+// 리액트
 import React from 'react';
 import {
-  View,
+  FlatList,
+  SafeAreaView,
   Text,
   TouchableOpacity,
-  SafeAreaView,
-  FlatList,
+  View,
 } from 'react-native';
+
+// 라이브러리
 import {useNavigation} from '@react-navigation/native';
+
+// 컴포넌트
 import {AlarmItem} from '@pages/alarm/components/AlarmItem';
 
 interface AlarmItem {
