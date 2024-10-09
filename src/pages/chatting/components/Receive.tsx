@@ -2,15 +2,12 @@ import {Text, View} from 'react-native';
 
 interface ReceiveProps {
   message: string;
-  bgColor: string;
 }
 
-const Receive = ({message, bgColor}: ReceiveProps) => {
+const Receive = ({message}: ReceiveProps) => {
   return (
-    <View className={`flex flex-row justify-start w-4/5 mb-3`}>
-      <Text
-        className={`p-3 rounded-xl rounded-tr-none text-left`}
-        style={{backgroundColor: `${bgColor}`}}>
+    <View className="flex flex-row justify-start w-4/5 mb-3">
+      <Text className="bg-gray-300 p-3 rounded-xl rounded-tr-none text-left">
         {message}
       </Text>
     </View>

@@ -250,11 +250,7 @@ export const ChattingPage = () => {
           {messages
             .findAll('group1', 'user1', 'kakao')
             .map((message, index) => (
-              <Receive
-                key={index}
-                message={message.content}
-                bgColor="#F4EAB1"
-              />
+              <Receive key={index} message={message.content} />
             ))}
           {refineMessages
             .findAll('group1', 'user1', 'kakao')
@@ -262,7 +258,6 @@ export const ChattingPage = () => {
               <Send
                 key={index}
                 message={`${message.content}-${message.isAnalyzed}`}
-                bgColor="#B1F4D0"
               />
             ))}
         </ScrollView>
