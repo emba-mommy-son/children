@@ -1,20 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface LoginState {
+  username: string; // id
   password: string;
-  phoneNumber: string;
-  name: string;
-  username: string;
 }
 
-export const setLoginData = async ({
-  password,
-  phoneNumber,
-  name,
-  username,
-}: LoginState) => {
+export const setLoginData = async ({username, password}: LoginState) => {
   try {
-    const LoginData = JSON.stringify({password, phoneNumber, name, username});
+    const LoginData = JSON.stringify({username, password});
     await AsyncStorage.setItem('LoginData', LoginData);
     console.log('LoginData asyncStorage 저장 성공');
   } catch {
@@ -29,8 +22,6 @@ export const getLoginData = async () => {
     if (storedLoginData == null) {
       return {
         password: 'password123!',
-        phoneNumber: '010-1234-5678',
-        name: '김도영',
         username: 'rlaehdud1002',
       };
     }
