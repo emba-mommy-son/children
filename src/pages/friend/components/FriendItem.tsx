@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 // 타입
-import {FriendList} from '@pages/friend/pages/FriendPage';
+import {FriendResponse} from 'types/friend';
 
 // 컴포넌트
 import {Drawer} from '@components/ui/Drawer';
@@ -11,7 +11,7 @@ import {Drawer} from '@components/ui/Drawer';
 // 아이콘
 import Friend from '@assets/icons/friend/friendImage.png';
 
-export const FriendItem: React.FC<{item: FriendList}> = ({item}) => {
+export const FriendItem: React.FC<{item: FriendResponse}> = ({item}) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {

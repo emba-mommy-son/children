@@ -38,14 +38,12 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     fetchLoginData().then(data => {
-      useSignIn({username: data.username, password: data.password})
-        .then(tokenData => {
+      useSignIn({username: data.username, password: data.password}).then(
+        tokenData => {
           setAccessToken(tokenData.accessToken);
           setRefreshToken(tokenData.refreshToken);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+        },
+      );
     });
   }, []);
 
