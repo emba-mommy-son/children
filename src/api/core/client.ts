@@ -1,5 +1,6 @@
 import {BaseResponse} from '@api/core/baseResponse';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useAuthStore} from '@store/useAuthStore';
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,
@@ -7,7 +8,7 @@ import axios, {
   Method,
 } from 'axios';
 
-export const BASE_URL = 'http://10.0.2.2:8080/api/v1';
+const BASE_URL = 'https://www.mommy-son.kro.kr/api/v1';
 
 // AxiosRequestConfig를 확장하여 헤더 타입 명시적으로 지정
 interface AdaptAxiosRequestConfig extends AxiosRequestConfig {
@@ -15,7 +16,7 @@ interface AdaptAxiosRequestConfig extends AxiosRequestConfig {
   headers: AxiosRequestHeaders;
 }
 
-export const axiosInstance: AxiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 1000,
   headers: {
@@ -41,8 +42,9 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-// // TODO : 일단 refreshToken은 나중에
-// // 401오류가 발생하면 refreshToken을 사용해 토큰 재발급
+const {setAccessToken, setRefreshToken} = useAuthStore.getState();
+
+// 401오류가 발생하면 refreshToken을 사용해 토큰 재발급
 axiosInstance.interceptors.response.use(
   // 응답이 성공적일 때는 그대로 반환
   response => response,
@@ -58,18 +60,18 @@ axiosInstance.interceptors.response.use(
     }
 
     try {
+      const refreshToken = useAuthStore.getState().refreshToken;
       // refreshToken으로 accessToken 재발급
-      const refreshResponse = await axios.post(
-        // !FIXME : refresh token url 이거 맞나
-        // TODO : refreshToken을 어떻게 보내줄 지 확인 일단 쿠키는 아님
-        `${BASE_URL}/auth/refresh`,
-        {},
-      );
+      const refreshResponse = await axios.post(`${BASE_URL}/auth/refresh`, {
+        refreshToken,
+      });
 
-      const {accessToken: newAccessToken} = refreshResponse.data;
+      const {accessToken: newAccessToken, refreshToken: newRefreshToken} =
+        refreshResponse.data;
 
-      // 새로운 accessToken 저장
-      await AsyncStorage.setItem('accessToken', newAccessToken);
+      // 새로운 accessToken, refreshToken 저장
+      await setAccessToken(newAccessToken);
+      await setRefreshToken(newRefreshToken);
 
       // 실패했던 요청을 다시 보내기
       originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;

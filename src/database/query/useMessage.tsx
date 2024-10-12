@@ -1,7 +1,7 @@
 import { useQuery } from "@realm/react";
 import { Message } from "../schemas/MessageSchema";
 
-const useMessage = () => {
+export const useMessage = () => {
   const messages = useQuery(Message);
 
   const findAll = (
@@ -39,5 +39,3 @@ const useMessage = () => {
     findPrevious
   }
 };
-
-export default useMessage;

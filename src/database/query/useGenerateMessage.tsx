@@ -1,7 +1,7 @@
 import { useQuery } from "@realm/react"
 import { GenerateMessage } from "../schemas/GenerateMessageSchema";
 
-const useGenerateMessage = () => {
+export const useGenerateMessage = () => {
   const generateMessages = useQuery(GenerateMessage);
 
   const findAll = () => generateMessages.sorted('createdAt', true);
@@ -10,5 +10,3 @@ const useGenerateMessage = () => {
     findAll,
   }
 }
-
-export default useGenerateMessage;
