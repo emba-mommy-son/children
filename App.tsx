@@ -5,9 +5,7 @@
  * @format
  */
 
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RealmProvider} from '@realm/react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GenerateMessage} from './src/database/schemas/GenerateMessageSchema';
@@ -16,20 +14,28 @@ import {Message} from './src/database/schemas/MessageSchema';
 import {RefineMessage} from './src/database/schemas/RefineMessageSchema';
 import {Sentiment} from './src/database/schemas/SentimentSchema';
 import {AppNavigator} from 'navigation/AppNavigator';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const queryClient = new QueryClient();
 
 function App(): React.JSX.Element {
   return (
-    <SafeAreaProvider>
-      <RealmProvider
-        schema={[Message, RefineMessage, Location, Sentiment, GenerateMessage]}>
-        <NavigationContainer>
-          <AppNavigator />
-        </NavigationContainer>
-      </RealmProvider>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <RealmProvider
+          schema={[
+            Message,
+            RefineMessage,
+            Location,
+            Sentiment,
+            GenerateMessage,
+          ]}>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
+        </RealmProvider>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }
 
