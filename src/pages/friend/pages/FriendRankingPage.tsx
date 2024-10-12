@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {FrinedRankItem} from '@pages/friend/components/FriendRankItem';
 
 // 아이콘
-import Icons from 'react-native-vector-icons/AntDesign';
+import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export interface RankingList {
   id: number;
@@ -94,7 +94,7 @@ export const FriendRankingPage = () => {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="bg-secondary p-4 flex flex-row items-center space-x-2">
-        <Icons
+        <AntDesignIcons
           name="arrowleft"
           color="white"
           size={30}

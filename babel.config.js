@@ -28,6 +28,7 @@ module.exports = {
           '@pages': './src/pages',
           '@store': './src/store',
           '@types': './src/types',
+          '@hooks': './src/hooks',
         },
       },
     ],

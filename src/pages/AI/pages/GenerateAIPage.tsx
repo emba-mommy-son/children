@@ -1,10 +1,10 @@
-import {useState} from 'react';
-import {ScrollView, TextInput, View} from 'react-native';
 import {CustomSafeAreaView} from '@components/common/CustomSafeAreaView';
-import Receive from '@pages/chatting/components/Receive';
 import useGenerateMessage from '@database/query/useGenerateMessage';
 import {GenerateMessage} from '@database/schemas/GenerateMessageSchema';
-import Feather from 'react-native-vector-icons/Feather';
+import Receive from '@pages/chatting/components/Receive';
+import {useState} from 'react';
+import {ScrollView, TextInput, View} from 'react-native';
+import FeatherIcons from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const GenerateAIPage = () => {
@@ -24,7 +24,7 @@ export const GenerateAIPage = () => {
 
         <ScrollView className="px-3 my-5">
           {messages.findAll().map((message: GenerateMessage, index: number) => (
-            <Receive key={index} message={message.output} bgColor="#D1E3EE" />
+            <Receive key={index} message={message.output} />
           ))}
         </ScrollView>
 
@@ -46,7 +46,7 @@ export const GenerateAIPage = () => {
               }}
             />
             {message && (
-              <Feather
+              <FeatherIcons
                 name="send"
                 size={24}
                 color="#000000"

@@ -1,7 +1,7 @@
 import {Fragment} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Icons from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface BottomNavigationBarProps {
   state: any;
@@ -79,7 +79,7 @@ export const BottomNavigationBar = (props: BottomNavigationBarProps) => {
             {
               <Fragment>
                 <View className="flex justify-center items-center mb-2">
-                  <Icons
+                  <Ionicons
                     name={ROUTES[index][`${focus}Icon`]}
                     size={25}
                     color={isFocused ? '#000000' : '#8C8C8C'}

@@ -7,13 +7,13 @@
 
 import {NavigationContainer} from '@react-navigation/native';
 import {RealmProvider} from '@realm/react';
+import {AppNavigator} from 'navigation/AppNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GenerateMessage} from './src/database/schemas/GenerateMessageSchema';
 import {Location} from './src/database/schemas/LocationSchema';
 import {Message} from './src/database/schemas/MessageSchema';
 import {RefineMessage} from './src/database/schemas/RefineMessageSchema';
 import {Sentiment} from './src/database/schemas/SentimentSchema';
-import {AppNavigator} from 'navigation/AppNavigator';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
