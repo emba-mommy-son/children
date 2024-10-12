@@ -18,7 +18,7 @@ interface AdaptAxiosRequestConfig extends AxiosRequestConfig {
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  timeout: 1000,
+  timeout: 20000,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -29,7 +29,8 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config: AdaptAxiosRequestConfig): Promise<AdaptAxiosRequestConfig> => {
     // asyncStorage에서 accessToken 가져오기
-    const accessToken = await AsyncStorage.getItem('accessToken');
+    const accessToken = useAuthStore.getState().accessToken;
+    const refreshToken = useAuthStore.getState().refreshToken;
     if (accessToken) {
       // 값이 있다면 그대로 사용, undefined나 null이면 빈 객체로 설정
       config.headers = config.headers || {};
@@ -55,9 +56,11 @@ axiosInstance.interceptors.response.use(
 
     // 에러가 발생하면 토큰 갱신 시도
     // TODO: accessToken 만료 시 error code 확인 -> 지금은 401로 가정
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (error.response.status !== 401 || originalRequest._retry) {
+      return Promise.reject(error);
     }
+
+    originalRequest._retry = true;
 
     try {
       const refreshToken = useAuthStore.getState().refreshToken;
@@ -87,13 +90,16 @@ axiosInstance.interceptors.response.use(
 );
 
 // 여기서는 데이터를 한 겹 벗겨주는 작업
-const createAxiosInstance = (instance: AxiosInstance, method: Method) => {
-  return (config: AxiosRequestConfig): Promise<BaseResponse<any>> => {
-    return instance
-      .request({...config, method})
-      .then(response => response.data);
+const createAxiosInstance =
+  (instance: AxiosInstance, method: Method) =>
+  async <T = any>(config: AxiosRequestConfig): Promise<BaseResponse<T>> => {
+    return instance({
+      ...config,
+      method,
+    }).then(response => {
+      return response.data;
+    });
   };
-};
 
 // client : 위 두개를 합쳐서 리턴
 export const client = {
