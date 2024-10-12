@@ -5,7 +5,7 @@ import {FlatList, SafeAreaView, Text, View} from 'react-native';
 import {FriendItem} from '@pages/friend/components/FriendItem';
 
 // 아이콘
-import Icons from 'react-native-vector-icons/AntDesign';
+import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export interface FriendList {
   id: number;
@@ -31,8 +31,8 @@ export const FriendPage = () => {
       <View className="bg-secondary p-4 flex-row items-center justify-between">
         <Text className="text-white text-subheading font-semibold">친구</Text>
         <View className="flex flex-row space-x-3">
-          <Icons name="search1" color="white" size={25} />
-          <Icons name="adduser" color="white" size={25} />
+          <AntDesignIcons name="search1" color="white" size={25} />
+          <AntDesignIcons name="adduser" color="white" size={25} />
         </View>
       </View>
       <FlatList

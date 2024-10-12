@@ -8,7 +8,7 @@ import {ChattingList} from '@pages/chatting/pages/ChattingListPage';
 
 // 아이콘
 import Friend from '@assets/icons/friend/friendImage.png';
-import Icons from 'react-native-vector-icons/FontAwesome';
+import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 
 export const ChattingItem: React.FC<{item: ChattingList}> = ({item}) => {
   const nav = useNavigation<AppNavigatorProp>();
@@ -27,7 +27,7 @@ export const ChattingItem: React.FC<{item: ChattingList}> = ({item}) => {
             <Text className="text-body-text text-black font-bold">
               {item.name}
             </Text>
-            <Icons name="circle" color="#9D4BFF" />
+            <FontAwesomeIcons name="circle" color="#9D4BFF" />
           </View>
           <View className="flex flex-row justify-between items-center">
             <Text>{item.content}</Text>

@@ -7,7 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 
 // 아이콘
 import Card from '@assets/icons/card.png';
-import Icons from 'react-native-vector-icons/AntDesign';
+import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export const Reward = () => {
   const nav = useNavigation<AppNavigatorProp>();
@@ -22,7 +22,7 @@ export const Reward = () => {
           <Text className="text-white text-subheading font-semibold mb-1">
             리워드
           </Text>
-          <Icons name="right" color="white" size={20} />
+          <AntDesignIcons name="right" color="white" size={20} />
         </View>
         <Text className="text-white text-body-text font-semibold">6,000</Text>
         <Image source={Card} className="w-[50px] h-[50px] ml-auto mt-auto" />
