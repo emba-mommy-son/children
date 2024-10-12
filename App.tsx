@@ -14,17 +14,28 @@ import {Location} from './src/database/schemas/LocationSchema';
 import {Message} from './src/database/schemas/MessageSchema';
 import {RefineMessage} from './src/database/schemas/RefineMessageSchema';
 import {Sentiment} from './src/database/schemas/SentimentSchema';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 function App(): React.JSX.Element {
   return (
-    <SafeAreaProvider>
-      <RealmProvider
-        schema={[Message, RefineMessage, Location, Sentiment, GenerateMessage]}>
-        <NavigationContainer>
-          <AppNavigator />
-        </NavigationContainer>
-      </RealmProvider>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <RealmProvider
+          schema={[
+            Message,
+            RefineMessage,
+            Location,
+            Sentiment,
+            GenerateMessage,
+          ]}>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
+        </RealmProvider>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }
 
