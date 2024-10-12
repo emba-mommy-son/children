@@ -4,6 +4,8 @@ import {FlatList, SafeAreaView, Text, View} from 'react-native';
 // 컴포넌트
 import {ChattingItem} from '@pages/chatting/components/ChattingItem';
 
+// import {useGetRooms} from '@api/chat/useGetRooms';
+
 export interface ChattingList {
   id: number;
   name: string;
@@ -27,6 +29,9 @@ export const ChattingListPage = () => {
   const renderItem = ({item}: {item: ChattingList}) => (
     <ChattingItem item={item} />
   );
+
+  // const {data} = useGetRooms();
+  // console.log(data);
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="bg-secondary p-4">
