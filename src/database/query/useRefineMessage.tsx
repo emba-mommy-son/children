@@ -1,7 +1,7 @@
 import { useQuery } from "@realm/react";
 import { RefineMessage } from "../schemas/RefineMessageSchema";
 
-const useRefineMessage = () => {
+export const useRefineMessage = () => {
   const refindMessages = useQuery(RefineMessage);
 
   const findAll = (
@@ -21,5 +21,3 @@ const useRefineMessage = () => {
     findAll,
   }
 }
-
-export default useRefineMessage;

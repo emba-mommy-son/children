@@ -1,7 +1,7 @@
 import {client} from '@api/core/client';
-import {SignInRequest, SignInResponse} from 'types/User';
+import {SignInRequest, SignInResponse} from 'types/user';
 
-const useSignin = async ({
+export const useSignIn = async ({
   username,
   password,
 }: SignInRequest): Promise<SignInResponse> => {

@@ -9,8 +9,8 @@
       "@database/*": ["database/*"],
       "@navigation/*": ["navigation/*"],
       "@pages/*": ["pages/*"],
-      "@store/*": ["store/*"],
-      "@types/*": ["types/*"]
+      "@types/*": ["types/*"],
+      "@store/*": ["store/*"]
     }
   }
 }

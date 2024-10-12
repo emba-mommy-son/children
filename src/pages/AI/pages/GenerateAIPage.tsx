@@ -1,7 +1,7 @@
 import {CustomSafeAreaView} from '@components/common/CustomSafeAreaView';
-import useGenerateMessage from '@database/query/useGenerateMessage';
+import {useGenerateMessage} from '@database/query/useGenerateMessage';
 import {GenerateMessage} from '@database/schemas/GenerateMessageSchema';
-import Receive from '@pages/chatting/components/Receive';
+import {Receive} from '@pages/chatting/components/Receive';
 import {useState} from 'react';
 import {ScrollView, TextInput, View} from 'react-native';
 import FeatherIcons from 'react-native-vector-icons/Feather';

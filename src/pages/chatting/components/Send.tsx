@@ -4,7 +4,7 @@ interface SendProps {
   message: string;
 }
 
-const Send = ({message}: SendProps) => {
+export const Send = ({message}: SendProps) => {
   return (
     <View className="flex flex-row justify-end w-full mb-3">
       <View className="w-4/5">
@@ -15,5 +15,3 @@ const Send = ({message}: SendProps) => {
     </View>
   );
 };
-
-export default Send;
