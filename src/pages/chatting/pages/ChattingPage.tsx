@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import {useState, useRef, useEffect} from 'react';
+import {useState, useRef, useEffect, useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useGetRoom} from '@api/chat/useGetRoom';
 import {Client} from '@stomp/stompjs';
@@ -31,9 +31,16 @@ export const ChattingPage: React.FC = () => {
 
   useEffect(() => {
     if (messagesQuery.data) {
-      setMessages(messagesQuery.data);
+      setMessages(sortMessagesByDate(messagesQuery.data));
     }
   }, [messagesQuery.data]);
+
+  const sortMessagesByDate = useCallback((msgs: Message[]) => {
+    return [...msgs].sort(
+      (a, b) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+    );
+  }, []);
 
   useEffect(() => {
     connectWebSocket();
@@ -48,20 +55,14 @@ export const ChattingPage: React.FC = () => {
 
   // 웹소켓 연결 함수
   const connectWebSocket = () => {
-    // stomp 클라이언트 인스턴스 생성
     stompClientRef.current = new Client({
       brokerURL: 'wss://www.mommy-son.kro.kr/ws',
-
-      // 연결에 성공하면 실행
       onConnect: () => {
         console.log('연결성공');
-        // 채팅 메시지 구독
         subscribeToChat();
-        // 채팅방 입장 메시지 보냄
         enterChatRoom();
       },
     });
-    // 웹소켓 연결 활성화
     stompClientRef.current.activate();
   };
 
@@ -72,15 +73,15 @@ export const ChattingPage: React.FC = () => {
       console.log('연결종료');
     }
   };
+
   // 채팅 메시지 구독 함수
   const subscribeToChat = () => {
     if (stompClientRef.current) {
-      // 특정 채팅방의 메시지를 구독 지금은 1로 박았는데 수정해야됨
       stompClientRef.current.subscribe(`/sub/chat/${roomId}`, message => {
-        // 수신한 메시지를 파싱하고
         const newMessage: Message = JSON.parse(message.body);
-        // 메시지에 추가
-        setMessages(prevMessages => [...prevMessages, newMessage]);
+        setMessages(prevMessages =>
+          sortMessagesByDate([...prevMessages, newMessage]),
+        );
         console.log('받은 메시지:', newMessage);
       });
     }
