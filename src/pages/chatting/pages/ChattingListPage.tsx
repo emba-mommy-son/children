@@ -20,6 +20,7 @@ export const ChattingListPage: React.FC = () => {
     console.log('소켓 연결 시도');
     connect();
     return () => {
+      console.log('소켓종료');
       disconnect();
     };
   }, []);
