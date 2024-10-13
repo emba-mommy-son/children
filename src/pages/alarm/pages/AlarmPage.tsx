@@ -1,18 +1,15 @@
 // 리액트
 import React from 'react';
-import {
-  FlatList,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, SafeAreaView, Text, View} from 'react-native';
 
 // 라이브러리
 import {useNavigation} from '@react-navigation/native';
 
 // 컴포넌트
 import {AlarmItem} from '@pages/alarm/components/AlarmItem';
+
+// 아이콘
+import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 interface AlarmItem {
   id: number;
@@ -84,11 +81,14 @@ export const AlarmPage: React.FC = () => {
   const renderItem = ({item}: {item: AlarmItem}) => <AlarmItem item={item} />;
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="bg-secondary p-4 flex-row items-center">
-        <TouchableOpacity onPress={handleBackPress} className="mr-4">
-          <Text className="text-white text-2xl">←</Text>
-        </TouchableOpacity>
-        <Text className="text-white text-lg font-semibold">알림</Text>
+      <View className="flex flex-row items-center space-x-3 bg-secondary p-4">
+        <AntDesignIcons
+          name="arrowleft"
+          color="white"
+          size={30}
+          onPress={handleBackPress}
+        />
+        <Text className="text-white text-subheading mb-1">알림</Text>
       </View>
       <FlatList
         data={mockData}

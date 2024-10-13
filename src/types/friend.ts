@@ -4,3 +4,10 @@ export interface FriendResponse {
   profileImage: string;
   hasProblem: boolean;
 }
+
+export interface FriendRankResponse {
+  userId: number;
+  name: string;
+  profileImage: string;
+  score: number;
+}

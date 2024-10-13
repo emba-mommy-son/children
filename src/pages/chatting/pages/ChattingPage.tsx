@@ -25,7 +25,7 @@ export const ChattingPage: React.FC = () => {
             size={30}
             onPress={goBack}
           />
-          <Text className="text-white text-subheading">김도영</Text>
+          <Text className="text-white text-subheading mb-1">김도영</Text>
         </View>
         <ScrollView className="flex flex-col my-5 p-4"></ScrollView>
         <View className="flex flex-row items-center p-4 pt-2 space-x-3">
