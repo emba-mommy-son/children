@@ -8,8 +8,8 @@ import {
 // 컴포넌트
 import {BottomNavigationBar} from '@components/common/BottomNavigationBar';
 import {AlarmPage} from '@pages/alarm/pages/AlarmPage';
-import {ChattingPage} from '@pages/chatting/pages/ChattingPage';
 import {ChattingListPage} from '@pages/chatting/pages/ChattingListPage';
+import {ChattingPage} from '@pages/chatting/pages/ChattingPage';
 import {FriendPage} from '@pages/friend/pages/FriendPage';
 import {FriendRankingPage} from '@pages/friend/pages/FriendRankingPage';
 import {LocationPage} from '@pages/location/pages/LocationPage';
@@ -21,7 +21,7 @@ type AppNavigatorParamList = {
   MainTabs: undefined;
   Alarm: undefined;
   Reward: undefined;
-  Chatting: undefined;
+  Chatting: {roomId: number};
   FriendRanking: undefined;
 };
 
@@ -40,7 +40,11 @@ const TabNavigator = () => {
       tabBar={props => <BottomNavigationBar {...props} />}>
       <Tab.Screen name="Home" component={MainPage} />
       <Tab.Screen name="Friend" component={FriendPage} />
-      <Tab.Screen name="ChattingList" component={ChattingListPage} />
+      <Tab.Screen
+        name="ChattingList"
+        component={ChattingListPage}
+        options={{unmountOnBlur: true}}
+      />
       <Tab.Screen name="Sleep" component={SleepPage} />
       <Tab.Screen name="Location" component={LocationPage} />
     </Tab.Navigator>
