@@ -40,6 +40,7 @@ function App(): React.JSX.Element {
     fetchLoginData().then(data => {
       useSignIn({username: data.username, password: data.password}).then(
         tokenData => {
+          console.log('로그인 성공');
           setAccessToken(tokenData.accessToken);
           setRefreshToken(tokenData.refreshToken);
         },
