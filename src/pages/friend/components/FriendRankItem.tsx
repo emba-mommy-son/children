@@ -2,38 +2,38 @@
 import {Image, Text, View} from 'react-native';
 
 // 타입
-import {RankingList} from '@pages/friend/pages/FriendRankingPage';
 
 // 아이콘
 import First from '@assets/icons/friend/first.png';
-import Friend from '@assets/icons/friend/friendImage.png';
 import Second from '@assets/icons/friend/second.png';
 import Third from '@assets/icons/friend/third.png';
+import {FriendRankResponse} from 'types/friend';
 
-export const FrinedRankItem: React.FC<{item: RankingList}> = ({item}) => {
-  const rank =
-    item.rank === 1
-      ? First
-      : item.rank === 2
-      ? Second
-      : item.rank === 3
-      ? Third
-      : item.rank;
+export const FriendRankItem: React.FC<{
+  item: FriendRankResponse;
+  index: number;
+}> = ({item, index}) => {
+  const rankImage =
+    index === 0 ? First : index === 1 ? Second : index === 2 ? Third : index;
+
   return (
     <View
       className={`flex flex-row items-center justify-between py-3 px-4 mb-1 ${
-        item.rank < 4 && 'bg-primary/20'
+        index < 3 && 'bg-primary/20'
       }`}>
       <View className="flex flex-row items-center justify-between space-x-5">
-        {item.rank < 4 ? (
-          <Image source={rank} className="w-12 h-12" />
+        {index < 3 ? (
+          <Image source={rankImage} className="w-12 h-12" />
         ) : (
           <Text className="text-subheading w-12 text-center font-bold">
-            {item.rank}
+            {index + 1}
           </Text>
         )}
-        <Image source={Friend} className="h-16 w-16" />
-        <Text className="text-subheading text-black font-bold">
+        <Image
+          source={{uri: item.profileImage}}
+          className="h-16 w-16 rounded-full"
+        />
+        <Text className="text-subheading text-black font-bold w-32 text-center">
           {item.name}
         </Text>
       </View>

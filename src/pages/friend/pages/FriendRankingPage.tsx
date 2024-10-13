@@ -5,9 +5,9 @@ import {SafeAreaView, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // 컴포넌트
+import {FriendRankList} from '@pages/friend/components/FriendRankList';
 
 // 아이콘
-import {FriendRankList} from '@pages/friend/components/FriendRankList';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export const FriendRankingPage = () => {
@@ -31,7 +31,7 @@ export const FriendRankingPage = () => {
         </Text>
       </View>
       <View className="flex flex-row items-center justify-between px-4 py-3">
-        <View className="flex flex-row items-center justify-between space-x-28 pl-5">
+        <View className="flex flex-row items-center justify-between space-x-40 pl-5">
           <Text className="text-subheading font-bold">순위</Text>
           <Text className="text-subheading font-bold">친구</Text>
         </View>
