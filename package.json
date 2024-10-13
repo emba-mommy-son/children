@@ -36,7 +36,9 @@
     "react-native-vector-icons": "^10.2.0",
     "realm": "^12.13.1",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
+    "text-encoding": "^0.7.0",
     "websocket": "^1.0.35",
+    "ws": "^8.18.0",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
