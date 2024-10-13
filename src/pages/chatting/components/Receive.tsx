@@ -1,15 +1,21 @@
-import {Text, View} from 'react-native';
-
+import {View, Text} from 'react-native';
 interface ReceiveProps {
-  message: string;
+  content: string;
+  createdAt: string;
 }
 
-export const Receive = ({message}: ReceiveProps) => {
+export const Receive: React.FC<ReceiveProps> = ({content, createdAt}) => {
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+  };
+
   return (
-    <View className="flex flex-row justify-start w-4/5 mb-3">
-      <Text className="bg-gray-300 p-3 rounded-xl rounded-tr-none text-left">
-        {message}
+    <View className="flex flex-col rounded-xl justify-end w-full mb-3">
+      <Text className="bg-gray-700 p-3 rounded-xl text-center mr-auto">
+        {content}
       </Text>
+      <Text className="text-xs">{formatTime(createdAt)}</Text>
     </View>
   );
 };
