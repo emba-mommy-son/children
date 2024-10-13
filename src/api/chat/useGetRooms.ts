@@ -3,7 +3,8 @@ import {useQuery, UseQueryResult} from '@tanstack/react-query';
 import {GetRoomsResponse} from 'types/chat';
 
 const getRooms = async (): Promise<GetRoomsResponse> => {
-  const res = await client.get({url: '/rooms'});
+  const res = await client.get<GetRoomsResponse>({url: '/rooms'});
+
   return res.data;
 };
 

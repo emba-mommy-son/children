@@ -1,12 +1,10 @@
-export interface GetRoomsResponse {
-  data: Room[];
-}
+export type GetRoomsResponse = Room[];
 
 export interface Room {
   roomId: number;
   userId: number;
   name: string;
   message: string;
-  createdAt: Date;
+  createdAt: string;
   read: boolean;
 }
