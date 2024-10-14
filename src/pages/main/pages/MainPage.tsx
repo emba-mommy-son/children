@@ -3,14 +3,14 @@ import {useState} from 'react';
 import {SafeAreaView, View} from 'react-native';
 
 // 컴포넌트
-import {BestFriend} from '@pages/main/components/BestFriend';
-import {Emotion} from '@pages/main/components/Emotion';
-import {GetUserInfo} from '@pages/main/components/GetUserInfo';
-import {MainHeader} from '@pages/main/components/MainHeader';
-import {MainProfile} from '@pages/main/components/MainProfile';
-import {Question} from '@pages/main/components/Question';
-import {Reward} from '@pages/main/components/Reward';
-import {Sleep} from '@pages/main/components/Sleep';
+import {BestFriend} from '@/pages/main/components/BestFriend';
+import {Emotion} from '@/pages/main/components/Emotion';
+import {GetUserInfo} from '@/pages/main/components/GetUserInfo';
+import {MainHeader} from '@/pages/main/components/MainHeader';
+import {MainProfile} from '@/pages/main/components/MainProfile';
+import {Question} from '@/pages/main/components/Question';
+import {Reward} from '@/pages/main/components/Reward';
+import {Sleep} from '@/pages/main/components/Sleep';
 
 export const MainPage = () => {
   const [open, setOpen] = useState<boolean>(false);

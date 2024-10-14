@@ -2,7 +2,7 @@
 import {Image, Text, View} from 'react-native';
 
 // 아이콘
-import Graph from '@assets/icons/graph.png';
+import Graph from '@/assets/icons/graph.png';
 
 export const Emotion = () => {
   return (

@@ -2,9 +2,9 @@
 import {Image, Text, View} from 'react-native';
 
 // 아이콘
-import Angry from '@assets/icons/emotion/angry.png';
-import Bad from '@assets/icons/emotion/bad.png';
-import Good from '@assets/icons/emotion/good.png';
+import Angry from '@/assets/icons/emotion/angry.png';
+import Bad from '@/assets/icons/emotion/bad.png';
+import Good from '@/assets/icons/emotion/good.png';
 
 export const Question = () => {
   return (

@@ -2,7 +2,7 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 
 // 라이브러리
-import {AppNavigatorProp} from '@navigation/AppNavigator';
+import {AppNavigatorProp} from '@/navigation/AppNavigator';
 import {useNavigation} from '@react-navigation/native';
 
 // 아이콘
@@ -23,7 +23,7 @@ export const MainHeader = ({open, setOpen}: MainHeaderProps) => {
 
   const handleOpen = () => {
     setOpen(!open);
-  }
+  };
 
   return (
     <View className="flex flex-row justify-between items-center mt-5 mb-8">

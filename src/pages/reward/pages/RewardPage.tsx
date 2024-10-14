@@ -5,7 +5,7 @@ import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // 컴포넌트
-import {MyReward} from '@pages/reward/components/MyReward';
+import {MyReward} from '@/pages/reward/components/MyReward';
 
 // 아이콘
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';

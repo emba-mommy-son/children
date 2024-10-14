@@ -1,21 +1,23 @@
-import {client} from '@api/core/client';
+import {client} from '@/api/core/client';
 import {UseSuspenseQueryResult, useSuspenseQuery} from '@tanstack/react-query';
-import {FriendRankResponse} from 'types/friend';
+import {BaseResponse} from '@/types/baseResponse';
+import {FriendRank} from '@/types/friend';
+import {QUERY_KEYS} from '@/constants/queryKeys';
 
-const getFriendRank = async (): Promise<FriendRankResponse[]> => {
-  const {data} = await client.get({
+const getFriendRank = async (): Promise<FriendRank[]> => {
+  const response = await client.get<BaseResponse<FriendRank[]>>({
     url: '/friends/rank',
   });
 
-  return data;
+  return response.data;
 };
 
 export const useGetFriendRank = (): UseSuspenseQueryResult<
-  FriendRankResponse[],
+  FriendRank[],
   Error
 > => {
-  return useSuspenseQuery({
-    queryKey: ['friend', 'rank'],
+  return useSuspenseQuery<FriendRank[], Error>({
+    queryKey: QUERY_KEYS.FRIEND.RANK,
     queryFn: getFriendRank,
   });
 };

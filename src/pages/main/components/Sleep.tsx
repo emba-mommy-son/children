@@ -2,7 +2,7 @@
 import {Image, Text, View} from 'react-native';
 
 // 아이콘
-import Moon from '@assets/icons/moon.png';
+import Moon from '@/assets/icons/moon.png';
 
 export const Sleep = () => {
   return (

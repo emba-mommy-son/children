@@ -2,11 +2,11 @@
 import {useNavigation} from '@react-navigation/native';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 // 타입
-import {Room} from 'types/chat';
+import {Room} from '@/types/chat';
 // 컴포넌트
-import {AppNavigatorProp} from '@navigation/AppNavigator';
+import {AppNavigatorProp} from '@/navigation/AppNavigator';
 // 훅
-import {formatDate} from 'utils/formatDate';
+import {formatDate} from '@/utils/formatDate';
 // 아이콘
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 

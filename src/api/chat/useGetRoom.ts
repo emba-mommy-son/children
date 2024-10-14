@@ -1,47 +1,34 @@
-import {client} from '@api/core/client';
+import {client} from '@/api/core/client';
 import {useQueries, UseQueryResult} from '@tanstack/react-query';
-
-interface RoomData {
-  roomId: number;
-  userId: number;
-  name: string;
-  profileImage: string;
-}
-
-interface MessageData {
-  senderId: number;
-  content: string;
-  createdAt: string;
-}
-
-export type MessagesResponse = MessageData[];
+import {BaseResponse} from '@/types/baseResponse';
+import {RoomData, Message} from '@/types/chat';
+import {QUERY_KEYS} from '@/constants/queryKeys';
 
 const getRoomData = async (roomId: number): Promise<RoomData> => {
-  const res = await client.get<RoomData>({url: `/rooms/${roomId}`});
-  return res.data;
+  const response = await client.get<BaseResponse<RoomData>>({
+    url: `/rooms/${roomId}`,
+  });
+  return response.data;
 };
 
-const getRoomMessages = async (roomId: number): Promise<MessagesResponse> => {
-  const res = await client.get<MessagesResponse>({
+const getRoomMessages = async (roomId: number): Promise<Message[]> => {
+  const response = await client.get<BaseResponse<Message[]>>({
     url: `/rooms/${roomId}/messages`,
   });
-  return res.data;
+  return response.data;
 };
 
 export const useGetRoom = (
   roomId: number,
-): [
-  UseQueryResult<RoomData, Error>,
-  UseQueryResult<MessagesResponse, Error>,
-] => {
+): [UseQueryResult<RoomData, Error>, UseQueryResult<Message[], Error>] => {
   const results = useQueries({
     queries: [
       {
-        queryKey: ['room', roomId],
+        queryKey: QUERY_KEYS.ROOM.DETAIL(roomId),
         queryFn: () => getRoomData(roomId),
       },
       {
-        queryKey: ['roomMessages', roomId],
+        queryKey: QUERY_KEYS.ROOM.MESSAGES(roomId),
         queryFn: () => getRoomMessages(roomId),
       },
     ],
@@ -49,6 +36,6 @@ export const useGetRoom = (
 
   return results as [
     UseQueryResult<RoomData, Error>,
-    UseQueryResult<MessagesResponse, Error>,
+    UseQueryResult<Message[], Error>,
   ];
 };

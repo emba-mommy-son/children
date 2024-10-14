@@ -3,16 +3,16 @@ import {useCallback, useMemo, useRef, useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 // 타입
-import {FriendResponse} from 'types/friend';
+import {Friend} from '@/types/friend';
 
 // 컴포넌트
 
 // 아이콘
-import Friend from '@assets/icons/friend/friendImage.png';
+import FriendImage from '@assets/icons/friend/friendImage.png';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
-export const FriendItem: React.FC<{item: FriendResponse}> = ({item}) => {
+export const FriendItem: React.FC<{item: Friend}> = ({item}) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
@@ -37,7 +37,7 @@ export const FriendItem: React.FC<{item: FriendResponse}> = ({item}) => {
         <View>
           <TouchableOpacity onPress={handlePresentModalPress}>
             <View className="flex flex-row items-center py-5 border-b-2 border-gray-700 space-x-6">
-              <Image source={Friend} className="w-16 h-16" />
+              <Image source={FriendImage} className="w-16 h-16" />
               <Text className="text-body-text text-black font-bold">
                 {item.name}
               </Text>

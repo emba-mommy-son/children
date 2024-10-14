@@ -5,20 +5,20 @@
  * @format
  */
 
-import {useSignIn} from '@api/user/useSignin';
+import {useSignIn} from '@/api/user/useSignin';
 import {NavigationContainer} from '@react-navigation/native';
 import {RealmProvider} from '@realm/react';
-import {useAuthStore} from '@store/useAuthStore';
+import {useAuthStore} from '@/store/useAuthStore';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import {useLogin} from 'hooks/useLogin';
-import {AppNavigator} from 'navigation/AppNavigator';
+import {useLogin} from '@/hooks/useLogin';
+import {AppNavigator} from '@/navigation/AppNavigator';
 import {useEffect} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {GenerateMessage} from './src/database/schemas/GenerateMessageSchema';
-import {Location} from './src/database/schemas/LocationSchema';
-import {Message} from './src/database/schemas/MessageSchema';
-import {RefineMessage} from './src/database/schemas/RefineMessageSchema';
-import {Sentiment} from './src/database/schemas/SentimentSchema';
+import {GenerateMessage} from '@/database/schemas/GenerateMessageSchema';
+import {Location} from '@/database/schemas/LocationSchema';
+import {Message} from '@/database/schemas/MessageSchema';
+import {RefineMessage} from '@/database/schemas/RefineMessageSchema';
+import {Sentiment} from '@/database/schemas/SentimentSchema';
 
 const queryClient = new QueryClient();
 

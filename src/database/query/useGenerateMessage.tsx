@@ -1,5 +1,5 @@
-import { useQuery } from "@realm/react"
-import { GenerateMessage } from "../schemas/GenerateMessageSchema";
+import {useQuery} from '@realm/react';
+import {GenerateMessage} from '../schemas/GenerateMessageSchema';
 
 export const useGenerateMessage = () => {
   const generateMessages = useQuery(GenerateMessage);
@@ -8,5 +8,5 @@ export const useGenerateMessage = () => {
 
   return {
     findAll,
-  }
-}
+  };
+};

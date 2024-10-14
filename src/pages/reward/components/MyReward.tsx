@@ -1,4 +1,4 @@
-import Card from '@assets/icons/card.png';
+import Card from '@/assets/icons/card.png';
 import {Image, Text, View} from 'react-native';
 
 export const MyReward: React.FC = () => {

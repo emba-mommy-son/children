@@ -1503,6 +1503,27 @@ PODS:
     - React
   - RNCAsyncStorage (2.0.0):
     - React-Core
+  - RNGestureHandler (2.20.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNKeychain (9.0.0):
     - DoubleConversion
     - glog
@@ -1524,7 +1545,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNReanimated (3.15.4):
+  - RNReanimated (3.15.5):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1544,10 +1565,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.15.4)
-    - RNReanimated/worklets (= 3.15.4)
+    - RNReanimated/reanimated (= 3.15.5)
+    - RNReanimated/worklets (= 3.15.5)
     - Yoga
-  - RNReanimated/reanimated (3.15.4):
+  - RNReanimated/reanimated (3.15.5):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1568,7 +1589,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNReanimated/worklets (3.15.4):
+  - RNReanimated/worklets (3.15.5):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1702,6 +1723,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RealmJS (from `../node_modules/realm`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -1842,6 +1864,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/realm"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
   RNKeychain:
     :path: "../node_modules/react-native-keychain"
   RNReanimated:
@@ -1918,8 +1942,9 @@ SPEC CHECKSUMS:
   ReactCommon: 289214026502e6a93484f4a46bcc0efa4f3f2864
   RealmJS: 325a7b621587dd9945306d4cbfd6b641bc20e2dd
   RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
+  RNGestureHandler: 6dfe7692a191ee224748964127114edf057a1475
   RNKeychain: 18fc2d8f29dd957ccfc2989d9389f7d5888169f3
-  RNReanimated: 6e79f3e3b37a88cddfb38525e9652aabd7c4c750
+  RNReanimated: 625f9e7f53cba61d7b3436e8e6e209d1dd4e6e9b
   RNScreens: 19719a9c326e925498ac3b2d35c4e50fe87afc06
   RNVectorIcons: 6382277afab3c54658e9d555ee0faa7a37827136
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d

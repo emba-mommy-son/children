@@ -2,15 +2,15 @@
 import {Image, Text, View} from 'react-native';
 
 // 타입
+import {FriendRank} from '@/types/friend';
 
 // 아이콘
-import First from '@assets/icons/friend/first.png';
-import Second from '@assets/icons/friend/second.png';
-import Third from '@assets/icons/friend/third.png';
-import {FriendRankResponse} from 'types/friend';
+import First from '@/assets/icons/friend/first.png';
+import Second from '@/assets/icons/friend/second.png';
+import Third from '@/assets/icons/friend/third.png';
 
 export const FriendRankItem: React.FC<{
-  item: FriendRankResponse;
+  item: FriendRank;
   index: number;
 }> = ({item, index}) => {
   const rankImage =
