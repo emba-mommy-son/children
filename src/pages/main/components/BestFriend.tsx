@@ -2,11 +2,11 @@
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 // 라이브러리
-import {AppNavigatorProp} from '@navigation/AppNavigator';
 import {useNavigation} from '@react-navigation/native';
+import {AppNavigatorProp} from '@/navigation/AppNavigator';
 
 // 아이콘
-import Friend from '@assets/icons/friend.png';
+import Friend from '@/assets/icons/friend.png';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export const BestFriend = () => {

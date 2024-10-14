@@ -1,18 +1,18 @@
-export type GetRoomsResponse = Room[];
-
-export interface Room {
-  roomId: number;
-  userId: number;
-  name: string;
-  profileImage: string;
+export interface Room extends RoomData {
   message: string;
   createdAt: string;
   read: boolean;
 }
 
-export interface RoomInfo {
+export interface RoomData {
   roomId: number;
   userId: number;
   name: string;
   profileImage: string;
+}
+
+export interface Message {
+  senderId: number;
+  content: string;
+  createdAt: string;
 }

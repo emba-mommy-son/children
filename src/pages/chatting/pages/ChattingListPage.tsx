@@ -1,9 +1,9 @@
-import React, {useEffect, useState, useCallback, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {FlatList, SafeAreaView, Text, View} from 'react-native';
 import {Client} from '@stomp/stompjs';
-import {useGetRooms} from '@api/chat/useGetRooms';
-import {Room} from 'types/chat';
-import {ChattingItem} from '@pages/chatting/components/ChattingItem';
+import {Room} from '@/types/chat';
+import {ChattingItem} from '@/pages/chatting/components/ChattingItem';
+import {useGetRooms} from '@/api/chat/useGetRooms';
 
 interface Message {
   senderId: number;
@@ -14,6 +14,7 @@ interface Message {
 export const ChattingListPage: React.FC = () => {
   const {data: rooms, isLoading, isError} = useGetRooms();
   const stompClientRef = useRef<Client | null>(null);
+  console.log(rooms);
 
   // 마운트될때 소켓연결 시도, 언마운트될때 소켓 끊기
   useEffect(() => {

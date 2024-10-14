@@ -1,16 +1,18 @@
-import {client} from '@api/core/client';
+import {client} from '@/api/core/client';
 import {UseQueryResult, useQuery} from '@tanstack/react-query';
-import {UserResponse} from 'types/user';
+import {UserInfo} from '@/types/user';
+import {BaseResponse} from '@/types/baseResponse';
+import {QUERY_KEYS} from '@/constants/queryKeys';
 
-const getUserInfo = async (): Promise<UserResponse> => {
-  const res = await client.get<UserResponse>({url: '/users'});
+const getUserInfo = async (): Promise<UserInfo> => {
+  const response = await client.get<BaseResponse<UserInfo>>({url: '/users'});
 
-  return res.data;
+  return response.data;
 };
 
-export const useGetUserInfo = (): UseQueryResult<UserResponse, Error> => {
+export const useGetUserInfo = (): UseQueryResult<UserInfo, Error> => {
   return useQuery({
-    queryKey: ['userInfo'],
+    queryKey: QUERY_KEYS.USER.USERINFO,
     queryFn: getUserInfo,
   });
 };

@@ -2,11 +2,11 @@
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 // 라이브러리
-import {AppNavigatorProp} from '@navigation/AppNavigator';
+import {AppNavigatorProp} from '@/navigation/AppNavigator';
 import {useNavigation} from '@react-navigation/native';
 
 // 아이콘
-import Card from '@assets/icons/card.png';
+import Card from '@/assets/icons/card.png';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export const Reward = () => {

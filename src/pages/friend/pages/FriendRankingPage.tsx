@@ -5,7 +5,7 @@ import {SafeAreaView, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // 컴포넌트
-import {FriendRankList} from '@pages/friend/components/FriendRankList';
+import {FriendRankList} from '@/pages/friend/components/FriendRankList';
 
 // 아이콘
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';

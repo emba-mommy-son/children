@@ -1,13 +1,13 @@
 // 리액트
 import {Suspense} from 'react';
 import {ActivityIndicator, SafeAreaView, Text, View} from 'react-native';
-
-// 라이브러리
 import ErrorBoundary from 'react-native-error-boundary';
 
+// 라이브러리
+
 // 컴포넌트
-import {ErrorComponent} from '@components/common/ErrorComponent';
-import {FriendList} from '@pages/friend/components/FriendList';
+import {ErrorComponent} from '@/components/common/ErrorComponent';
+import {FriendList} from '@/pages/friend/components/FriendList';
 
 // 아이콘
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';

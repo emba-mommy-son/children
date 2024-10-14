@@ -1,6 +1,6 @@
 import {View} from 'react-native';
-import {useGetUserInfo} from '@api/user/useUserInfo';
-import {useUserStore} from '@store/useUserStore';
+import {useGetUserInfo} from '@/api/user/useUserInfo';
+import {useUserStore} from '@/store/useUserStore';
 
 export const GetUserInfo = () => {
   const {data: userData, isLoading, isError} = useGetUserInfo();

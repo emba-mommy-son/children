@@ -1,14 +1,14 @@
 // 리액트
 import {Suspense} from 'react';
 import {ActivityIndicator, SafeAreaView, Text, View} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import ErrorBoundary from 'react-native-error-boundary';
 
 // 컴포넌트
+import {ErrorComponent} from '@/components/common/ErrorComponent';
+import {FriendList} from '@/pages/friend/components/FriendList';
 
 // 아이콘
-import {ErrorComponent} from '@components/common/ErrorComponent';
-import {FriendList} from '@pages/friend/components/FriendList';
-import ErrorBoundary from 'react-native-error-boundary';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export const FriendPage = () => {

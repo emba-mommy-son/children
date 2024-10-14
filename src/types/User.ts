@@ -3,12 +3,12 @@ export interface SignInRequest {
   password: string;
 }
 
-export interface SignInResponse {
+export interface UserToken {
   accessToken: string;
   refreshToken: string;
 }
 
-export interface UserResponse {
+export interface UserInfo {
   id: number;
   username: string;
   name: string;
