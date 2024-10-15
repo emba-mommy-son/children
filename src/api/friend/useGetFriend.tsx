@@ -1,13 +1,15 @@
 import {client} from '@/api/core/client';
-import {UseSuspenseQueryResult, useSuspenseQuery} from '@tanstack/react-query';
+import {QUERY_KEYS} from '@/constants/queryKeys';
 import {BaseResponse} from '@/types/baseResponse';
 import {Friend} from '@/types/friend';
-import {QUERY_KEYS} from '@/constants/queryKeys';
+import {UseSuspenseQueryResult, useSuspenseQuery} from '@tanstack/react-query';
 
 const getFriend = async (): Promise<Friend[]> => {
   const response = await client.get<BaseResponse<Friend[]>>({
     url: '/friends',
   });
+
+  console.log(response);
   return response.data;
 };
 

@@ -85,7 +85,7 @@ export const AlarmPage: React.FC = () => {
         <AntDesignIcons
           name="arrowleft"
           color="white"
-          size={30}
+          size={25}
           onPress={handleBackPress}
         />
         <Text className="text-white text-subheading mb-1">알림</Text>

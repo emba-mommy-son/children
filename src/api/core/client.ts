@@ -1,5 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuthStore} from '@/store/useAuthStore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, {AxiosInstance, AxiosRequestConfig, Method} from 'axios';
 
 const BASE_URL = 'https://www.mommy-son.kro.kr/api/v1';
@@ -19,8 +19,6 @@ axiosInstance.interceptors.request.use(
     // asyncStorage에서 accessToken 가져오기
     const accessToken = useAuthStore.getState().accessToken;
     if (accessToken) {
-      // 값이 있다면 그대로 사용, undefined나 null이면 빈 객체로 설정
-      config.headers = config.headers || {};
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
@@ -70,6 +68,7 @@ axiosInstance.interceptors.response.use(
     } catch (refreshError) {
       // refreshToken도 만료된 경우 로그아웃 처리
       AsyncStorage.removeItem('accessToken');
+
       // !FIXME : 어디로 가야하죠
       return Promise.reject(refreshError);
     }
