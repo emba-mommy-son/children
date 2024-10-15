@@ -10,6 +10,7 @@ import {BottomNavigationBar} from '@/components/common/BottomNavigationBar';
 import {AlarmPage} from '@/pages/alarm/pages/AlarmPage';
 import {ChattingListPage} from '@/pages/chatting/pages/ChattingListPage';
 import {ChattingPage} from '@/pages/chatting/pages/ChattingPage';
+import {AddFriendPage} from '@/pages/friend/pages/AddFriendPage';
 import {FriendPage} from '@/pages/friend/pages/FriendPage';
 import {FriendRankingPage} from '@/pages/friend/pages/FriendRankingPage';
 import {LocationPage} from '@/pages/location/pages/LocationPage';
@@ -23,6 +24,7 @@ type AppNavigatorParamList = {
   Reward: undefined;
   Chatting: {roomId: number};
   FriendRanking: undefined;
+  AddFriend: undefined;
 };
 
 export type AppNavigatorProp = NativeStackNavigationProp<AppNavigatorParamList>;
@@ -59,6 +61,7 @@ export const AppNavigator = () => {
       <Stack.Screen name="Reward" component={RewardPage} />
       <Stack.Screen name="Chatting" component={ChattingPage} />
       <Stack.Screen name="FriendRanking" component={FriendRankingPage} />
+      <Stack.Screen name="AddFriend" component={AddFriendPage} />
     </Stack.Navigator>
   );
 };
