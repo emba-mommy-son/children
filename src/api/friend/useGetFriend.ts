@@ -1,19 +1,22 @@
-import {client} from '@/api/core/client';
-import {UseSuspenseQueryResult, useSuspenseQuery} from '@tanstack/react-query';
+import {useQuery, UseQueryResult} from '@tanstack/react-query';
 import {BaseResponse} from '@/types/baseResponse';
-import {Friend} from '@/types/friend';
+import {FriendDetail} from '@/types/friend';
 import {QUERY_KEYS} from '@/constants/queryKeys';
+import {client} from '@/api/core/client';
 
-const getFriend = async (): Promise<Friend[]> => {
-  const response = await client.get<BaseResponse<Friend[]>>({
-    url: '/friends',
+const getFriend = async (friendId: number): Promise<FriendDetail> => {
+  const response = await client.get<BaseResponse<FriendDetail>>({
+    url: `/friends/${friendId}`,
   });
   return response.data;
 };
 
-export const useGetFriend = (): UseSuspenseQueryResult<Friend[], Error> => {
-  return useSuspenseQuery<Friend[], Error>({
-    queryKey: QUERY_KEYS.FRIEND.ALL,
-    queryFn: getFriend,
+export const useGetFriend = (
+  friendId: number,
+): UseQueryResult<FriendDetail, Error> => {
+  //!FIXME : suspenseQuery로 수정
+  return useQuery<FriendDetail, Error>({
+    queryKey: QUERY_KEYS.FRIEND.DETAIL(friendId),
+    queryFn: () => getFriend(friendId),
   });
 };

@@ -8,16 +8,11 @@ import {
 import {useState, useRef, useEffect, useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Client} from '@stomp/stompjs';
+import {Message} from '@/types/chat';
 import {Receive} from '@/pages/chatting/components/Receive';
 import {Send} from '@/pages/chatting/components/Send';
 import {useGetRoom} from '@/api/chat';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
-
-interface Message {
-  senderId: number;
-  content: string;
-  createdAt: string;
-}
 
 export const ChattingPage: React.FC = () => {
   const nav = useNavigation();
