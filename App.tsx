@@ -5,7 +5,7 @@
  * @format
  */
 
-import {useSignIn} from '@/api/user/useSignin';
+import {signIn} from '@/api/user/signIn';
 import {NavigationContainer} from '@react-navigation/native';
 import {RealmProvider} from '@realm/react';
 import {useAuthStore} from '@/store/useAuthStore';
@@ -38,7 +38,7 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     fetchLoginData().then(data => {
-      useSignIn({username: data.username, password: data.password}).then(
+      signIn({username: data.username, password: data.password}).then(
         tokenData => {
           console.log('로그인 성공');
           console.log(tokenData.accessToken);
