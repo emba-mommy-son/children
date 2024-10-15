@@ -5,12 +5,6 @@ import {Room} from '@/types/chat';
 import {ChattingItem} from '@/pages/chatting/components/ChattingItem';
 import {useGetRooms} from '@/api/chat';
 
-interface Message {
-  senderId: number;
-  content: string;
-  createdAt: string;
-}
-
 export const ChattingListPage: React.FC = () => {
   const {data: rooms, isLoading, isError} = useGetRooms();
   const stompClientRef = useRef<Client | null>(null);
