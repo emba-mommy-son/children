@@ -7,30 +7,30 @@ import {BaseResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
-const createFriend = async (friendId: number): Promise<void> => {
-  const response = await client.post<BaseResponse<null>>({
+const deleteFriend = async (friendId: number): Promise<void> => {
+  const response = await client.delete<BaseResponse<null>>({
     url: `/friends/${friendId}`,
   });
   if (!response.success) {
     if (response.status === 400) {
       throw new Error(response.message);
     }
-    throw new Error('친구 추가 실패');
+    throw new Error('친구 삭제 실패');
   }
 };
 
-export const useCreateFriend = (): UseMutationResult<void, Error, number> => {
+export const useDeleteFriend = (): UseMutationResult<void, Error, number> => {
   const queryClient = useQueryClient();
   return useMutation({
+    mutationFn: deleteFriend,
     // !FIXME : 성공시 처리(토스트 or 노티)
-    mutationFn: createFriend,
     onSuccess: () => {
-      console.log('친구 추가 성공');
+      console.log('친구 삭제 성공');
       queryClient.invalidateQueries({queryKey: QUERY_KEYS.FRIEND.ALL});
     },
     // !FIXME : 에러시 처리(토스트 or 노티)
     onError: error => {
-      console.error('친구 추가 실패', error.message);
+      console.error(error.message);
     },
   });
 };
