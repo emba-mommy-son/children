@@ -143,7 +143,7 @@ export const ChattingPage: React.FC = () => {
       <View className="flex flex-col h-full">
         <View className="flex flex-row items-center space-x-3 bg-secondary p-4">
           <TouchableOpacity onPress={goBack}>
-            <AntDesignIcons name="arrowleft" color="white" size={30} />
+            <AntDesignIcons name="arrowleft" color="white" size={25} />
           </TouchableOpacity>
           <Text className="text-white text-subheading mb-1">
             {roomData?.name}

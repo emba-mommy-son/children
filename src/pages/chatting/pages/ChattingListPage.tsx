@@ -29,8 +29,8 @@ export const ChattingListPage: React.FC = () => {
         console.log('STOMP Debug:', str);
       },
       // 연결 성공했을때 콘솔에 찍히게
-      onConnect: frame => {
-        console.log('Connected: ' + frame);
+      onConnect: () => {
+        console.log('연결 성공~~~');
         subscribeToChat();
       },
       // stomp 프로토콜 레벨에서 에러 발생했을때 찍히는거

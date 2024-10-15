@@ -21,9 +21,11 @@ export const RewardPage: React.FC = () => {
     <SafeAreaView className="flex-1 bg-white">
       <View className="bg-secondary p-4 flex-row items-center">
         <TouchableOpacity onPress={handleBackPress} className="mr-4">
-          <AntDesignIcons name="arrowleft" color="white" size={30} />
+          <AntDesignIcons name="arrowleft" color="white" size={25} />
         </TouchableOpacity>
-        <Text className="text-white text-subheading font-semibold">리워드</Text>
+        <Text className="text-white text-subheading font-semibold mb-1">
+          리워드
+        </Text>
       </View>
       <View className="p-4 space-y-6">
         <MyReward />

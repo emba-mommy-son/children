@@ -2,6 +2,10 @@
 import {useCallback, useMemo, useRef, useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 
+// 라이브러리
+import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+
 // 타입
 import {Friend} from '@/types/friend';
 
@@ -9,8 +13,6 @@ import {Friend} from '@/types/friend';
 
 // 아이콘
 import FriendImage from '@assets/icons/friend/friendImage.png';
-import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 export const FriendItem: React.FC<{item: Friend}> = ({item}) => {
   const [open, setOpen] = useState<boolean>(false);

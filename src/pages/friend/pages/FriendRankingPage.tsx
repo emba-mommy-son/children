@@ -23,7 +23,7 @@ export const FriendRankingPage = () => {
         <AntDesignIcons
           name="arrowleft"
           color="white"
-          size={30}
+          size={25}
           onPress={handleBackPress}
         />
         <Text className="text-white text-subheading font-semibold">
