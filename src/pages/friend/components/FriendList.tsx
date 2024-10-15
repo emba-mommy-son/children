@@ -1,7 +1,7 @@
 import {FlatList} from 'react-native';
 import {Friend} from '@/types/friend';
 import {FriendItem} from '@/pages/friend/components/FriendItem';
-import {useGetFriend} from '@/api/friend/useGetFriend';
+import {useGetFriend} from '@/api/friend';
 
 export const FriendList = () => {
   const {data: friendList} = useGetFriend();

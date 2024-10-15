@@ -3,7 +3,7 @@ import {FlatList, SafeAreaView, Text, View} from 'react-native';
 import {Client} from '@stomp/stompjs';
 import {Room} from '@/types/chat';
 import {ChattingItem} from '@/pages/chatting/components/ChattingItem';
-import {useGetRooms} from '@/api/chat/useGetRooms';
+import {useGetRooms} from '@/api/chat';
 
 interface Message {
   senderId: number;

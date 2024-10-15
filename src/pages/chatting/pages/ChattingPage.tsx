@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Client} from '@stomp/stompjs';
 import {Receive} from '@/pages/chatting/components/Receive';
 import {Send} from '@/pages/chatting/components/Send';
-import {useGetRoom} from '@/api/chat/useGetRoom';
+import {useGetRoom} from '@/api/chat';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 interface Message {
