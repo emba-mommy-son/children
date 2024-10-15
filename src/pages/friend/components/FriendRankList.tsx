@@ -7,8 +7,8 @@ import {FlatList} from 'react-native';
 import {FriendRank} from '@/types/friend';
 
 // 컴포넌트
-import {useGetFriendRank} from '@/api/friend/useGetFriendRank';
 import {FriendRankItem} from '@/pages/friend/components/FriendRankItem';
+import {useGetFriendRank} from '@/api/friend';
 
 export const FriendRankList = () => {
   const {data: rankingList} = useGetFriendRank();
