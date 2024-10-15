@@ -3,13 +3,7 @@ import {FlatList, SafeAreaView, Text, View} from 'react-native';
 import {Client} from '@stomp/stompjs';
 import {Room} from '@/types/chat';
 import {ChattingItem} from '@/pages/chatting/components/ChattingItem';
-import {useGetRooms} from '@/api/chat/useGetRooms';
-
-interface Message {
-  senderId: number;
-  content: string;
-  createdAt: string;
-}
+import {useGetRooms} from '@/api/chat';
 
 export const ChattingListPage: React.FC = () => {
   const {data: rooms, isLoading, isError} = useGetRooms();

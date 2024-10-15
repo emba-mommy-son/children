@@ -5,6 +5,14 @@ export interface Friend {
   hasProblem: boolean;
 }
 
+export interface FriendDetail {
+  userId: number;
+  name: string;
+  profileImage: string;
+  roomId: number;
+  friend: boolean;
+}
+
 export interface FriendRank {
   userId: number;
   name: string;
