@@ -24,11 +24,11 @@ export const useGetRoom = (
   const results = useQueries({
     queries: [
       {
-        queryKey: QUERY_KEYS.ROOM.DETAIL(roomId),
+        queryKey: QUERY_KEYS.CHAT.DETAIL(roomId),
         queryFn: () => getRoomData(roomId),
       },
       {
-        queryKey: QUERY_KEYS.ROOM.MESSAGES(roomId),
+        queryKey: QUERY_KEYS.CHAT.MESSAGES(roomId),
         queryFn: () => getRoomMessages(roomId),
       },
     ],
