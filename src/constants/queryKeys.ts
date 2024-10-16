@@ -11,6 +11,7 @@ export const QUERY_KEYS = {
   },
   USER: {
     USERINFO: ['userInfo'] as const,
+    PHONENUMBER: (phoneNumber: string) => ['phoneNumber', phoneNumber] as const,
   },
 } as const;
 
