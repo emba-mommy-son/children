@@ -16,6 +16,9 @@ export const QUERY_KEYS = {
   REWARD: {
     ALL: ['rewards'] as const,
   },
+  NOTIFICATION: {
+    ALL: ['notifications'] as const,
+  },
 } as const;
 
 // 중앙관리의 장점
