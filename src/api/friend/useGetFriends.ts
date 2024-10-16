@@ -9,7 +9,6 @@ const getFriends = async (): Promise<Friend[]> => {
     url: '/friends',
   });
 
-  console.log(response);
   return response.data;
 };
 
