@@ -18,13 +18,15 @@ import {MainPage} from '@/pages/main/pages/MainPage';
 import {RewardPage} from '@/pages/reward/pages/RewardPage';
 import {SleepPage} from '@/pages/sleep/pages/SleepPage';
 
+import {ROUTES} from '@/constants/\broutes';
+
 type AppNavigatorParamList = {
-  MainTabs: undefined;
-  Alarm: undefined;
-  Reward: undefined;
-  Chatting: {roomId: number};
-  FriendRanking: undefined;
-  AddFriend: undefined;
+  [ROUTES.MAIN_TABS]: undefined;
+  [ROUTES.ALARM]: undefined;
+  [ROUTES.REWARD]: undefined;
+  [ROUTES.CHATTING]: {roomId: number};
+  [ROUTES.FRIEND_RANKING]: undefined;
+  [ROUTES.ADD_FRIEND]: undefined;
 };
 
 export type AppNavigatorProp = NativeStackNavigationProp<AppNavigatorParamList>;
@@ -35,20 +37,20 @@ const Stack = createNativeStackNavigator<AppNavigatorParamList>();
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName={ROUTES.HOME}
       screenOptions={{
         headerShown: false,
       }}
       tabBar={props => <BottomNavigationBar {...props} />}>
-      <Tab.Screen name="Home" component={MainPage} />
-      <Tab.Screen name="Friend" component={FriendPage} />
+      <Tab.Screen name={ROUTES.HOME} component={MainPage} />
+      <Tab.Screen name={ROUTES.FRIEND} component={FriendPage} />
       <Tab.Screen
-        name="ChattingList"
+        name={ROUTES.CHATTING_LIST}
         component={ChattingListPage}
         options={{unmountOnBlur: true}}
       />
-      <Tab.Screen name="Sleep" component={SleepPage} />
-      <Tab.Screen name="Location" component={LocationPage} />
+      <Tab.Screen name={ROUTES.SLEEP} component={SleepPage} />
+      <Tab.Screen name={ROUTES.LOCATION} component={LocationPage} />
     </Tab.Navigator>
   );
 };
@@ -56,12 +58,15 @@ const TabNavigator = () => {
 export const AppNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="MainTabs" component={TabNavigator} />
-      <Stack.Screen name="Alarm" component={AlarmPage} />
-      <Stack.Screen name="Reward" component={RewardPage} />
-      <Stack.Screen name="Chatting" component={ChattingPage} />
-      <Stack.Screen name="FriendRanking" component={FriendRankingPage} />
-      <Stack.Screen name="AddFriend" component={AddFriendPage} />
+      <Stack.Screen name={ROUTES.MAIN_TABS} component={TabNavigator} />
+      <Stack.Screen name={ROUTES.ALARM} component={AlarmPage} />
+      <Stack.Screen name={ROUTES.REWARD} component={RewardPage} />
+      <Stack.Screen name={ROUTES.CHATTING} component={ChattingPage} />
+      <Stack.Screen
+        name={ROUTES.FRIEND_RANKING}
+        component={FriendRankingPage}
+      />
+      <Stack.Screen name={ROUTES.ADD_FRIEND} component={AddFriendPage} />
     </Stack.Navigator>
   );
 };
