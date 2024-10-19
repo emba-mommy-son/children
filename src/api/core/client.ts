@@ -1,5 +1,4 @@
 import {useAuthStore} from '@/store/useAuthStore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, {AxiosInstance, AxiosRequestConfig, Method} from 'axios';
 
 const BASE_URL = 'https://www.mommy-son.kro.kr/api/v1';
@@ -29,6 +28,7 @@ axiosInstance.interceptors.request.use(
 );
 
 const {setAccessToken, setRefreshToken} = useAuthStore.getState();
+const clearUseAuthStore = useAuthStore.persist.clearStorage;
 
 // 401오류가 발생하면 refreshToken을 사용해 토큰 재발급
 axiosInstance.interceptors.response.use(
@@ -67,8 +67,8 @@ axiosInstance.interceptors.response.use(
       return axiosInstance(originalRequest);
     } catch (refreshError) {
       // refreshToken도 만료된 경우 로그아웃 처리
-      AsyncStorage.removeItem('accessToken');
-
+      // AsyncStorage.removeItem('auth-store');
+      clearUseAuthStore();
       // !FIXME : 어디로 가야하죠
       return Promise.reject(refreshError);
     }
