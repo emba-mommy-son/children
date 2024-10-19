@@ -9,10 +9,9 @@ import {Controller, useForm} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 // 컴포넌트
-import {useGetUserByPhoneNumber} from '@/api/user';
 
 // 아이콘
-import {QUERY_KEYS} from '@/constants/queryKeys';
+import {getUserByPhoneNumber} from '@/api/user/useGetUserByPhoneNumber';
 import {AddFriendResult} from '@/pages/friend/components/AddFriendResult';
 import {UserInfo} from '@/types/user';
 import {useQueryClient} from '@tanstack/react-query';
@@ -25,7 +24,7 @@ interface AddFriendForm {
 export const AddFriendPage = () => {
   const nav = useNavigation();
   const queryClient = useQueryClient();
-  const [friendData, setFriendData] = useState<UserInfo>();
+  const [friendData, setFriendData] = useState<UserInfo | null>(null);
 
   const goBack = () => {
     nav.goBack();
@@ -34,6 +33,7 @@ export const AddFriendPage = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: {errors},
   } = useForm<AddFriendForm>({
     defaultValues: {
@@ -42,13 +42,9 @@ export const AddFriendPage = () => {
   });
 
   const onSubmit = async (data: AddFriendForm) => {
-    queryClient.invalidateQueries({
-      queryKey: QUERY_KEYS.USER.PHONENUMBER(data.phoneNumber),
-    });
-
-    console.log(data.phoneNumber);
-    const {data: friend} = await useGetUserByPhoneNumber(data.phoneNumber);
-    console.log(friend);
+    const friend = await getUserByPhoneNumber(data.phoneNumber);
+    setFriendData(friend);
+    console.log(friendData);
   };
 
   return (
@@ -95,7 +91,7 @@ export const AddFriendPage = () => {
           }}
         />
       </View>
-      {friendData && <AddFriendResult />}
+      {friendData && <AddFriendResult friendData={friendData} setFriendData={setFriendData} reset={reset}/>}
     </SafeAreaView>
   );
 };
