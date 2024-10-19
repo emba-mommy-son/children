@@ -1,7 +1,11 @@
 export interface Reward {
   id: number;
-  //! FIXME : type 뭐뭐있는지 받아서 enum으로 설정하기
-  type: 'RUNNING';
+  type: RewardType;
   amount: number;
   createdAt: string;
+}
+
+// ! FIXME : 엔티티에 RUNNING밖에 없음 업데이트 되면 수정
+export enum RewardType {
+  RUNNING = 'RUNNING',
 }
