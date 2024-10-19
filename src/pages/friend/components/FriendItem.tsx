@@ -4,17 +4,15 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 // 타입
 import {Friend} from '@/types/friend';
 
-// 컴포넌트
-
-// 아이콘
-import FriendImage from '@/assets/icons/friend/friendImage.png';
-
 export const FriendItem: React.FC<{item: Friend}> = ({item}) => {
   return (
     <View>
       <TouchableOpacity>
         <View className="flex flex-row items-center py-5 border-b-2 border-gray-700 space-x-6">
-          <Image source={FriendImage} className="w-16 h-16" />
+          <Image
+            source={{uri: item.profileImage}}
+            className="w-16 h-16 rounded-full"
+          />
           <Text className="text-body-text text-black font-bold">
             {item.name}
           </Text>

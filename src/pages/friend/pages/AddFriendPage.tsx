@@ -8,6 +8,9 @@ import {useNavigation} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
+// 컴포넌트
+import {useGetUserByPhoneNumber} from '@/api/user';
+
 // 아이콘
 import {QUERY_KEYS} from '@/constants/queryKeys';
 import {AddFriendResult} from '@/pages/friend/components/AddFriendResult';
@@ -22,7 +25,7 @@ interface AddFriendForm {
 export const AddFriendPage = () => {
   const nav = useNavigation();
   const queryClient = useQueryClient();
-  const [friendData, setFriendData] = useState<UserInfo | null>(null);
+  const [friendData, setFriendData] = useState<UserInfo>();
 
   const goBack = () => {
     nav.goBack();
@@ -38,17 +41,14 @@ export const AddFriendPage = () => {
     },
   });
 
-  const onSubmit = (data: AddFriendForm) => {
+  const onSubmit = async (data: AddFriendForm) => {
     queryClient.invalidateQueries({
       queryKey: QUERY_KEYS.USER.PHONENUMBER(data.phoneNumber),
     });
 
-    const {data: friend} = useGetFriendByPhoneNumber(data.phoneNumber);
-    if (friend) {
-      setFriendData(friend);
-    } else {
-      setFriendData(null);
-    }
+    console.log(data.phoneNumber);
+    const {data: friend} = await useGetUserByPhoneNumber(data.phoneNumber);
+    console.log(friend);
   };
 
   return (
@@ -95,10 +95,7 @@ export const AddFriendPage = () => {
           }}
         />
       </View>
-      <AddFriendResult />
+      {friendData && <AddFriendResult />}
     </SafeAreaView>
   );
 };
-function useGetFriendByPhoneNumber(phoneNumber: string): {data: any} {
-  throw new Error('Function not implemented.');
-}
