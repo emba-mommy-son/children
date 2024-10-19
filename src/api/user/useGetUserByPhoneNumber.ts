@@ -1,16 +1,19 @@
-import {useQuery, UseQueryResult} from '@tanstack/react-query';
-import {BaseResponse} from '@/types/baseResponse';
-import {UserInfo} from '@/types/user';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
+import {BaseResponse} from '@/types/baseResponse';
+import {UserInfo} from '@/types/user';
+import {useQuery, UseQueryResult} from '@tanstack/react-query';
 
 // !FIXME : phoneNumber : string인지 number인지 안알려줬음
-const getUserByPhoneNumber = async (phoneNumber: string): Promise<UserInfo> => {
+export const getUserByPhoneNumber = async (phoneNumber: string): Promise<UserInfo> => {
   const response = await client.get<BaseResponse<UserInfo>>({
-    url: `/users/phoneNumber/${phoneNumber}`,
+    url: `/users/phoneNumber`,
+    params: {
+      phoneNumber,
+    },
   });
   if (!response.success) {
-    if (response.status === 400) {
+    if (response.status === 404) {
       throw new Error(response.message);
     }
     // !FIXME : 에러 처리(토스트 or 노티)
