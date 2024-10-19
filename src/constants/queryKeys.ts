@@ -1,5 +1,5 @@
 export const QUERY_KEYS = {
-  ROOM: {
+  CHAT: {
     ALL: ['rooms'],
     DETAIL: (id: number) => ['room', id] as const,
     MESSAGES: (id: number) => ['room', id, 'message'] as const,
@@ -12,6 +12,12 @@ export const QUERY_KEYS = {
   USER: {
     USERINFO: ['userInfo'] as const,
     PHONENUMBER: (phoneNumber: string) => ['phoneNumber', phoneNumber] as const,
+  },
+  REWARD: {
+    ALL: ['rewards'] as const,
+  },
+  NOTIFICATION: {
+    ALL: ['notifications'] as const,
   },
 } as const;
 
