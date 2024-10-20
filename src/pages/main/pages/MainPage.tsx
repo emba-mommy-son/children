@@ -14,12 +14,13 @@ import {Sleep} from '@/pages/main/components/Sleep';
 
 export const MainPage = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const [qrOpen, setQrOpen] = useState<boolean>(false);
   return (
     <SafeAreaView>
       <View className="h-screen relative bg-secondary px-5">
-        <MainHeader open={open} setOpen={setOpen} />
+        <MainHeader open={open} setOpen={setOpen}/>
         <GetUserInfo />
-        {open && <MainProfile />}
+        {open && <MainProfile setQrOpen={setQrOpen}/>}
         <View className="flex flex-col items-center space-y-3 z-0">
           <View className="flex flex-row space-x-3">
             <BestFriend />
