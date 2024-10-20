@@ -25,8 +25,8 @@ export const useCreateFriend = (): UseMutationResult<void, Error, number> => {
     // !FIXME : 성공시 처리(토스트 or 노티)
     mutationFn: createFriend,
     onSuccess: () => {
-      console.log('친구 추가 성공');
       queryClient.invalidateQueries({queryKey: QUERY_KEYS.FRIEND.ALL});
+      console.log('친구 추가 성공');
     },
     // !FIXME : 에러시 처리(토스트 or 노티)
     onError: error => {
