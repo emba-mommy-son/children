@@ -2,12 +2,14 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 
 interface MainProfileProps {
-  setQrOpen: (open: boolean) => void;
+  setQrOpen: (qrOpen: boolean) => void;
+  setOpen: (open: boolean) => void;
 }
 
-export const MainProfile = ({setQrOpen}: MainProfileProps) => {
+export const MainProfile = ({setQrOpen, setOpen}: MainProfileProps) => {
   const onQrOpen = () => {
     setQrOpen(true);
+    setOpen(false);
   };
 
   return (
