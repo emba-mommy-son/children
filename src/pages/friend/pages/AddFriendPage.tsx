@@ -14,7 +14,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {getUserByPhoneNumber} from '@/api/user/useGetUserByPhoneNumber';
 import {AddFriendResult} from '@/pages/friend/components/AddFriendResult';
 import {UserInfo} from '@/types/user';
-import {useQueryClient} from '@tanstack/react-query';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 interface AddFriendForm {
@@ -23,7 +22,6 @@ interface AddFriendForm {
 
 export const AddFriendPage = () => {
   const nav = useNavigation();
-  const queryClient = useQueryClient();
   const [friendData, setFriendData] = useState<UserInfo | null>(null);
 
   const goBack = () => {
@@ -44,7 +42,7 @@ export const AddFriendPage = () => {
   const onSubmit = async (data: AddFriendForm) => {
     const friend = await getUserByPhoneNumber(data.phoneNumber);
     setFriendData(friend);
-    console.log(friendData);
+    console.log(friend);
   };
 
   return (
@@ -73,7 +71,7 @@ export const AddFriendPage = () => {
               <TextInput
                 onChangeText={onChange}
                 value={value}
-                placeholder="친구의 전화번호를 입력하세요."
+                placeholder="예: 010-1234-5678"
                 className="border-b-[1px] border-x-secondary flex-1"
               />
             )}
@@ -91,7 +89,13 @@ export const AddFriendPage = () => {
           }}
         />
       </View>
-      {friendData && <AddFriendResult friendData={friendData} setFriendData={setFriendData} reset={reset}/>}
+      {friendData && (
+        <AddFriendResult
+          friendData={friendData}
+          setFriendData={setFriendData}
+          reset={reset}
+        />
+      )}
     </SafeAreaView>
   );
 };

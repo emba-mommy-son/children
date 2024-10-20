@@ -1,5 +1,7 @@
-import {UserInfo} from '@/types/user';
 import {Image, Text, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {UserInfo} from '@/types/user';
+import {useCreateFriend} from '@/api/friend';
 
 interface AddFriendResultProps {
   friendData: UserInfo;
@@ -12,11 +14,21 @@ export const AddFriendResult = ({
   setFriendData,
   reset,
 }: AddFriendResultProps) => {
+  const nav = useNavigation();
+  const {mutate: createFriend} = useCreateFriend();
+
   const handleClear = () => {
     reset();
     setFriendData(null);
   };
-  
+  const handleAddFriend = () => {
+    createFriend(friendData.id, {
+      onSuccess: () => {
+        nav.goBack();
+      },
+    });
+  };
+
   return (
     <View className="bg-primary/20 m-4 p-5 rounded-xl flex flex-col items-center justify-center space-y-4">
       <Image
@@ -32,7 +44,9 @@ export const AddFriendResult = ({
           onPress={handleClear}>
           취소
         </Text>
-        <Text className="bg-primary text-body-text text-white font-bold rounded-xl px-10 py-2">
+        <Text
+          onPress={handleAddFriend}
+          className="bg-primary text-body-text text-white font-bold rounded-xl px-10 py-2">
           추가
         </Text>
       </View>
