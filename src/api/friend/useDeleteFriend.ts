@@ -15,7 +15,7 @@ const deleteFriend = async (friendId: number): Promise<void> => {
     if (response.status === 400) {
       throw new Error(response.message);
     }
-    throw new Error('친구 삭제 실패');
+    // throw new Error('친구 삭제 실패');
   }
 };
 
