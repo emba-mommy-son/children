@@ -18,7 +18,7 @@ import {MainPage} from '@/pages/main/pages/MainPage';
 import {RewardPage} from '@/pages/reward/pages/RewardPage';
 import {SleepPage} from '@/pages/sleep/pages/SleepPage';
 
-import {ROUTES} from '@/constants/\broutes';
+import {ROUTES} from '@/constants/routeURL';
 
 type AppNavigatorParamList = {
   [ROUTES.MAIN_TABS]: undefined;
