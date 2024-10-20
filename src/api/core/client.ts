@@ -67,13 +67,13 @@ axiosInstance.interceptors.response.use(
       return axiosInstance(originalRequest);
     } catch (refreshError) {
       // refreshToken도 만료된 경우 로그아웃 처리
-      // AsyncStorage.removeItem('auth-store');
       clearUseAuthStore();
       // !FIXME : 어디로 가야하죠
       return Promise.reject(refreshError);
     }
   },
 );
+
 const createAxiosInstance =
   (instance: AxiosInstance, method: Method) =>
   <T>(config: AxiosRequestConfig): Promise<T> => {

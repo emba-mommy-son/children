@@ -1,7 +1,12 @@
-import messaging from '@react-native-firebase/messaging';
+// 리액트
 import React, {useEffect, useState} from 'react';
 import {Modal, View} from 'react-native';
+
+// 라이브러리
+import messaging from '@react-native-firebase/messaging';
 import QRCode from 'react-native-qrcode-svg';
+
+// 아이콘
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 
 interface QRCodeModalProps {
@@ -31,13 +36,12 @@ export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
   }, []);
 
   return (
-    <View className="flex-1 justify-center items-center">
-      <Modal
-        animationType="slide"
-        visible={qrOpen}
-        // presentationStyle="formSheet"
-        transparent={true}
-        onRequestClose={() => setQrOpen(false)}>
+    <Modal
+      animationType="slide"
+      visible={qrOpen}
+      transparent={true}
+      onRequestClose={handleModalClose}>
+      <View className="flex-1 justify-center istems-center">
         <View className="flex-1 justify-center items-center">
           <View className="relative bg-black/50 rounded-xl p-10">
             <EntypoIcons
@@ -45,13 +49,12 @@ export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
               size={30}
               color="#FFFFFF"
               onPress={handleModalClose}
-              // className="absolute top-0 right-0"
               style={{position: 'absolute', top: 10, right: 10}}
             />
             {FCMToken && <QRCode value={FCMToken} size={200} />}
           </View>
         </View>
-      </Modal>
-    </View>
+      </View>
+    </Modal>
   );
 };
