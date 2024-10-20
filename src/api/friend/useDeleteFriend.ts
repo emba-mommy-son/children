@@ -15,7 +15,6 @@ const deleteFriend = async (friendId: number): Promise<void> => {
     if (response.status === 400) {
       throw new Error(response.message);
     }
-    // throw new Error('친구 삭제 실패');
   }
 };
 
@@ -25,8 +24,8 @@ export const useDeleteFriend = (): UseMutationResult<void, Error, number> => {
     mutationFn: deleteFriend,
     // !FIXME : 성공시 처리(토스트 or 노티)
     onSuccess: () => {
-      console.log('친구 삭제 성공');
       queryClient.invalidateQueries({queryKey: QUERY_KEYS.FRIEND.ALL});
+      console.log('친구 삭제 성공');
     },
     // !FIXME : 에러시 처리(토스트 or 노티)
     onError: error => {

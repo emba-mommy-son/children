@@ -11,7 +11,10 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 // 컴포넌트
 
 // 아이콘
-import {getUserByPhoneNumber} from '@/api/user/useGetUserByPhoneNumber';
+import {
+  getUserByPhoneNumber,
+  useGetUserByPhoneNumber,
+} from '@/api/user/useGetUserByPhoneNumber';
 import {AddFriendResult} from '@/pages/friend/components/AddFriendResult';
 import {UserInfo} from '@/types/user';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
@@ -22,11 +25,13 @@ interface AddFriendForm {
 
 export const AddFriendPage = () => {
   const nav = useNavigation();
-  const [friendData, setFriendData] = useState<UserInfo | null>(null);
-
-  const goBack = () => {
-    nav.goBack();
-  };
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const {
+    data: friendData,
+    isError,
+    error,
+    isLoading,
+  } = useGetUserByPhoneNumber(phoneNumber);
 
   const {
     control,
@@ -40,15 +45,13 @@ export const AddFriendPage = () => {
   });
 
   const onSubmit = async (data: AddFriendForm) => {
-    const friend = await getUserByPhoneNumber(data.phoneNumber);
-    setFriendData(friend);
-    console.log(friend);
+    setPhoneNumber(data.phoneNumber);
   };
 
   return (
     <SafeAreaView>
       <View className="bg-secondary p-4 flex-row items-center space-x-3">
-        <TouchableOpacity onPress={goBack}>
+        <TouchableOpacity onPress={() => nav.goBack()}>
           <AntDesignIcons name="arrowleft" color="white" size={25} />
         </TouchableOpacity>
         <Text className="text-white text-subheading font-semibold mb-1">
@@ -89,10 +92,12 @@ export const AddFriendPage = () => {
           }}
         />
       </View>
+      {isLoading && <Text>로딩 중...</Text>}
+      {isError && <Text className="px-5 text-[#D96363]">{error.message}</Text>}
       {friendData && (
         <AddFriendResult
           friendData={friendData}
-          setFriendData={setFriendData}
+          setFriendData={() => setPhoneNumber('')}
           reset={reset}
         />
       )}
