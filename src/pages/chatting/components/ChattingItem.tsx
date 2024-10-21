@@ -12,7 +12,6 @@ import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 
 export const ChattingItem: React.FC<{item: Room}> = ({item}) => {
   const nav = useNavigation<AppNavigatorProp>();
-  console.log(item.createdAt);
 
   const handleGoChatting = () => {
     nav.navigate('Chatting', {roomId: item.roomId});
