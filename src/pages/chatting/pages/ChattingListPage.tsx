@@ -1,13 +1,15 @@
-import {useGetRooms} from '@/api/chat';
-import {ChattingItem} from '@/pages/chatting/components/ChattingItem';
-import {Room} from '@/types/chat';
-import {Client} from '@stomp/stompjs';
-import React, {useEffect, useRef} from 'react';
 import {FlatList, SafeAreaView, Text, View} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {Client} from '@stomp/stompjs';
+import {Room} from '@/types/chat';
+import {ChattingItem} from '@/pages/chatting/components/ChattingItem';
+import {useUserStore} from '@/store/useUserStore';
+import {useGetRooms} from '@/api/chat';
 
 export const ChattingListPage: React.FC = () => {
   const {data: rooms, isLoading, isError} = useGetRooms();
   const stompClientRef = useRef<Client | null>(null);
+  const userId = useUserStore(state => state.id);
   console.log(rooms);
 
   // 마운트될때 소켓연결 시도, 언마운트될때 소켓 끊기
@@ -62,7 +64,7 @@ export const ChattingListPage: React.FC = () => {
   // 채팅 메시지 구독 일단 1번만 구독
   const subscribeToChat = () => {
     if (stompClientRef.current) {
-      stompClientRef.current.subscribe('/sub/chat/user/2', message => {
+      stompClientRef.current.subscribe(`/sub/chat/user/${userId}`, message => {
         console.log('Received message:', message);
         showMessage(message.body);
       });

@@ -12,7 +12,7 @@ export interface RoomData {
 }
 
 export interface Message {
-  senderId: number;
+  userId: number;
   content: string;
   createdAt: string;
 }

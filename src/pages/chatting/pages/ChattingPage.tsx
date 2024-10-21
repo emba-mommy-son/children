@@ -9,20 +9,22 @@ import {useState, useRef, useEffect, useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Client} from '@stomp/stompjs';
 import {Message} from '@/types/chat';
+import {ChattingScreenProps} from '@/types/navigation';
 import {Receive} from '@/pages/chatting/components/Receive';
 import {Send} from '@/pages/chatting/components/Send';
+import {useUserStore} from '@/store/useUserStore';
 import {useGetRoom} from '@/api/chat';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
-export const ChattingPage: React.FC = () => {
+export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
   const nav = useNavigation();
-  const [roomQuery, messagesQuery] = useGetRoom(1);
+  const {roomId} = route.params;
+  const userId = useUserStore(state => state.id);
+
+  const [roomQuery, messagesQuery] = useGetRoom(roomId);
   const [messages, setMessages] = useState<Message[]>([]);
   const stompClientRef = useRef<Client | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
-
-  const roomId = 1;
-  const userId = 2;
 
   useEffect(() => {
     if (messagesQuery.data) {
@@ -97,7 +99,7 @@ export const ChattingPage: React.FC = () => {
     if (stompClientRef.current && message.trim()) {
       const messageToSend = {
         senderId: userId,
-        receiverId: 1,
+        receiverId: roomQuery.data?.userId,
         message: message.trim(),
       };
 
@@ -154,7 +156,7 @@ export const ChattingPage: React.FC = () => {
           className="flex flex-col my-5 p-4"
           onContentSizeChange={scrollToBottom}>
           {messages.map((message, index) =>
-            message.senderId === userId ? (
+            message.userId === userId ? (
               <Send
                 key={index}
                 content={message.content}
