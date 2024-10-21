@@ -15,5 +15,6 @@ export const useGetRooms = (): UseQueryResult<Room[], Error> => {
   return useQuery<Room[], Error>({
     queryKey: [QUERY_KEYS.CHAT.ALL],
     queryFn: getRooms,
+    staleTime: 0,
   });
 };
