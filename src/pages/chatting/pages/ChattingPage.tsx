@@ -4,6 +4,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {useState, useRef, useEffect, useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -14,12 +15,15 @@ import {Receive} from '@/pages/chatting/components/Receive';
 import {Send} from '@/pages/chatting/components/Send';
 import {useUserStore} from '@/store/useUserStore';
 import {useGetRoom} from '@/api/chat';
+import {useCreateAnalysis} from '@/api/analysis';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
   const nav = useNavigation();
   const {roomId} = route.params;
   const userId = useUserStore(state => state.id);
+  const userName = useUserStore(state => state.name);
+  const {mutate: createAnalysis} = useCreateAnalysis();
 
   const [roomQuery, messagesQuery] = useGetRoom(roomId);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -49,6 +53,23 @@ export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  const handleAnalysis = () => {
+    if (roomQuery.data?.userId) {
+      createAnalysis(
+        {
+          roomId: roomId,
+          receiverId: roomQuery.data.userId,
+          name: roomQuery.data.name,
+        },
+        {
+          onSuccess: () => {
+            Alert.alert('완료', '분석이 완료되었습니다.');
+          },
+        },
+      );
+    }
+  };
 
   // 웹소켓 연결 함수
   const connectWebSocket = () => {
@@ -143,13 +164,18 @@ export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
   return (
     <SafeAreaView>
       <View className="flex flex-col h-full">
-        <View className="flex flex-row items-center space-x-3 bg-secondary p-4">
-          <TouchableOpacity onPress={goBack}>
-            <AntDesignIcons name="arrowleft" color="white" size={25} />
+        <View className="flex flex-row items-center justify-between bg-secondary p-4">
+          <View className="flex flex-row items-center space-x-3">
+            <TouchableOpacity onPress={goBack}>
+              <AntDesignIcons name="arrowleft" color="white" size={25} />
+            </TouchableOpacity>
+            <Text className="text-white text-subheading mb-1">
+              {roomData?.name}
+            </Text>
+          </View>
+          <TouchableOpacity onPress={handleAnalysis}>
+            <AntDesignIcons name="linechart" color="white" size={25} />
           </TouchableOpacity>
-          <Text className="text-white text-subheading mb-1">
-            {roomData?.name}
-          </Text>
         </View>
         <ScrollView
           ref={scrollViewRef}
