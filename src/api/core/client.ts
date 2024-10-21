@@ -42,7 +42,7 @@ axiosInstance.interceptors.response.use(
     // 에러가 발생하면 토큰 갱신 시도
     // TODO: accessToken 만료 시 error code 확인 -> 지금은 401로 가정
     if (error.response.status !== 401 || originalRequest._retry) {
-      return Promise.reject(new Error(errorMessage));
+      return Promise.reject(error);
     }
 
     originalRequest._retry = true;

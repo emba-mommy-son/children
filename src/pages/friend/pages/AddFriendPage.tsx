@@ -18,6 +18,7 @@ import {
 import {AddFriendResult} from '@/pages/friend/components/AddFriendResult';
 import {UserInfo} from '@/types/user';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
+import {AxiosError} from 'axios';
 
 interface AddFriendForm {
   phoneNumber: string;
@@ -93,7 +94,7 @@ export const AddFriendPage = () => {
         />
       </View>
       {isLoading && <Text>로딩 중...</Text>}
-      {isError && <Text className="px-5 text-[#D96363]">{error.message}</Text>}
+      {isError && <Text className="px-5 text-[#D96363]">에러</Text>}
       {friendData && (
         <AddFriendResult
           friendData={friendData}
