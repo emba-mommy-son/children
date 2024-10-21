@@ -42,6 +42,8 @@ export const Send: React.FC<SendProps> = ({content, createdAt, onSend}) => {
         placeholderTextColor="#B7B7B7"
         value={inputMessage}
         onChangeText={setInputMessage}
+        onSubmitEditing={handleSend}
+        returnKeyType="send"
         style={{
           shadowColor: 'black',
           shadowOffset: {width: 0, height: 1},
