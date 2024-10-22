@@ -20,7 +20,14 @@ import {Message} from '@/database/schemas/MessageSchema';
 import {RefineMessage} from '@/database/schemas/RefineMessageSchema';
 import {Sentiment} from '@/database/schemas/SentimentSchema';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
+  },
+});
 
 function App(): React.JSX.Element {
   const {getLoginData} = useLogin();
