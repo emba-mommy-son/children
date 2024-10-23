@@ -69,5 +69,15 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<!-- 백그라운드 모드 설정 -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+	</array>
+	<!-- HealthKit 권한 설정-->
+	<key>NSHealthShareUsageDescription</key>
+ 	<string>수면 데이터를 분석하기 위해 건강 데이터 접근 권한이 필요합니다.</string>
+  	<key>NSHealthUpdateUsageDescription</key>
+  	<string>수면 데이터를 분석하기 위해 건강 데이터 접근 권한이 필요합니다.</string>
 </dict>
 </plist>
