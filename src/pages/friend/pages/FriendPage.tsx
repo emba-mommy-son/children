@@ -18,6 +18,7 @@ import {AppNavigatorProp} from '@/navigation/AppNavigator';
 // 컴포넌트
 import {ErrorComponent} from '@/components/common/ErrorComponent';
 import {FriendList} from '@/pages/friend/components/FriendList';
+import {FriendListSkeleton} from '@/pages/friend/components/FriendListSkeleton';
 
 // 아이콘
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
@@ -43,7 +44,7 @@ export const FriendPage = () => {
         </View>
       </View>
       <ErrorBoundary FallbackComponent={ErrorComponent}>
-        <Suspense fallback={<ActivityIndicator color="#9D4BFF" />}>
+        <Suspense fallback={<FriendListSkeleton />}>
           <FriendList />
         </Suspense>
       </ErrorBoundary>
