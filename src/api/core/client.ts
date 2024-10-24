@@ -16,7 +16,7 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async config => {
     // asyncStorage에서 accessToken 가져오기
-    const accessToken = useAuthStore.getState().accessToken;
+    const accessToken = await useAuthStore.getState().accessToken;
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -49,13 +49,15 @@ axiosInstance.interceptors.response.use(
 
     try {
       const refreshToken = useAuthStore.getState().refreshToken;
+
       // refreshToken으로 accessToken 재발급
       const refreshResponse = await axios.post(`${BASE_URL}/auth/refresh`, {
         refreshToken,
       });
 
-      const {accessToken: newAccessToken, refreshToken: newRefreshToken} =
-        refreshResponse.data;
+      const {
+        data: {accessToken: newAccessToken, refreshToken: newRefreshToken},
+      } = refreshResponse.data;
 
       // 새로운 accessToken, refreshToken 저장
       await setAccessToken(newAccessToken);
@@ -64,7 +66,7 @@ axiosInstance.interceptors.response.use(
       // 실패했던 요청을 다시 보내기
       originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-      return axiosInstance(originalRequest);
+      return axios(originalRequest);
     } catch (refreshError) {
       // refreshToken도 만료된 경우 로그아웃 처리
       clearUseAuthStore();
