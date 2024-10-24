@@ -1,12 +1,6 @@
 // 리액트
 import {Suspense} from 'react';
-import {
-  ActivityIndicator,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 
 // 라이브러리
 import {useNavigation} from '@react-navigation/native';
@@ -22,7 +16,6 @@ import {FriendListSkeleton} from '@/pages/friend/components/FriendListSkeleton';
 
 // 아이콘
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
-
 export const FriendPage = () => {
   const nav = useNavigation<AppNavigatorProp>();
 
