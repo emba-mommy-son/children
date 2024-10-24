@@ -1,7 +1,7 @@
 // AddFriendSkeleton.tsx
 import {View} from 'react-native';
 
-export function AddFriendSkeleton() {
+export function AddFriendResultSkeleton() {
   return (
     <View className="bg-gray-500 m-4 p-5 rounded-xl flex flex-col items-center justify-center space-y-4">
       {/* 프로필 이미지 스켈레톤 */}

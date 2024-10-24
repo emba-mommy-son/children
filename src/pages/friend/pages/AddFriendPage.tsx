@@ -9,7 +9,7 @@ import {Controller, useForm} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 // 컴포넌트
-import {AddFriendSkeleton} from '@/pages/friend/components/AddFriendSkeleton';
+import {AddFriendResultSkeleton} from '@/pages/friend/components/AddFriendResultSkeleton';
 // 아이콘
 import {useGetUserByPhoneNumber} from '@/api/user/useGetUserByPhoneNumber';
 import {AddFriendResult} from '@/pages/friend/components/AddFriendResult';
@@ -88,7 +88,7 @@ export const AddFriendPage = () => {
           }}
         />
       </View>
-      {isLoading && <AddFriendSkeleton />}
+      {isLoading && <AddFriendResultSkeleton />}
       {isError && (
         <Text className="px-5 text-[#D96363]">
           {error.response?.data.message}
