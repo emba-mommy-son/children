@@ -9,16 +9,11 @@ import {Controller, useForm} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 // 컴포넌트
-
+import {AddFriendSkeleton} from '@/pages/friend/components/AddFriendSkeleton';
 // 아이콘
-import {
-  getUserByPhoneNumber,
-  useGetUserByPhoneNumber,
-} from '@/api/user/useGetUserByPhoneNumber';
+import {useGetUserByPhoneNumber} from '@/api/user/useGetUserByPhoneNumber';
 import {AddFriendResult} from '@/pages/friend/components/AddFriendResult';
-import {UserInfo} from '@/types/user';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
-import {AxiosError} from 'axios';
 
 interface AddFriendForm {
   phoneNumber: string;
@@ -93,8 +88,12 @@ export const AddFriendPage = () => {
           }}
         />
       </View>
-      {isLoading && <Text>로딩 중...</Text>}
-      {isError && <Text className="px-5 text-[#D96363]">에러</Text>}
+      {isLoading && <AddFriendSkeleton />}
+      {isError && (
+        <Text className="px-5 text-[#D96363]">
+          {error.response?.data.message}
+        </Text>
+      )}
       {friendData && (
         <AddFriendResult
           friendData={friendData}
