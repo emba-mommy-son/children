@@ -38,7 +38,6 @@ axiosInstance.interceptors.response.use(
   // 에러가 발생한 경우
   async error => {
     const originalRequest = error.config;
-    const errorMessage = error.response.data.message;
     // 에러가 발생하면 토큰 갱신 시도
     // TODO: accessToken 만료 시 error code 확인 -> 지금은 401로 가정
     if (error.response.status !== 401 || originalRequest._retry) {
