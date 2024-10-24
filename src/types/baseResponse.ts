@@ -12,3 +12,10 @@ export interface ErrorResponse {
   message: string;
   objectName: string;
 }
+
+export interface BaseErrorResponse {
+  success: boolean;
+  status: number;
+  message: string;
+  errors: any[];
+}
