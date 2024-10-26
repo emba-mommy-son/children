@@ -1,21 +1,21 @@
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import {useState, useRef, useEffect, useCallback} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {Client} from '@stomp/stompjs';
-import {Message} from '@/types/chat';
-import {ChattingScreenProps} from '@/types/navigation';
+import {useCreateAnalysis} from '@/api/analysis';
+import {useGetRoom} from '@/api/chat';
 import {Receive} from '@/pages/chatting/components/Receive';
 import {Send} from '@/pages/chatting/components/Send';
 import {useUserStore} from '@/store/useUserStore';
-import {useGetRoom} from '@/api/chat';
-import {useCreateAnalysis} from '@/api/analysis';
+import {Message} from '@/types/chat';
+import {ChattingScreenProps} from '@/types/navigation';
+import {useNavigation} from '@react-navigation/native';
+import {Client} from '@stomp/stompjs';
+import {useCallback, useEffect, useRef, useState} from 'react';
+import {
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
@@ -29,6 +29,7 @@ export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const stompClientRef = useRef<Client | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
+  const [first, setFirst] = useState<boolean>(false);
 
   useEffect(() => {
     if (messagesQuery.data) {
@@ -52,6 +53,12 @@ export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
 
   useEffect(() => {
     scrollToBottom();
+
+    if (first) {
+      console.log('first');
+      scrollViewRef.current?.scrollToEnd({animated: false});
+      setFirst(false);
+    }
   }, [messages]);
 
   const handleAnalysis = () => {
@@ -75,6 +82,9 @@ export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
   const connectWebSocket = () => {
     stompClientRef.current = new Client({
       brokerURL: 'wss://www.mommy-son.kro.kr/ws',
+      connectionTimeout: 5000,
+      forceBinaryWSFrames: true,
+      appendMissingNULLonIncoming: true,
       onConnect: () => {
         console.log('연결성공');
         subscribeToChat();

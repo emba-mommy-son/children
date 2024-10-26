@@ -20,6 +20,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {RealmProvider} from '@realm/react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {useEffect} from 'react';
+import PushNotification from 'react-native-push-notification';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const queryClient = new QueryClient({
@@ -33,7 +34,7 @@ const queryClient = new QueryClient({
 
 function App(): React.JSX.Element {
   const {getLoginData} = useLogin();
-  const {foregroundNotification} = useNotification();
+  const {foregroundNotification, pushconfig, createChannel} = useNotification();
   const {setAccessToken, setRefreshToken} = useAuthStore.getState();
   const fetchLoginData = async () => {
     const loginData = await getLoginData();
@@ -60,11 +61,28 @@ function App(): React.JSX.Element {
   }, []);
 
   useEffect(() => {
-    foregroundNotification();
-    // backgroundNotification();
+    // foreground
+    // foregroundNotification();
+
+    // background
     messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('Background FCM message:', remoteMessage);
+      const receivedData = remoteMessage.notification;
+      console.log('back');
+      if (receivedData && receivedData.body) {
+        console.log('receivedData', receivedData);
+        PushNotification.localNotification({
+          channelId: 'children',
+          title: receivedData.title,
+          message: receivedData.body,
+        });
+      }
     });
+
+    // push config
+    pushconfig();
+
+    // notification
+    createChannel();
   }, []);
 
   return (
