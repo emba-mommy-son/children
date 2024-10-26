@@ -34,6 +34,24 @@ export type AppNavigatorProp = NativeStackNavigationProp<AppNavigatorParamList>;
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator<AppNavigatorParamList>();
 
+// const navigation = useNavigation();
+
+// const handlePressBack = () => {
+//   if (navigation?.canGoBack()) {
+//     navigation.goBack();
+//     return true;
+//   }
+
+//   return false;
+// };
+
+// useEffect(() => {
+//   BackHandler.addEventListener('hardwareBackPress', handlePressBack);
+//   return () => {
+//     BackHandler.removeEventListener('hardwareBackPress', handlePressBack);
+//   };
+// }, [handlePressBack]);
+
 const TabNavigator = () => {
   return (
     <Tab.Navigator
