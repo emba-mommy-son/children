@@ -6,19 +6,21 @@
  */
 
 import {signIn} from '@/api/user/signIn';
-import {NavigationContainer} from '@react-navigation/native';
-import {RealmProvider} from '@realm/react';
-import {useAuthStore} from '@/store/useAuthStore';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import {useLogin} from '@/hooks/useLogin';
-import {AppNavigator} from '@/navigation/AppNavigator';
-import {useEffect} from 'react';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GenerateMessage} from '@/database/schemas/GenerateMessageSchema';
 import {Location} from '@/database/schemas/LocationSchema';
 import {Message} from '@/database/schemas/MessageSchema';
 import {RefineMessage} from '@/database/schemas/RefineMessageSchema';
 import {Sentiment} from '@/database/schemas/SentimentSchema';
+import {useLogin} from '@/hooks/useLogin';
+import {useNotification} from '@/hooks/useNotification';
+import {AppNavigator} from '@/navigation/AppNavigator';
+import {useAuthStore} from '@/store/useAuthStore';
+import messaging from '@react-native-firebase/messaging';
+import {NavigationContainer} from '@react-navigation/native';
+import {RealmProvider} from '@realm/react';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {useEffect} from 'react';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,6 +33,7 @@ const queryClient = new QueryClient({
 
 function App(): React.JSX.Element {
   const {getLoginData} = useLogin();
+  const {foregroundNotification} = useNotification();
   const {setAccessToken, setRefreshToken} = useAuthStore.getState();
   const fetchLoginData = async () => {
     const loginData = await getLoginData();
@@ -56,6 +59,14 @@ function App(): React.JSX.Element {
     });
   }, []);
 
+  useEffect(() => {
+    foregroundNotification();
+    // backgroundNotification();
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('Background FCM message:', remoteMessage);
+    });
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
@@ -75,5 +86,4 @@ function App(): React.JSX.Element {
     </QueryClientProvider>
   );
 }
-
 export default App;
