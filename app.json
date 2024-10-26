@@ -1,4 +1,8 @@
 {
   "name": "children",
-  "displayName": "마미손(자녀용)"
+  "displayName": "마미손(자녀용)",
+  "android": {
+    "googleServicesFile": "./google-services.json"
+  },
+  "plugins": ["@react-native-firebase/app"]
 }

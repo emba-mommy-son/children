@@ -29,6 +29,7 @@ export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
     getFCMToken()
       .then(token => {
         setFCMToken(token);
+        console.log(token);
       })
       .catch(err => {
         console.log(err);
