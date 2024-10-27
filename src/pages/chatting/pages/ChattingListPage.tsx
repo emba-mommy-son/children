@@ -9,7 +9,7 @@ import {useGetRooms} from '@/api/chat';
 export const ChattingListPage: React.FC = () => {
   const {data: rooms, isLoading, isError} = useGetRooms();
   const stompClientRef = useRef<Client | null>(null);
-  const userId = useUserStore(state => state.id);
+  const userId = useUserStore(state => state.userInfo?.id);
 
   // 마운트될때 소켓연결 시도, 언마운트될때 소켓 끊기
   useEffect(() => {
