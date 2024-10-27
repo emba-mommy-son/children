@@ -1,6 +1,7 @@
+import {AxiosError} from 'axios';
 import {client} from '@/api/core/client';
 import {UseSuspenseQueryResult, useSuspenseQuery} from '@tanstack/react-query';
-import {BaseResponse} from '@/types/baseResponse';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {FriendRank} from '@/types/friend';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
@@ -14,9 +15,9 @@ const getFriendRank = async (): Promise<FriendRank[]> => {
 
 export const useGetFriendRank = (): UseSuspenseQueryResult<
   FriendRank[],
-  Error
+  AxiosError<BaseErrorResponse>
 > => {
-  return useSuspenseQuery<FriendRank[], Error>({
+  return useSuspenseQuery<FriendRank[], AxiosError<BaseErrorResponse>>({
     queryKey: QUERY_KEYS.FRIEND.RANK,
     queryFn: getFriendRank,
   });
