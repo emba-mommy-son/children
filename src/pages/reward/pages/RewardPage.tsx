@@ -1,15 +1,16 @@
 // 리액트
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {Suspense} from 'react';
 
 // 라이브러리
 import {useNavigation} from '@react-navigation/native';
-
+import ErrorBoundary from 'react-native-error-boundary';
 // 컴포넌트
-import {MyReward} from '@/pages/reward/components/MyReward';
-
+import {RewardContentSkeleton} from '@/pages/reward/components/RewardContentSkeleton';
+import {ErrorComponent} from '@/components/common/ErrorComponent';
+import {RewardContent} from '@/pages/reward/components/RewardContent';
 // 아이콘
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
-import EntypoIcons from 'react-native-vector-icons/Entypo';
 
 export const RewardPage: React.FC = () => {
   const nav = useNavigation();
@@ -27,21 +28,11 @@ export const RewardPage: React.FC = () => {
           리워드
         </Text>
       </View>
-      <View className="p-4 space-y-6">
-        <MyReward />
-        <View
-          className="bg-gray-500 p-2 flex flex-row justify-center items-center"
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <EntypoIcons name="chevron-left" size={20} />
-          <Text className="text-subheading font-semibold">2024년 9월</Text>
-          <EntypoIcons name="chevron-right" size={20} />
-        </View>
-      </View>
+      <ErrorBoundary FallbackComponent={ErrorComponent}>
+        <Suspense fallback={<RewardContentSkeleton />}>
+          <RewardContent />
+        </Suspense>
+      </ErrorBoundary>
     </SafeAreaView>
   );
 };

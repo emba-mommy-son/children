@@ -14,7 +14,7 @@ export const QUERY_KEYS = {
     PHONENUMBER: (phoneNumber: string) => ['phoneNumber', phoneNumber] as const,
   },
   REWARD: {
-    ALL: ['rewards'] as const,
+    BY_MONTH: (year: number, month: number) => ['reward', year, month] as const,
   },
   NOTIFICATION: {
     ALL: ['notifications'] as const,

@@ -37,7 +37,6 @@ export const useUpdateProfileImage = (): UseMutationResult<
   return useMutation({
     mutationFn: updateProfileImage,
     onSuccess: () => {
-      console.log('업데이트 성공!, 쿼리무효화하셈');
       queryClient.invalidateQueries({queryKey: QUERY_KEYS.USER.USERINFO});
     },
     onError: error => {

@@ -1,18 +1,7 @@
 import {Text, View, Image} from 'react-native';
-import {Notification, NotificationType} from '@/types/notification';
+import {Notification} from '@/types/notification';
 import {formatDate} from '@/utils/formatDate';
-
-const notificationIcons = {
-  [NotificationType.HEALTH]: require('@/assets/icons/notification/health.png'),
-  [NotificationType.NOTICE]: require('@/assets/icons/notification/notice.png'),
-  [NotificationType.REWARD]: require('@/assets/icons/notification/reward.png'),
-  [NotificationType.FRIENDS]: require('@/assets/icons/notification/friends.png'),
-  [NotificationType.LOCATION]: require('@/assets/icons/notification/location.png'),
-};
-
-const getNotificationIcon = (type: NotificationType) => {
-  return notificationIcons[type];
-};
+import {ICONS} from '@/constants/icons';
 
 export const AlarmItem: React.FC<{notification: Notification}> = ({
   notification,
@@ -23,7 +12,7 @@ export const AlarmItem: React.FC<{notification: Notification}> = ({
     </Text>
     <View className="flex-row items-center">
       <Image
-        source={getNotificationIcon(notification.notificationType)}
+        source={ICONS.notification[notification.notificationType]}
         className="w-6 h-6 mr-2"
       />
       <Text className="text-subtitle">{notification.message}</Text>
