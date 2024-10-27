@@ -1,12 +1,14 @@
 // 리액트
 import {SafeAreaView, Text, View} from 'react-native';
+import {Suspense} from 'react';
 
 // 라이브러리
 import {useNavigation} from '@react-navigation/native';
-
+import ErrorBoundary from 'react-native-error-boundary';
 // 컴포넌트
 import {FriendRankList} from '@/pages/friend/components/FriendRankList';
-
+import {ErrorComponent} from '@/components/common/ErrorComponent';
+import {FriendRankListSkeleton} from '@/pages/friend/components/FriendRankListSkeleton';
 // 아이콘
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
@@ -37,11 +39,11 @@ export const FriendRankingPage = () => {
         </View>
         <Text className="text-subheading font-bold">우정 지수</Text>
       </View>
-      {/* <ErrorBoundary FallbackComponent={ErrorComponent}>
-        <Suspense fallback={<ActivityIndicator color="#9D4BFF" />}> */}
-      <FriendRankList />
-      {/* </Suspense>
-      </ErrorBoundary> */}
+      <ErrorBoundary FallbackComponent={ErrorComponent}>
+        <Suspense fallback={<FriendRankListSkeleton />}>
+          <FriendRankList />
+        </Suspense>
+      </ErrorBoundary>
     </SafeAreaView>
   );
 };
