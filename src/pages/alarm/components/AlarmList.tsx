@@ -7,7 +7,7 @@ import {useGetNotifications, useUpdateNotifications} from '@/api/notification';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 
 const EmptyAlarmList = () => (
-  <View className="flex-1 items-center justify-center gap-5">
+  <View className="items-center gap-5">
     <IoniconsIcon name="notifications" size={50} />
     <Text className="text-subtitle">새로운 알림이 없습니다.</Text>
   </View>
@@ -42,7 +42,11 @@ export const AlarmList: React.FC = () => {
       keyExtractor={item => item.id.toString()}
       className="flex-1 p-8"
       ListEmptyComponent={<EmptyAlarmList />}
-      contentContainerStyle={{flex: 1}}
+      contentContainerStyle={
+        unreadNotifications.length === 0
+          ? {flex: 1, justifyContent: 'center'}
+          : {paddingBottom: 32}
+      }
     />
   );
 };
