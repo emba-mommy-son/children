@@ -3,15 +3,8 @@ import {useUserStore} from '@/store/useUserStore';
 import {useGetUserInfo} from '@/api/user';
 
 export const GetUserInfo = () => {
-  const {data: userData, isLoading, isError} = useGetUserInfo();
-  const {
-    setId,
-    setUsername,
-    setName,
-    setPhoneNumber,
-    setProfileImage,
-    setReward,
-  } = useUserStore.getState();
+  const {data: userInfo, isLoading, isError} = useGetUserInfo();
+  const setUserInfo = useUserStore(state => state.setUserInfo);
 
   if (isLoading) {
     return <View></View>;
@@ -21,13 +14,8 @@ export const GetUserInfo = () => {
     return <View></View>;
   }
 
-  if (userData) {
-    setId(userData.id);
-    setUsername(userData.username);
-    setName(userData.name);
-    setPhoneNumber(userData.phoneNumber);
-    setProfileImage(userData.profileImage);
-    setReward(userData.reward);
+  if (userInfo) {
+    setUserInfo(userInfo);
   }
 
   return <View></View>;

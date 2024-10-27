@@ -21,8 +21,8 @@ import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
   const nav = useNavigation();
   const {roomId} = route.params;
-  const userId = useUserStore(state => state.id);
-  const userName = useUserStore(state => state.name);
+  const userId = useUserStore(state => state.userInfo?.id);
+  const userName = useUserStore(state => state.userInfo?.name);
   const {mutate: createAnalysis} = useCreateAnalysis();
 
   const [roomQuery, messagesQuery] = useGetRoom(roomId);

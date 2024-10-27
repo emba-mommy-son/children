@@ -85,10 +85,12 @@ export const FriendDetailModal: React.FC<FriendDetailModalProps> = ({
                   borderBottomWidth: 0,
                 },
               ]}>
-              <Image
-                source={{uri: friendDetail?.profileImage}}
-                className="w-24 h-24 rounded-full self-center mb-4"
-              />
+              {friendDetail?.profileImage && (
+                <Image
+                  source={{uri: friendDetail?.profileImage}}
+                  className="w-24 h-24 rounded-full self-center mb-4"
+                />
+              )}
               <Text className="text-xl font-bold text-center mb-6">
                 {friendDetail?.name}
               </Text>
