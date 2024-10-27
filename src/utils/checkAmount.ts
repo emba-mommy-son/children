@@ -5,5 +5,5 @@ export const getAmountWithSign = (amount: number) => {
 
 export const getAmountColor = (amount: number) => {
   if (amount >= 0) return 'text-primary';
-  if (amount < 0) return 'text-red-500';
+  if (amount < 0) return 'text-red';
 };

@@ -3,23 +3,22 @@ import {
   UseMutationResult,
   useQueryClient,
 } from '@tanstack/react-query';
-import {BaseResponse} from '@/types/baseResponse';
+import {AxiosError} from 'axios';
+import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
 const createFriend = async (friendId: number): Promise<void> => {
-  const response = await client.post<BaseResponse<null>>({
+  await client.post<BaseResponse<null>>({
     url: `/friends/${friendId}`,
   });
-  if (!response.success) {
-    if (response.status === 400) {
-      throw new Error(response.message);
-    }
-    throw new Error('친구 추가 실패');
-  }
 };
 
-export const useCreateFriend = (): UseMutationResult<void, Error, number> => {
+export const useCreateFriend = (): UseMutationResult<
+  void,
+  AxiosError<ErrorResponse>,
+  number
+> => {
   const queryClient = useQueryClient();
   return useMutation({
     // !FIXME : 성공시 처리(토스트 or 노티)
@@ -30,7 +29,13 @@ export const useCreateFriend = (): UseMutationResult<void, Error, number> => {
     },
     // !FIXME : 에러시 처리(토스트 or 노티)
     onError: error => {
-      console.error('친구 추가 실패', error.message);
+      switch (error.response?.status) {
+        case 400:
+          console.error('이미 친구로 등록된 사용자입니다.');
+          break;
+        default:
+          console.error('친구 추가 실패', error.message);
+      }
     },
   });
 };

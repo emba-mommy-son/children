@@ -16,3 +16,12 @@ export interface UserInfo {
   profileImage: string;
   reward: number;
 }
+
+export interface FriendInfo {
+  id: number;
+  username: string;
+  name: string;
+  phoneNumber: string;
+  profileImage: string;
+  friend: boolean;
+}
