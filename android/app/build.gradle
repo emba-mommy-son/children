@@ -115,6 +115,10 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation platform('com.google.firebase:firebase-bom:32.2.2')
 
+    // Google Fit
+    implementation "com.google.android.gms:play-services-fitness:21.1.0"
+    implementation "com.google.android.gms:play-services-auth:20.7.0"
+
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {

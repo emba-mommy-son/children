@@ -1,6 +1,12 @@
-import {SafeAreaView, Text, View, ScrollView} from 'react-native';
+import {
+  SafeAreaView,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import {useSleepData} from '@/hooks/useSleepData';
 interface SleepData {
   date: string;
   weeklyHours: number[];
@@ -75,6 +81,16 @@ const SleepInfoItem: React.FC<{icon: string; value: string; label: string}> = ({
 );
 
 export const SleepPage: React.FC = () => {
+  const {getWeekSleepData} = useSleepData();
+
+  const handleButtonPress = async () => {
+    try {
+      const sleepData = await getWeekSleepData();
+      console.log('수집된 수면 데이터:', sleepData);
+    } catch (error) {
+      console.error('수면 데이터를 가져오는 중 오류 발생:', error);
+    }
+  };
   return (
     <SafeAreaView className="flex-1 bg-secondary">
       <View className="bg-secondary p-4 flex-row justify-between items-center">
@@ -131,6 +147,12 @@ export const SleepPage: React.FC = () => {
           <Text className="text-lg font-bold mb-4">이번주 수면 그래프</Text>
           <Text>그래프 그려 도영</Text>
         </View>
+
+        <TouchableOpacity
+          onPress={handleButtonPress}
+          className="bg-blue-500 p-4 rounded-lg items-center">
+          <Text className="text-white">수면 데이터 가져오기</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
