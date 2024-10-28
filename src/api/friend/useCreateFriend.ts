@@ -1,16 +1,13 @@
-import {client} from '@/api/core/client';
-import {QUERY_KEYS} from '@/constants/queryKeys';
-import {BaseResponse} from '@/types/baseResponse';
 import {
   useMutation,
   UseMutationResult,
   useQueryClient,
 } from '@tanstack/react-query';
 
-import {AxiosError} from 'axios';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
+import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
+import {AxiosError} from 'axios';
 
 const createFriend = async (friendId: number): Promise<void> => {
   await client.post<BaseResponse<null>>({
