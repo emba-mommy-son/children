@@ -5,23 +5,33 @@
  * @format
  */
 
-import {signIn} from '@/api/user/signIn';
+// 리액트
+import {useEffect} from 'react';
+
+// 라이브러리
+import messaging from '@react-native-firebase/messaging';
+import {NavigationContainer} from '@react-navigation/native';
+import {RealmProvider} from '@realm/react';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import PushNotification from 'react-native-push-notification';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+
+// 전역상태
 import {GenerateMessage} from '@/database/schemas/GenerateMessageSchema';
 import {Location} from '@/database/schemas/LocationSchema';
 import {Message} from '@/database/schemas/MessageSchema';
 import {RefineMessage} from '@/database/schemas/RefineMessageSchema';
 import {Sentiment} from '@/database/schemas/SentimentSchema';
+import {useAuthStore} from '@/store/useAuthStore';
+
+// 컴포넌트
+import {AppNavigator} from '@/navigation/AppNavigator';
+
+// 커스텀 훅
+import {signIn} from '@/api/user/signIn';
+import {useLocation} from '@/hooks/useLocation';
 import {useLogin} from '@/hooks/useLogin';
 import {useNotification} from '@/hooks/useNotification';
-import {AppNavigator} from '@/navigation/AppNavigator';
-import {useAuthStore} from '@/store/useAuthStore';
-import messaging from '@react-native-firebase/messaging';
-import {NavigationContainer} from '@react-navigation/native';
-import {RealmProvider} from '@realm/react';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import {useEffect} from 'react';
-import PushNotification from 'react-native-push-notification';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,6 +45,7 @@ const queryClient = new QueryClient({
 function App(): React.JSX.Element {
   const {getLoginData} = useLogin();
   const {foregroundNotification, pushconfig, createChannel} = useNotification();
+  const {getLocation} = useLocation();
   const {setAccessToken, setRefreshToken} = useAuthStore.getState();
   const fetchLoginData = async () => {
     const loginData = await getLoginData();
@@ -47,6 +58,7 @@ function App(): React.JSX.Element {
     return {username: 'rlaehdud1002', password: 'password123!'};
   };
 
+  // 로그인
   useEffect(() => {
     fetchLoginData().then(data => {
       signIn({username: data.username, password: data.password}).then(
@@ -60,7 +72,14 @@ function App(): React.JSX.Element {
     });
   }, []);
 
+  // 푸시 알림
   useEffect(() => {
+    // push config
+    pushconfig();
+
+    // notification
+    createChannel();
+
     // foreground
     // foregroundNotification();
 
@@ -77,12 +96,13 @@ function App(): React.JSX.Element {
         });
       }
     });
+  }, []);
 
-    // push config
-    pushconfig();
-
-    // notification
-    createChannel();
+  // 위치 정보
+  useEffect(() => {
+    setInterval(() => {
+      // getLocation();
+    }, 1000);
   }, []);
 
   return (

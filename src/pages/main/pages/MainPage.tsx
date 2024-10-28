@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {SafeAreaView, View} from 'react-native';
 
 // 컴포넌트
+import {Attendance} from '@/pages/main/components/Attendance';
 import {BestFriend} from '@/pages/main/components/BestFriend';
 import {Emotion} from '@/pages/main/components/Emotion';
 import {GetUserInfo} from '@/pages/main/components/GetUserInfo';
@@ -23,7 +24,10 @@ export const MainPage = () => {
         <MainHeader open={open} setOpen={setOpen} />
         <GetUserInfo />
         {open && <MainProfile setQrOpen={setQrOpen} setOpen={setOpen} />}
-        <View className="flex flex-col items-center space-y-3 z-0">
+        <View className="flex flex-col items-center space-y-3 z-0 w-full">
+          <View className='w-full'>
+            <Attendance />
+          </View>
           <View className="flex flex-row space-x-3">
             <BestFriend />
             <Sleep />
