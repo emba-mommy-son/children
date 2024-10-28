@@ -15,7 +15,7 @@ export const QUERY_KEYS = {
     ATTENDANCE: ['attendance'] as const,
   },
   REWARD: {
-    ALL: ['rewards'] as const,
+    BY_MONTH: (year: number, month: number) => ['reward', year, month] as const,
   },
   NOTIFICATION: {
     ALL: ['notifications'] as const,

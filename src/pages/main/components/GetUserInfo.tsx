@@ -1,17 +1,18 @@
 import {View} from 'react-native';
+import {useEffect} from 'react';
 import {useUserStore} from '@/store/useUserStore';
 import {useGetUserInfo} from '@/api/user';
 
 export const GetUserInfo = () => {
-  const {data: userData, isLoading, isError} = useGetUserInfo();
-  const {
-    setId,
-    setUsername,
-    setName,
-    setPhoneNumber,
-    setProfileImage,
-    setReward,
-  } = useUserStore.getState();
+  const {data: userInfo, isLoading, isError} = useGetUserInfo();
+  const setUserInfo = useUserStore(state => state.setUserInfo);
+
+  // 시간없어서 못바꿈 진짜 무조건 바꿔야되는데 여기
+  useEffect(() => {
+    if (userInfo) {
+      setUserInfo(userInfo);
+    }
+  }, [userInfo, setUserInfo]);
 
   if (isLoading) {
     return <View></View>;
@@ -19,15 +20,6 @@ export const GetUserInfo = () => {
 
   if (isError) {
     return <View></View>;
-  }
-
-  if (userData) {
-    setId(userData.id);
-    setUsername(userData.username);
-    setName(userData.name);
-    setPhoneNumber(userData.phoneNumber);
-    setProfileImage(userData.profileImage);
-    setReward(userData.reward);
   }
 
   return <View></View>;

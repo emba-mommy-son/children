@@ -1,5 +1,6 @@
+import {AxiosError} from 'axios';
 import {UseSuspenseQueryResult, useSuspenseQuery} from '@tanstack/react-query';
-import {BaseResponse} from '@/types/baseResponse';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {Friend} from '@/types/friend';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
@@ -12,8 +13,11 @@ const getFriends = async (): Promise<Friend[]> => {
   return response.data;
 };
 
-export const useGetFriends = (): UseSuspenseQueryResult<Friend[], Error> => {
-  return useSuspenseQuery<Friend[], Error>({
+export const useGetFriends = (): UseSuspenseQueryResult<
+  Friend[],
+  AxiosError<BaseErrorResponse>
+> => {
+  return useSuspenseQuery<Friend[], AxiosError<BaseErrorResponse>>({
     queryKey: QUERY_KEYS.FRIEND.ALL,
     queryFn: getFriends,
   });

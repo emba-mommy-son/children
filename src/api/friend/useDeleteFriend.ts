@@ -3,22 +3,22 @@ import {
   UseMutationResult,
   useQueryClient,
 } from '@tanstack/react-query';
-import {BaseResponse} from '@/types/baseResponse';
+import {AxiosError} from 'axios';
+import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
 const deleteFriend = async (friendId: number): Promise<void> => {
-  const response = await client.delete<BaseResponse<null>>({
+  await client.delete<BaseResponse<null>>({
     url: `/friends/${friendId}`,
   });
-  if (!response.success) {
-    if (response.status === 400) {
-      throw new Error(response.message);
-    }
-  }
 };
 
-export const useDeleteFriend = (): UseMutationResult<void, Error, number> => {
+export const useDeleteFriend = (): UseMutationResult<
+  void,
+  AxiosError<ErrorResponse>,
+  number
+> => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteFriend,
@@ -29,7 +29,13 @@ export const useDeleteFriend = (): UseMutationResult<void, Error, number> => {
     },
     // !FIXME : 에러시 처리(토스트 or 노티)
     onError: error => {
-      console.error(error.message);
+      switch (error.response?.status) {
+        case 400:
+          console.error('친구가 아닌 유저입니다.');
+          break;
+        default:
+          console.error('친구 삭제 실패', error.message);
+      }
     },
   });
 };

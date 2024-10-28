@@ -1,11 +1,11 @@
-import {Image, Text, View} from 'react-native';
+import {Image, Text, View, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {UserInfo} from '@/types/user';
-import {useCreateFriend} from '@/api/friend';
+import {FriendInfo} from '@/types/user';
+import {useCreateFriend, useDeleteFriend} from '@/api/friend';
 
 interface AddFriendResultProps {
-  friendData: UserInfo;
-  setFriendData: (friendData: UserInfo | null) => void;
+  friendData: FriendInfo;
+  setFriendData: (friendData: FriendInfo | null) => void;
   reset: () => void;
 }
 
@@ -16,17 +16,44 @@ export const AddFriendResult = ({
 }: AddFriendResultProps) => {
   const nav = useNavigation();
   const {mutate: createFriend} = useCreateFriend();
+  const {mutate: deleteFriend} = useDeleteFriend();
 
   const handleClear = () => {
     reset();
     setFriendData(null);
   };
-  const handleAddFriend = () => {
-    createFriend(friendData.id, {
-      onSuccess: () => {
-        nav.goBack();
-      },
-    });
+  const handleFriendAction = () => {
+    if (friendData.friend) {
+      // 삭제 전 확인 Alert
+      Alert.alert(
+        '친구 삭제',
+        `${friendData.name}님을 친구 목록에서 삭제하시겠습니까?`,
+        [
+          {
+            text: '취소',
+            style: 'cancel',
+          },
+          {
+            text: '삭제',
+            style: 'destructive',
+            onPress: () => {
+              deleteFriend(friendData.id, {
+                onSuccess: () => {
+                  nav.goBack();
+                },
+              });
+            },
+          },
+        ],
+      );
+    }
+    if (!friendData.friend) {
+      createFriend(friendData.id, {
+        onSuccess: () => {
+          nav.goBack();
+        },
+      });
+    }
   };
 
   return (
@@ -45,9 +72,11 @@ export const AddFriendResult = ({
           취소
         </Text>
         <Text
-          onPress={handleAddFriend}
-          className="bg-primary text-body-text text-white font-bold rounded-xl px-10 py-2">
-          추가
+          onPress={handleFriendAction}
+          className={`text-body-text text-white font-bold rounded-xl px-10 py-2 ${
+            friendData.friend ? 'bg-red' : 'bg-primary'
+          }`}>
+          {friendData.friend ? '삭제' : '추가'}
         </Text>
       </View>
     </View>

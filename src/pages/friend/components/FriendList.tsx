@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useMemo} from 'react';
 import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 
@@ -10,10 +10,22 @@ import {FriendItem} from '@/pages/friend/components/FriendItem';
 import {FriendDetailModal} from '@/pages/friend/components/FriendDetailModal';
 import {useGetFriends, useDeleteFriend} from '@/api/friend';
 
-export const FriendList = () => {
+interface FriendListProps {
+  searchQuery: string;
+}
+
+export const FriendList: React.FC<FriendListProps> = ({searchQuery}) => {
   const {data: friendList} = useGetFriends();
   const {mutate: deleteFriend} = useDeleteFriend();
   const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
+
+  const filteredFriends = useMemo(() => {
+    if (!searchQuery.trim()) return friendList;
+    const query = searchQuery.toLowerCase().trim();
+    return friendList?.filter(friend =>
+      friend.name.toLowerCase().includes(query),
+    );
+  }, [friendList, searchQuery]);
 
   const handleDeleteFriend = useCallback(
     (userId: number, name: string) => {
@@ -53,12 +65,24 @@ export const FriendList = () => {
     [handleDeleteFriend],
   );
 
+  const renderEmptyComponent = useCallback(
+    () => (
+      <View className="flex-1 justify-center items-center py-8">
+        <Text>
+          {searchQuery ? '검색 결과가 없습니다.' : '친구 목록이 비어있습니다.'}
+        </Text>
+      </View>
+    ),
+    [searchQuery],
+  );
+
   return (
     <>
       <SwipeListView
-        data={friendList}
+        data={filteredFriends}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
+        ListEmptyComponent={renderEmptyComponent}
         rightOpenValue={-75}
         disableRightSwipe
         closeOnRowPress={true}

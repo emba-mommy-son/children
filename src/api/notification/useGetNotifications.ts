@@ -1,5 +1,6 @@
-import {useQuery, UseQueryResult} from '@tanstack/react-query';
-import {BaseResponse} from '@/types/baseResponse';
+import {useSuspenseQuery, UseSuspenseQueryResult} from '@tanstack/react-query';
+import {AxiosError} from 'axios';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {Notification} from '@/types/notification';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
@@ -11,11 +12,11 @@ const getNotifications = async (): Promise<Notification[]> => {
   return response.data;
 };
 
-export const useGetNotifications = (): UseQueryResult<
+export const useGetNotifications = (): UseSuspenseQueryResult<
   Notification[],
-  Error
+  AxiosError<BaseErrorResponse>
 > => {
-  return useQuery<Notification[], Error>({
+  return useSuspenseQuery<Notification[], AxiosError<BaseErrorResponse>>({
     queryKey: QUERY_KEYS.NOTIFICATION.ALL,
     queryFn: getNotifications,
   });
