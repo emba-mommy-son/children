@@ -13,9 +13,9 @@ import messaging from '@react-native-firebase/messaging';
 import {NavigationContainer} from '@react-navigation/native';
 import {RealmProvider} from '@realm/react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import * as KeyChain from 'react-native-keychain';
 import PushNotification from 'react-native-push-notification';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import * as KeyChain from 'react-native-keychain';
 
 // 전역상태
 import {GenerateMessage} from '@/database/schemas/GenerateMessageSchema';
@@ -34,7 +34,6 @@ import {useLocation} from '@/hooks/useLocation';
 import {useLogin} from '@/hooks/useLogin';
 import {useNotification} from '@/hooks/useNotification';
 
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -52,12 +51,12 @@ messaging().setBackgroundMessageHandler(async message => {
 
   if (notification && notification.body) {
     // 만약, 자녀 로그인 알림이라면 노티피케이션을 띄우지 않는다.
-    if (notification.title === "CHILD_SIGN_IN") {
+    if (notification.title === 'CHILD_SIGN_IN') {
       const {username, password} = JSON.parse(notification.body);
       await KeyChain.setGenericPassword(username, password);
       return;
     }
-    
+
     PushNotification.localNotification({
       channelId: CHANNEL_ID,
       title: notification.title,

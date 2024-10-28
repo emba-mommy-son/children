@@ -19,21 +19,21 @@ export const ChattingItem: React.FC<{item: Room}> = ({item}) => {
 
   return (
     <TouchableOpacity onPress={handleGoChatting}>
-      <View className="flex flex-row items-center py-5 border-b-2 border-gray-700 space-x-6">
+      <View className="flex flex-row items-center py-4 border-b-[1px] border-gray-700 space-x-4">
         <Image
           source={{uri: item.profileImage}}
-          className="w-16 h-16 rounded-full"
+          className="w-12 h-12 rounded-full"
         />
         <View className="space-y-2 flex-1">
           <View className="flex flex-row justify-between items-center">
-            <Text className="text-body-text text-black font-bold">
+            <Text className="text-[14px] text-black font-bold">
               {item.name}
             </Text>
             {!item.read && <FontAwesomeIcons name="circle" color="#9D4BFF" />}
           </View>
           <View className="flex flex-row justify-between items-center">
             <Text>{item.message}</Text>
-            <Text>{formatDate(item.createdAt)}</Text>
+            <Text className='text-[10px]'>{formatDate(item.createdAt)}</Text>
           </View>
         </View>
       </View>

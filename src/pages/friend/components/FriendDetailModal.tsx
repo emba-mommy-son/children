@@ -1,19 +1,19 @@
+import {useCreateRoom} from '@/api/chat';
+import {useGetFriend} from '@/api/friend';
+import {ROUTES} from '@/constants/routeURL';
+import {AppNavigatorProp} from '@/navigation/AppNavigator';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useRef} from 'react';
 import {
-  View,
-  Text,
-  Modal,
-  Image,
-  TouchableOpacity,
   Animated,
-  TouchableWithoutFeedback,
   Dimensions,
+  Image,
+  Modal,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {AppNavigatorProp} from '@/navigation/AppNavigator';
-import {useGetFriend} from '@/api/friend';
-import {useCreateRoom} from '@/api/chat';
-import {ROUTES} from '@/constants/routeURL';
 
 interface FriendDetailModalProps {
   visible: boolean;
@@ -88,10 +88,10 @@ export const FriendDetailModal: React.FC<FriendDetailModalProps> = ({
               {friendDetail?.profileImage && (
                 <Image
                   source={{uri: friendDetail?.profileImage}}
-                  className="w-24 h-24 rounded-full self-center mb-4"
+                  className="w-16 h-16 rounded-full self-center mb-4"
                 />
               )}
-              <Text className="text-xl font-bold text-center mb-6">
+              <Text className="text-xl text-black font-bold text-center mb-6">
                 {friendDetail?.name}
               </Text>
               <TouchableOpacity
@@ -102,7 +102,7 @@ export const FriendDetailModal: React.FC<FriendDetailModalProps> = ({
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={onClose}>
-                <Text className="text-center bg-gray-100">닫기</Text>
+                <Text className="text-center">닫기</Text>
               </TouchableOpacity>
             </Animated.View>
           </TouchableWithoutFeedback>

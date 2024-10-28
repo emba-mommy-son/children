@@ -1,14 +1,17 @@
-import React, {useState, useCallback, useMemo} from 'react';
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import React, {useCallback, useMemo, useState} from 'react';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 
 // 타입
 import {Friend} from '@/types/friend';
 
 // 컴포넌트
-import {FriendItem} from '@/pages/friend/components/FriendItem';
+import {useDeleteFriend, useGetFriends} from '@/api/friend';
 import {FriendDetailModal} from '@/pages/friend/components/FriendDetailModal';
-import {useGetFriends, useDeleteFriend} from '@/api/friend';
+import {FriendItem} from '@/pages/friend/components/FriendItem';
+
+// 아이콘
+import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 
 interface FriendListProps {
   searchQuery: string;
@@ -54,11 +57,11 @@ export const FriendList: React.FC<FriendListProps> = ({searchQuery}) => {
 
   const renderHiddenItem = useCallback(
     (data: {item: Friend}) => (
-      <View className="flex-1 flex-row justify-end">
+      <View className="flex-1 flex-row justify-end h-full">
         <TouchableOpacity
           className="bg-primary justify-center items-center w-20 h-full"
           onPress={() => handleDeleteFriend(data.item.userId, data.item.name)}>
-          <Text className="text-white">삭제</Text>
+          <FontAwesomeIcons name="trash" size={18} color="white" />
         </TouchableOpacity>
       </View>
     ),
