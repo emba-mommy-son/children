@@ -8,14 +8,14 @@ import Good from '@/assets/icons/emotion/good.png';
 
 export const Question = () => {
   return (
-    <View className="bg-navy w-[311px] h-[149px] rounded-2xl p-5 flex flex-col justify-center space-y-3 mt-8">
-      <Text className="text-white text-subheading font-semibold mb-2 text-center">
+    <View className="bg-navy w-[280px] h-[125px] rounded-2xl p-5 flex flex-col justify-center space-y-3 mt-6">
+      <Text className="text-white text-[16px] font-semibold mb-2 text-center">
         어제 하루는 어땠나요?
       </Text>
       <View className="flex flex-row justify-evenly">
-        <Image source={Bad} className="w-[50px] h-[50px]" />
-        <Image source={Good} className="w-[50px] h-[50px]" />
-        <Image source={Angry} className="w-[50px] h-[50px]" />
+        <Image source={Bad} className="w-[40px] h-[40px]" />
+        <Image source={Good} className="w-[40px] h-[40px]" />
+        <Image source={Angry} className="w-[40px] h-[40px]" />
       </View>
     </View>
   );

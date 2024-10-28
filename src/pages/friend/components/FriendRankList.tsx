@@ -14,7 +14,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const EmptyListCompnent = () => (
   <View className="flex-1 items-center justify-center gap-5">
-    <FontAwesome5Icon name="user-friends" size={50} />
+    <FontAwesome5Icon name="user-friends" size={40} />
     <Text className="text-body-text">등록된 친구가 없습니다.</Text>
   </View>
 );

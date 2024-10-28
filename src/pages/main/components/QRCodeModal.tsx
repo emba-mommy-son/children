@@ -7,6 +7,7 @@ import messaging from '@react-native-firebase/messaging';
 import QRCode from 'react-native-qrcode-svg';
 
 // 아이콘
+import {useAuthStore} from '@/store/useAuthStore';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 
 interface QRCodeModalProps {
@@ -15,7 +16,8 @@ interface QRCodeModalProps {
 }
 
 export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
-  const [FCMToken, setFCMToken] = useState<string>('');
+  const [newFCMToken, setNewFCMToken] = useState<string>('');
+  const setFCMToken = useAuthStore(state => state.setFCMToken);
 
   const getFCMToken = async () => {
     return await messaging().getToken();
@@ -28,6 +30,7 @@ export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
   useEffect(() => {
     getFCMToken()
       .then(token => {
+        setNewFCMToken(token);
         setFCMToken(token);
         console.log(token);
       })
@@ -52,7 +55,7 @@ export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
               onPress={handleModalClose}
               style={{position: 'absolute', top: 10, right: 10}}
             />
-            {FCMToken && <QRCode value={FCMToken} size={200} />}
+            {newFCMToken && <QRCode value={newFCMToken} size={200} />}
           </View>
         </View>
       </View>

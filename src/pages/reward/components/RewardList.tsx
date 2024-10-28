@@ -1,7 +1,7 @@
-import {View, SectionList, Text} from 'react-native';
-import {Reward} from '@/types/reward';
 import {useGetRewards} from '@/api/reward';
 import {RewardItem} from '@/pages/reward/components/RewardItem';
+import {Reward} from '@/types/reward';
+import {SectionList, Text, View} from 'react-native';
 
 interface RewardListProps {
   year: number;
@@ -48,14 +48,17 @@ export const RewardList = ({year, month}: RewardListProps) => {
 
   return (
     <SectionList
+    className='mb-8'
       sections={groupedData || []}
       keyExtractor={item => item.id.toString()}
       renderItem={({item}) => <RewardItem item={item} />}
       renderSectionHeader={({section: {date}}) => (
-        <Text className="pt-4 pb-2 border-b border-gray-700">{date}</Text>
+        <Text className="pt-4 pb-2 border-b border-gray-700 bg-white text-black">
+          {date}
+        </Text>
       )}
       ListEmptyComponent={EmptyReward}
-      stickySectionHeadersEnabled={false}
+      stickySectionHeadersEnabled={true}
     />
   );
 };

@@ -11,11 +11,11 @@ export const Receive: React.FC<ReceiveProps> = ({content, createdAt}) => {
   };
 
   return (
-    <View className="flex flex-col rounded-xl justify-end w-full mb-3">
-      <Text className="bg-gray-700 p-3 rounded-xl text-center mr-auto">
+    <View className="flex flex-row rounded-xl justify-start items-end space-x-2 w-full mb-3 mr-auto">
+      <Text className="bg-gray-700 p-3 rounded-xl rounded-tr-none text-center text-black">
         {content}
       </Text>
-      <Text className="text-xs">{formatTime(createdAt)}</Text>
+      <Text className="text-[10px] mb-1">{formatTime(createdAt)}</Text>
     </View>
   );
 };

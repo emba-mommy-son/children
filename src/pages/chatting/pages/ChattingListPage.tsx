@@ -83,7 +83,7 @@ export const ChattingListPage: React.FC = () => {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="bg-secondary p-4">
-        <Text className="text-white text-subheading font-semibold">채팅</Text>
+        <Text className="text-white text-[16px] font-semibold">채팅</Text>
       </View>
       <FlatList
         data={rooms}

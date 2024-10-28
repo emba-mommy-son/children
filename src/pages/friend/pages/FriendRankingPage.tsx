@@ -25,19 +25,19 @@ export const FriendRankingPage = () => {
         <AntDesignIcons
           name="arrowleft"
           color="white"
-          size={25}
+          size={20}
           onPress={handleBackPress}
         />
-        <Text className="text-white text-subheading font-semibold">
+        <Text className="text-white text-[16px] font-semibold">
           단짝 친구
         </Text>
       </View>
-      <View className="flex flex-row items-center justify-between px-4 py-3">
-        <View className="flex flex-row items-center justify-between space-x-40 pl-5">
-          <Text className="text-subheading font-bold">순위</Text>
-          <Text className="text-subheading font-bold">친구</Text>
+      <View className="flex flex-row items-center justify-between px-6 py-3">
+        <View className="flex flex-row items-center justify-between space-x-32 pl-4">
+          <Text className="text-[14px] font-bold">순위</Text>
+          <Text className="text-[14px] font-bold">친구</Text>
         </View>
-        <Text className="text-subheading font-bold">우정 지수</Text>
+        <Text className="text-[14px] font-bold">우정 지수</Text>
       </View>
       <ErrorBoundary FallbackComponent={ErrorComponent}>
         <Suspense fallback={<FriendRankListSkeleton />}>

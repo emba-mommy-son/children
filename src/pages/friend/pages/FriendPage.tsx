@@ -43,17 +43,17 @@ export const FriendPage = () => {
     <SafeAreaView className="flex-1 bg-white">
       <View className="bg-secondary p-4 space-y-2">
         <View className="flex-row items-center justify-between">
-          <Text className="text-white text-subheading font-semibold">친구</Text>
+          <Text className="text-white text-[16px] font-semibold">친구</Text>
           <View className="flex flex-row space-x-3">
             <TouchableOpacity onPress={toggleSearch}>
               <AntDesignIcons
                 name={isSearchVisible ? 'close' : 'search1'}
                 color="white"
-                size={25}
+                size={20}
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleGoToAddFriend}>
-              <AntDesignIcons name="adduser" color="white" size={25} />
+              <AntDesignIcons name="adduser" color="white" size={20} />
             </TouchableOpacity>
           </View>
         </View>

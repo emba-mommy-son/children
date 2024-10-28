@@ -50,16 +50,16 @@ export const MainProfile = ({setQrOpen, setOpen}: MainProfileProps) => {
   };
 
   return (
-    <View className="bg-black/50 space-y-3 p-6 mx-3 rounded-2xl z-10 absolute top-16 left-0 right-0">
+    <View className="bg-black/50 space-y-3 p-4 mx-3 rounded-2xl z-10 absolute top-16 left-0 right-0">
       <TouchableOpacity
         className="bg-white/90 rounded-lg"
         onPress={handleImageSelect}>
-        <Text className="text-center text-subheading text-black py-3">
+        <Text className="text-center text-[14px] text-black py-[10px]">
           프로필 이미지 변경
         </Text>
       </TouchableOpacity>
       <TouchableOpacity className="bg-white/90 rounded-lg" onPress={onQrOpen}>
-        <Text className="text-center text-subheading text-black py-3">
+        <Text className="text-center text-[14px] text-black py-[10px]">
           QR 코드
         </Text>
       </TouchableOpacity>

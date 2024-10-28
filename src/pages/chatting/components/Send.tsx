@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import FeatherIcons from 'react-native-vector-icons/Feather';
 
 interface SendProps {
@@ -25,11 +25,11 @@ export const Send: React.FC<SendProps> = ({content, createdAt, onSend}) => {
 
   if (content && createdAt) {
     return (
-      <View className="flex flex-col justify-end w-full mb-3">
-        <Text className="bg-primary p-3 rounded-xl text-center ml-auto">
+      <View className="flex flex-row justify-end items-end w-full mb-3 ml-auto space-x-2">
+        <Text className="text-[10px] mb-1">{formatTime(createdAt)}</Text>
+        <Text className="bg-primary p-3 rounded-xl rounded-br-none text-center text-white">
           {content}
         </Text>
-        <Text className="text-right">{formatTime(createdAt)}</Text>
       </View>
     );
   }
@@ -37,7 +37,7 @@ export const Send: React.FC<SendProps> = ({content, createdAt, onSend}) => {
   return (
     <View className="flex flex-row items-center p-4 pt-2 space-x-3">
       <TextInput
-        className="bg-gray-700 flex-1 rounded-3xl text-body-text pl-5"
+        className="bg-gray-700 flex-1 rounded-3xl text-[14px] pl-5 placeholder:text-[14px]"
         placeholder="메시지를 입력하세요."
         placeholderTextColor="#B7B7B7"
         value={inputMessage}
@@ -53,7 +53,7 @@ export const Send: React.FC<SendProps> = ({content, createdAt, onSend}) => {
         }}
       />
       <TouchableOpacity onPress={handleSend}>
-        <FeatherIcons name="send" size={30} />
+        <FeatherIcons name="send" size={25} />
       </TouchableOpacity>
     </View>
   );

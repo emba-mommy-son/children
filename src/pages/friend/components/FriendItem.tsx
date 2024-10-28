@@ -1,12 +1,12 @@
+import {Friend} from '@/types/friend';
 import React from 'react';
 import {
+  GestureResponderEvent,
   Image,
   Text,
-  View,
   TouchableOpacity,
-  GestureResponderEvent,
+  View,
 } from 'react-native';
-import {Friend} from '@/types/friend';
 
 interface FriendItemProps {
   item: Friend;
@@ -21,12 +21,12 @@ export const FriendItem: React.FC<FriendItemProps> = ({item, onPress}) => {
 
   return (
     <TouchableOpacity onPress={handlePress} activeOpacity={1}>
-      <View className="bg-white flex flex-row items-center py-5 border-b-[1px] border-gray-200 space-x-6">
+      <View className="bg-white flex flex-row items-center py-4 border-b-[1px] border-gray-700 space-x-6">
         <Image
           source={{uri: item.profileImage}}
-          className="w-16 h-16 rounded-full"
+          className="w-12 h-12 rounded-full"
         />
-        <Text className="text-body-text text-black font-bold flex-1">
+        <Text className="text-[14px] text-black font-bold flex-1">
           {item.name}
         </Text>
       </View>

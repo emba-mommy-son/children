@@ -20,14 +20,6 @@ module.exports = {
       'gray-500': '#EAEAEA',
       'gray-700': '#DEDEDE',
     },
-    fontSize: {
-      'h1-headline': '28px',
-      'h2-headline': '24px',
-      subheading: '20px',
-      'body-text': '16px',
-      subtitle: '14px',
-      caption: '12px',
-    },
   },
   plugins: [],
 };
