@@ -1,57 +1,86 @@
+import {NotificationType} from '@/types/notification';
 import messaging from '@react-native-firebase/messaging';
+import {useEffect, useState} from 'react';
 import PushNotification from 'react-native-push-notification';
+import {useLogin} from './useLogin';
+
+const CHANNEL_ID = 'children';
 
 export const useNotification = () => {
-  const foregroundNotification = () => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('FCM message:', remoteMessage.notification);
+  const [init, setInit] = useState(false);
+  const {setLoginData} = useLogin();
 
-      const receivedData = remoteMessage.notification;
-      if (receivedData && receivedData.body) {
-        console.log('receivedData', receivedData);
-        PushNotification.localNotification({
-          channelId: 'children',
-          title: receivedData.title,
-          message: receivedData.body,
-        });
-      }
-    });
+  const initialize = async () => {
+    if (!init) {
+      PushNotification.configure({
+        onRegister: function (token) {
+          console.log('TOKEN:', token);
+        },
+        onNotification: function (notification) {
+          console.log('NOTIFICATION:', notification);
+        },
+        popInitialNotification: true,
+        requestPermissions: true,
+      });
 
-    return unsubscribe;
+      PushNotification.createChannel(
+        {
+          channelId: CHANNEL_ID,
+          channelName: '마미손 알림',
+          channelDescription: '마미손에서 발송하는 알림',
+        },
+        created => console.log(`createChannel returned '${created}'`),
+      );
+
+      const unsubscribe = messaging().onMessage(async message => {
+        const {notification} = message;
+
+        if (notification && notification.body) {
+          const notificationType = parseNotification(notification.title || '');
+
+          if (notificationType === NotificationType.UNKNOWN) {
+            return;
+          }
+
+          // * 자녀 어플리케이션 로그인 연결 알림 처리
+          if (notificationType === NotificationType.CHILD_SIGN_IN) {
+            const {userId, username, password} = JSON.parse(
+              notification.body,
+            ) as {
+              userId: number;
+              username: string;
+              password: string;
+            };
+
+            setLoginData({username, password});
+          }
+        }
+      });
+
+      setInit(true);
+
+      return unsubscribe;
+    }
   };
 
-  const pushconfig = () => {
-    PushNotification.configure({
-      // FCM 등록이 완료되었을 때 호출
-      onRegister: function (token) {
-        console.log('TOKEN:', token);
-      },
-
-      // 알람을 수신했을 때 호출
-      onNotification: function (notification) {
-        console.log('NOTIFICATION:', notification);
-
-        // TODO: 알림 클릭 시 동작 정의 여기에
-      },
-
-      // 앱이 처음 시작될 때 푸시 알림을 자동으로 열지 여부 설정
-      popInitialNotification: true,
-
-      // 푸시 알림을 받을 수 있도록 권한 요청 여부 설정
-      requestPermissions: true,
-    });
+  const parseNotification = (type: string) => {
+    switch (type) {
+      case 'HEALTH':
+        return NotificationType.HEALTH;
+      case 'NOTICE':
+        return NotificationType.NOTICE;
+      case 'REWARD':
+        return NotificationType.REWARD;
+      case 'FRIENDS':
+        return NotificationType.FRIENDS;
+      case 'LOCATION':
+        return NotificationType.LOCATION;
+      case 'CHILD_SIGN_IN':
+        return NotificationType.CHILD_SIGN_IN;
+      default:
+        return NotificationType.UNKNOWN;
+    }
   };
 
-  const createChannel = () => {
-    PushNotification.createChannel(
-      {
-        channelId: 'children',
-        channelName: 'children',
-        channelDescription: 'children notification',
-      },
-      created => console.log(`createChannel returned '${created}'`),
-    );
-  };
-
-  return {foregroundNotification, pushconfig, createChannel};
+  return {initialize};
 };

@@ -1,6 +1,6 @@
 import * as KeyChain from 'react-native-keychain';
 export interface LoginState {
-  username: string; // id
+  username: string;
   password: string;
 }
 

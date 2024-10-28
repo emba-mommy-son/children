@@ -12,4 +12,6 @@ export enum NotificationType {
   REWARD = 'REWARD',
   FRIENDS = 'FRIENDS',
   LOCATION = 'LOCATION',
+  CHILD_SIGN_IN = 'CHILD_SIGN_IN',
+  UNKNOWN = 'UNKNOWN',
 }

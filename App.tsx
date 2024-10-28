@@ -42,9 +42,24 @@ const queryClient = new QueryClient({
   },
 });
 
+const CHANNEL_ID = 'children';
+
+messaging().setBackgroundMessageHandler(async message => {
+  console.log('background message: ', message);
+  const {notification} = message;
+
+  if (notification && notification.body) {
+    PushNotification.localNotification({
+      channelId: CHANNEL_ID,
+      title: notification.title,
+      message: notification.body,
+    });
+  }
+});
+
 function App(): React.JSX.Element {
   const {getLoginData} = useLogin();
-  const {foregroundNotification, pushconfig, createChannel} = useNotification();
+  const {initialize} = useNotification();
   const {getLocation} = useLocation();
   const {setAccessToken, setRefreshToken} = useAuthStore.getState();
   const fetchLoginData = async () => {
@@ -74,28 +89,11 @@ function App(): React.JSX.Element {
 
   // 푸시 알림
   useEffect(() => {
-    // push config
-    pushconfig();
+    const unsubscribe = initialize();
 
-    // notification
-    createChannel();
-
-    // foreground
-    // foregroundNotification();
-
-    // background
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
-      const receivedData = remoteMessage.notification;
-      console.log('back');
-      if (receivedData && receivedData.body) {
-        console.log('receivedData', receivedData);
-        PushNotification.localNotification({
-          channelId: 'children',
-          title: receivedData.title,
-          message: receivedData.body,
-        });
-      }
-    });
+    return () => {
+      unsubscribe;
+    };
   }, []);
 
   // 위치 정보
