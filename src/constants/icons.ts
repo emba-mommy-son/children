@@ -11,4 +11,10 @@ export const ICONS = {
     ATTENDANCE: require('@/assets/icons/reward/attendance.png'),
     STUDY: require('@/assets/icons/reward/study.png'),
   },
+  sleep: {
+    TOTAL: require('@/assets/icons/sleep/total.png'),
+    WAKE: require('@/assets/icons/sleep/wake.png'),
+    INBED: require('@/assets/icons/sleep/inBed.png'),
+    DEEP: require('@/assets/icons/sleep/deep.png'),
+  },
 } as const;
