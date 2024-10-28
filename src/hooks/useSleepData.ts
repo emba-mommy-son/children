@@ -1,84 +1,45 @@
 import {useState, useCallback} from 'react';
-import {Platform} from 'react-native';
-import AppleHealthKit, {
-  HealthValue,
-  HealthKitPermissions,
-} from 'react-native-health';
+import {Platform, PermissionsAndroid} from 'react-native';
 import GoogleFit, {Scopes} from 'react-native-google-fit';
 
-export type UnifiedSleepType =
-  | 'LIGHT_SLEEP'
-  | 'DEEP_SLEEP'
-  | 'REM_SLEEP'
-  | 'AWAKE'
-  | 'UNKNOWN';
-
-export interface UnifiedSleepData {
-  startDate: Date;
-  endDate: Date;
-  sleepType: UnifiedSleepType;
-}
-
-// Google Fit API 응답 타입
-interface GoogleSleepStage {
-  sleepStage: number;
-  endDate: string;
-  startDate: string;
-}
-
-interface GoogleSleepGranularity {
-  startDate: GoogleSleepStage;
-}
-
 interface GoogleSleepSession {
-  addedBy: string;
   startDate: string;
   endDate: string;
-  granularity: GoogleSleepGranularity[];
+  addedBy: string;
 }
 
 export const useSleepData = () => {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
-  const formatDate = (date: Date): string => {
-    return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(
-      2,
-      '0',
-    )}.${String(date.getDate()).padStart(2, '0')}.${String(
-      date.getHours(),
-    ).padStart(2, '0')}.${String(date.getMinutes()).padStart(2, '0')}`;
-  };
+  const requestAndroidPermissions = async (): Promise<boolean> => {
+    try {
+      if (parseInt(Platform.Version as string) >= 29) {
+        const permissions = [
+          PermissionsAndroid.PERMISSIONS.ACTIVITY_RECOGNITION,
+          'android.permission.FITNESS_ACTIVITY_READ',
+          'android.permission.FITNESS_SLEEP_READ',
+        ] as string[];
 
-  const mapAppleSleepType = (value: string): UnifiedSleepType => {
-    switch (value.toUpperCase()) {
-      case 'DEEP':
-        return 'DEEP_SLEEP';
-      case 'CORE':
-      case 'INBED':
-        return 'LIGHT_SLEEP';
-      case 'REM':
-        return 'REM_SLEEP';
-      case 'AWAKE':
-        return 'AWAKE';
-      default:
-        return 'UNKNOWN';
-    }
-  };
+        const results = await Promise.all(
+          permissions.map(permission =>
+            PermissionsAndroid.request(permission as string, {
+              title: '활동 권한',
+              message: '수면 데이터를 가져오기 위해 활동 권한이 필요합니다.',
+              buttonNeutral: '나중에 묻기',
+              buttonNegative: '취소',
+              buttonPositive: '확인',
+            }),
+          ),
+        );
 
-  const mapGoogleSleepType = (stage: number): UnifiedSleepType => {
-    switch (stage) {
-      case 1:
-        return 'AWAKE';
-      case 2:
-      case 3:
-      case 4:
-        return 'LIGHT_SLEEP';
-      case 5:
-        return 'DEEP_SLEEP';
-      case 6:
-        return 'REM_SLEEP';
-      default:
-        return 'UNKNOWN';
+        return results.every(
+          result => result === PermissionsAndroid.RESULTS.GRANTED,
+        );
+      }
+      return true;
+    } catch (err) {
+      console.warn('권한 요청 에러:', err);
+      return false;
     }
   };
 
@@ -86,32 +47,30 @@ export const useSleepData = () => {
     if (isInitialized) return true;
 
     try {
-      if (Platform.OS === 'ios') {
-        const permissions: HealthKitPermissions = {
-          permissions: {
-            read: [AppleHealthKit.Constants.Permissions.SleepAnalysis],
-            write: [],
-          },
-        };
-
-        return new Promise<boolean>((resolve, reject) => {
-          AppleHealthKit.initHealthKit(permissions, error => {
-            if (error) {
-              reject(new Error('헬스킷 초기화 실패: ' + error));
-              return;
-            }
-            setIsInitialized(true);
-            resolve(true);
-          });
-        });
-      } else {
-        const options = {
-          scopes: [Scopes.FITNESS_SLEEP_READ],
-        };
-        await GoogleFit.authorize(options);
-        setIsInitialized(true);
-        return true;
+      const permissionGranted = await requestAndroidPermissions();
+      if (!permissionGranted) {
+        throw new Error('활동 권한이 거부되었습니다.');
       }
+
+      const options = {
+        scopes: [
+          Scopes.FITNESS_ACTIVITY_READ,
+          Scopes.FITNESS_BODY_READ,
+          Scopes.FITNESS_SLEEP_READ,
+        ],
+        androidClientId:
+          '631375258700-h4gv5afkqrd07au5advl4vr8olnh5igt.apps.googleusercontent.com',
+      };
+
+      const authResult = await GoogleFit.authorize(options);
+      console.log('Google Fit 인증 결과:', authResult);
+
+      if (!authResult.success) {
+        throw new Error('Google Fit 인증 실패: ' + authResult.message);
+      }
+
+      setIsInitialized(true);
+      return true;
     } catch (error) {
       throw new Error(
         `초기화 실패: ${
@@ -121,86 +80,25 @@ export const useSleepData = () => {
     }
   }, [isInitialized]);
 
-  const getYesterdaysSleepData = useCallback(async (): Promise<
-    UnifiedSleepData[]
+  const getWeekSleepData = useCallback(async (): Promise<
+    GoogleSleepSession[]
   > => {
     if (!isInitialized) {
       await initialize();
     }
 
-    const now = new Date();
-    const yesterday = new Date(now);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const startOfDay = new Date(yesterday);
-    startOfDay.setHours(0, 0, 0, 0);
-
-    const endOfDay = new Date(yesterday);
-    endOfDay.setHours(23, 59, 59, 999);
-
     try {
-      if (Platform.OS === 'ios') {
-        const options = {
-          startDate: startOfDay.toISOString(),
-          endDate: endOfDay.toISOString(),
-          ascending: true,
-        };
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 7);
 
-        return new Promise<UnifiedSleepData[]>((resolve, reject) => {
-          AppleHealthKit.getSleepSamples(
-            options,
-            (err: string, results: HealthValue[]) => {
-              if (err) {
-                reject(new Error('수면 데이터 조회 실패: ' + err));
-                return;
-              }
+      const options = {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+      };
 
-              const unifiedData: UnifiedSleepData[] = results.map(sample => ({
-                startDate: new Date(sample.startDate),
-                endDate: new Date(sample.endDate),
-                sleepType: mapAppleSleepType(sample.value as unknown as string),
-              }));
-
-              resolve(unifiedData);
-            },
-          );
-        });
-      } else {
-        const options = {
-          startDate: startOfDay.toISOString(),
-          endDate: endOfDay.toISOString(),
-        };
-
-        // @ts-ignore
-        const sleepSamples = (await GoogleFit.getSleepSamples(
-          options,
-        )) as GoogleSleepSession[];
-
-        const unifiedData: UnifiedSleepData[] = [];
-
-        sleepSamples.forEach(session => {
-          if (session.granularity?.length > 0) {
-            session.granularity.forEach(gran => {
-              if (gran.startDate) {
-                unifiedData.push({
-                  startDate: new Date(gran.startDate.startDate),
-                  endDate: new Date(gran.startDate.endDate),
-                  sleepType: mapGoogleSleepType(gran.startDate.sleepStage),
-                });
-              }
-            });
-          } else {
-            // granularity가 빈배열이면 일단 기본값으로 LIGHT_SLEEP 처리
-            unifiedData.push({
-              startDate: new Date(session.startDate),
-              endDate: new Date(session.endDate),
-              sleepType: 'LIGHT_SLEEP',
-            });
-          }
-        });
-
-        return unifiedData;
-      }
+      const sleepSessions = await GoogleFit.getSleepSamples(options);
+      return sleepSessions;
     } catch (error) {
       throw new Error(
         `수면 데이터 처리 중 오류: ${
@@ -213,6 +111,6 @@ export const useSleepData = () => {
   return {
     isInitialized,
     initialize,
-    getYesterdaysSleepData,
+    getWeekSleepData,
   };
 };
