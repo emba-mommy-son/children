@@ -10,7 +10,6 @@ import {useEffect} from 'react';
 
 // 라이브러리
 import messaging from '@react-native-firebase/messaging';
-import {NavigationContainer} from '@react-navigation/native';
 import {RealmProvider} from '@realm/react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import * as KeyChain from 'react-native-keychain';
@@ -23,10 +22,11 @@ import {Location} from '@/database/schemas/LocationSchema';
 import {Message} from '@/database/schemas/MessageSchema';
 import {RefineMessage} from '@/database/schemas/RefineMessageSchema';
 import {Sentiment} from '@/database/schemas/SentimentSchema';
+import {SleepSession} from '@/database/schemas/SleepSessionSchema';
 import {useAuthStore} from '@/store/useAuthStore';
 
 // 컴포넌트
-import {AppNavigator} from '@/navigation/AppNavigator';
+import {AppWrapper} from '@/components/AppWrapper';
 
 // 커스텀 훅
 import {signIn} from '@/api/user/signIn';
@@ -121,10 +121,9 @@ function App(): React.JSX.Element {
             Location,
             Sentiment,
             GenerateMessage,
+            SleepSession,
           ]}>
-          <NavigationContainer>
-            <AppNavigator />
-          </NavigationContainer>
+          <AppWrapper />
         </RealmProvider>
       </SafeAreaProvider>
     </QueryClientProvider>
