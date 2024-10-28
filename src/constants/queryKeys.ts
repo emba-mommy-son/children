@@ -12,6 +12,7 @@ export const QUERY_KEYS = {
   USER: {
     USERINFO: ['userInfo'] as const,
     PHONENUMBER: (phoneNumber: string) => ['phoneNumber', phoneNumber] as const,
+    ATTENDANCE: ['attendance'] as const,
   },
   REWARD: {
     BY_MONTH: (year: number, month: number) => ['reward', year, month] as const,

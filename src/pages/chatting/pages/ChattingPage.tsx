@@ -29,11 +29,14 @@ export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const stompClientRef = useRef<Client | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
-  const [first, setFirst] = useState<boolean>(false);
+  const [first, setFirst] = useState<boolean>(true);
 
   useEffect(() => {
     if (messagesQuery.data) {
       setMessages(sortMessagesByDate(messagesQuery.data));
+      // setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({animated: false});
+      // }, 1000);
     }
   }, [messagesQuery.data]);
 
@@ -51,14 +54,16 @@ export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
     };
   }, []);
 
+  // !FIXED : 렌더링 되기 전에 이미 스크롤이 아래로 내려간 상태라서 안된것처럼 보인거임
   useEffect(() => {
-    scrollToBottom();
-
+    console.log('first', first);
     if (first) {
-      console.log('first');
       scrollViewRef.current?.scrollToEnd({animated: false});
       setFirst(false);
+      return;
     }
+
+    scrollToBottom();
   }, [messages]);
 
   const handleAnalysis = () => {
