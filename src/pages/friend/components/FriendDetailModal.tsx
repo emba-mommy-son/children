@@ -70,7 +70,7 @@ export const FriendDetailModal: React.FC<FriendDetailModalProps> = ({
   return (
     <Modal visible={visible} transparent animationType="none">
       <TouchableWithoutFeedback onPress={onClose}>
-        <View className="flex-1 justify-end bg-opacity-50">
+        <View className="flex-1 justify-end bg-opacity-50 bg-black/50">
           <TouchableWithoutFeedback>
             <Animated.View
               style={[

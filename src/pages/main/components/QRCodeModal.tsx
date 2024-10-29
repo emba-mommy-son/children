@@ -54,20 +54,6 @@ export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
           {newFCMToken && <QRCode value={newFCMToken} size={200} />}
         </View>
       </Pressable>
-      {/* <View className="flex-1 justify-center istems-center">
-        <View className="flex-1 justify-center items-center">
-          <View className="relative bg-black/50 rounded-xl p-10">
-            <EntypoIcons
-              name="cross"
-              size={30}
-              color="#FFFFFF"
-              onPress={handleModalClose}
-              style={{position: 'absolute', top: 10, right: 10}}
-            />
-            {newFCMToken && <QRCode value={newFCMToken} size={200} />}
-          </View>
-        </View>
-      </View> */}
     </Modal>
   );
 };
