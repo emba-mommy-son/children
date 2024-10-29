@@ -78,7 +78,7 @@ function App(): React.JSX.Element {
       return {username, password};
     }
 
-    return {username: 'rlaehdud1002', password: 'password123!'};
+    return {username: 'rlaehdud1002', password: 'username_010-9976-1003'};
   };
 
   // 로그인
