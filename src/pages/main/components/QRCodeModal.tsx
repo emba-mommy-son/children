@@ -1,6 +1,6 @@
 // 리액트
 import React, {useEffect, useState} from 'react';
-import {Modal, View} from 'react-native';
+import {Modal, Pressable, View} from 'react-native';
 
 // 라이브러리
 import messaging from '@react-native-firebase/messaging';
@@ -41,11 +41,20 @@ export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
 
   return (
     <Modal
-      animationType="slide"
+      animationType="none"
       visible={qrOpen}
       transparent={true}
       onRequestClose={handleModalClose}>
-      <View className="flex-1 justify-center istems-center">
+      <Pressable
+        className="flex-1 bg-black/80 justify-center items-center"
+        onPress={handleModalClose}>
+        <View
+          className="relative rounded-xl p-10"
+          onStartShouldSetResponder={() => true}>
+          {newFCMToken && <QRCode value={newFCMToken} size={200} />}
+        </View>
+      </Pressable>
+      {/* <View className="flex-1 justify-center istems-center">
         <View className="flex-1 justify-center items-center">
           <View className="relative bg-black/50 rounded-xl p-10">
             <EntypoIcons
@@ -58,7 +67,7 @@ export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
             {newFCMToken && <QRCode value={newFCMToken} size={200} />}
           </View>
         </View>
-      </View>
+      </View> */}
     </Modal>
   );
 };
