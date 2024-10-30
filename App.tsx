@@ -6,7 +6,7 @@
  */
 
 // 리액트
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 
 // 라이브러리
 import messaging from '@react-native-firebase/messaging';
@@ -70,6 +70,10 @@ function App(): React.JSX.Element {
   const {initialize} = useNotification();
   const {getLocation} = useLocation();
   const {setAccessToken, setRefreshToken} = useAuthStore.getState();
+  const [loginInfo, setLoginInfo] = useState<null | {
+    username: string;
+    password: string;
+  }>(null);
   const fetchLoginData = async () => {
     const loginData = await getLoginData();
 
@@ -79,19 +83,25 @@ function App(): React.JSX.Element {
     }
 
     return {username: 'rlaehdud1002', password: 'username_010-9976-1003'};
+    // return null;
+
   };
 
   // 로그인
   useEffect(() => {
     fetchLoginData().then(data => {
-      signIn({username: data.username, password: data.password}).then(
-        tokenData => {
-          console.log('로그인 성공');
-          console.log(tokenData.accessToken);
-          setAccessToken(tokenData.accessToken);
-          setRefreshToken(tokenData.refreshToken);
-        },
-      );
+      console.log('로그인 데이터', data);
+      setLoginInfo(data);
+      if (data) {
+        signIn({username: data.username, password: data.password}).then(
+          tokenData => {
+            console.log('로그인 성공');
+            console.log(tokenData.accessToken);
+            setAccessToken(tokenData.accessToken);
+            setRefreshToken(tokenData.refreshToken);
+          },
+        );
+      }
     });
   }, []);
 
@@ -110,6 +120,10 @@ function App(): React.JSX.Element {
       // getLocation();
     }, 1000);
   }, []);
+
+  // if (!loginInfo) {
+  //   return <InitialQR />;
+  // }
 
   return (
     <QueryClientProvider client={queryClient}>

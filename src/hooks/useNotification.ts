@@ -1,6 +1,6 @@
 import {NotificationType} from '@/types/notification';
 import messaging from '@react-native-firebase/messaging';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import PushNotification from 'react-native-push-notification';
 import {useLogin} from './useLogin';
 
@@ -12,6 +12,7 @@ export const useNotification = () => {
 
   const initialize = async () => {
     if (!init) {
+      console.log('initialize');
       PushNotification.configure({
         onRegister: function (token) {
           console.log('TOKEN:', token);
@@ -34,6 +35,7 @@ export const useNotification = () => {
 
       const unsubscribe = messaging().onMessage(async message => {
         const {notification} = message;
+        console.log('message: ', message);
 
         if (notification && notification.body) {
           const notificationType = parseNotification(notification.title || '');
@@ -51,7 +53,7 @@ export const useNotification = () => {
               username: string;
               password: string;
             };
-
+            console.log('CHILD_SIGN_IN', userId, username, password);
             setLoginData({username, password});
           }
         }
@@ -75,7 +77,7 @@ export const useNotification = () => {
         return NotificationType.FRIENDS;
       case 'LOCATION':
         return NotificationType.LOCATION;
-      case 'CHILD_SIGN_IN':
+      case 'CHILDREN_SIGN_IN':
         return NotificationType.CHILD_SIGN_IN;
       default:
         return NotificationType.UNKNOWN;
