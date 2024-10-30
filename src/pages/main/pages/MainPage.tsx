@@ -2,7 +2,11 @@
 import {useState} from 'react';
 import {SafeAreaView, ScrollView, View} from 'react-native';
 
+// 라이브러리
+import messaging from '@react-native-firebase/messaging';
+
 // 컴포넌트
+import {AttendanceModal} from '@/pages/main/components/AttendanceModal';
 import {BestFriend} from '@/pages/main/components/BestFriend';
 import {Emotion} from '@/pages/main/components/Emotion';
 import {GetUserInfo} from '@/pages/main/components/GetUserInfo';
@@ -13,7 +17,6 @@ import {Question} from '@/pages/main/components/Question';
 import {Reward} from '@/pages/main/components/Reward';
 import {Sleep} from '@/pages/main/components/Sleep';
 import {TodoList} from '@/pages/main/components/TodoList';
-import { AttendanceModal } from '@/pages/main/components/AttendanceModal';
 
 export const MainPage = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -42,7 +45,12 @@ export const MainPage = () => {
             <Question />
           </View>
           {qrOpen && <QRCodeModal qrOpen={qrOpen} setQrOpen={setQrOpen} />}
-          {attendanceOpen && <AttendanceModal attendanceOpen={attendanceOpen} setAttendanceOpen={setAttendanceOpen} />}
+          {attendanceOpen && (
+            <AttendanceModal
+              attendanceOpen={attendanceOpen}
+              setAttendanceOpen={setAttendanceOpen}
+            />
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
