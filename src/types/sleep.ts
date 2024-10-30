@@ -12,3 +12,8 @@ export interface HealthServiceError {
   code: string;
   message: string;
 }
+
+export interface SleepSyncInfo {
+  lasySyncTime: string;
+  status: 'success' | 'failed';
+}

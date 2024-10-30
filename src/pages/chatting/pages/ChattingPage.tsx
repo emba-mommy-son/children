@@ -182,14 +182,14 @@ export const ChattingPage: React.FC<ChattingScreenProps> = ({route}) => {
         <View className="flex flex-row items-center justify-between bg-secondary p-4">
           <View className="flex flex-row items-center space-x-3">
             <TouchableOpacity onPress={goBack}>
-              <AntDesignIcons name="arrowleft" color="white" size={25} />
+              <AntDesignIcons name="arrowleft" color="white" size={20} />
             </TouchableOpacity>
-            <Text className="text-white text-subheading mb-1">
+            <Text className="text-white text-[16px]">
               {roomData?.name}
             </Text>
           </View>
           <TouchableOpacity onPress={handleAnalysis}>
-            <AntDesignIcons name="linechart" color="white" size={25} />
+            <AntDesignIcons name="linechart" color="white" size={20} />
           </TouchableOpacity>
         </View>
         <ScrollView

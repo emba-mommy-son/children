@@ -6,16 +6,15 @@
  */
 
 // 리액트
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 
 // 라이브러리
 import messaging from '@react-native-firebase/messaging';
-import {NavigationContainer} from '@react-navigation/native';
 import {RealmProvider} from '@realm/react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import * as KeyChain from 'react-native-keychain';
 import PushNotification from 'react-native-push-notification';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import * as KeyChain from 'react-native-keychain';
 
 // 전역상태
 import {GenerateMessage} from '@/database/schemas/GenerateMessageSchema';
@@ -23,17 +22,16 @@ import {Location} from '@/database/schemas/LocationSchema';
 import {Message} from '@/database/schemas/MessageSchema';
 import {RefineMessage} from '@/database/schemas/RefineMessageSchema';
 import {Sentiment} from '@/database/schemas/SentimentSchema';
+import {SleepSession} from '@/database/schemas/SleepSessionSchema';
 import {useAuthStore} from '@/store/useAuthStore';
 
 // 컴포넌트
-import {AppNavigator} from '@/navigation/AppNavigator';
+import {AppWrapper} from '@/components/AppWrapper';
 
 // 커스텀 훅
 import {signIn} from '@/api/user/signIn';
-import {useLocation} from '@/hooks/useGeoLocation';
 import {useLogin} from '@/hooks/useLogin';
 import {useNotification} from '@/hooks/useNotification';
-
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -52,12 +50,12 @@ messaging().setBackgroundMessageHandler(async message => {
 
   if (notification && notification.body) {
     // 만약, 자녀 로그인 알림이라면 노티피케이션을 띄우지 않는다.
-    if (notification.title === "CHILD_SIGN_IN") {
+    if (notification.title === 'CHILD_SIGN_IN') {
       const {username, password} = JSON.parse(notification.body);
       await KeyChain.setGenericPassword(username, password);
       return;
     }
-    
+
     PushNotification.localNotification({
       channelId: CHANNEL_ID,
       title: notification.title,
@@ -70,6 +68,10 @@ function App(): React.JSX.Element {
   const {getLoginData} = useLogin();
   const {initialize} = useNotification();
   const {setAccessToken, setRefreshToken} = useAuthStore.getState();
+  const [loginInfo, setLoginInfo] = useState<null | {
+    username: string;
+    password: string;
+  }>(null);
   const fetchLoginData = async () => {
     const loginData = await getLoginData();
 
@@ -78,20 +80,26 @@ function App(): React.JSX.Element {
       return {username, password};
     }
 
-    return {username: 'rlaehdud1002', password: 'password123!'};
+    return {username: 'rlaehdud1002', password: 'username_010-9976-1003'};
+    // return null;
+
   };
 
   // 로그인
   useEffect(() => {
     fetchLoginData().then(data => {
-      signIn({username: data.username, password: data.password}).then(
-        tokenData => {
-          console.log('로그인 성공');
-          console.log(tokenData.accessToken);
-          setAccessToken(tokenData.accessToken);
-          setRefreshToken(tokenData.refreshToken);
-        },
-      );
+      console.log('로그인 데이터', data);
+      setLoginInfo(data);
+      if (data) {
+        signIn({username: data.username, password: data.password}).then(
+          tokenData => {
+            console.log('로그인 성공');
+            console.log(tokenData.accessToken);
+            setAccessToken(tokenData.accessToken);
+            setRefreshToken(tokenData.refreshToken);
+          },
+        );
+      }
     });
   }, []);
 
@@ -114,10 +122,9 @@ function App(): React.JSX.Element {
             Location,
             Sentiment,
             GenerateMessage,
+            SleepSession,
           ]}>
-          <NavigationContainer>
-            <AppNavigator />
-          </NavigationContainer>
+          <AppWrapper />
         </RealmProvider>
       </SafeAreaProvider>
     </QueryClientProvider>

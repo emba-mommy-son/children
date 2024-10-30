@@ -1,13 +1,13 @@
 // 리액트
-import React, {useEffect, useState} from 'react';
-import {Modal, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {Modal, Pressable, View} from 'react-native';
 
 // 라이브러리
 import messaging from '@react-native-firebase/messaging';
 import QRCode from 'react-native-qrcode-svg';
 
 // 아이콘
-import EntypoIcons from 'react-native-vector-icons/Entypo';
+import {useAuthStore} from '@/store/useAuthStore';
 
 interface QRCodeModalProps {
   qrOpen: boolean;
@@ -15,7 +15,8 @@ interface QRCodeModalProps {
 }
 
 export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
-  const [FCMToken, setFCMToken] = useState<string>('');
+  // const [newFCMToken, setNewFCMToken] = useState<string>('');
+  const {FCMToken, setFCMToken} = useAuthStore(state => state);
 
   const getFCMToken = async () => {
     return await messaging().getToken();
@@ -26,36 +27,35 @@ export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
   };
 
   useEffect(() => {
-    getFCMToken()
-      .then(token => {
-        setFCMToken(token);
-        console.log(token);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    console.log('FCM TOKEN', FCMToken);
+    if (!FCMToken) {
+      getFCMToken()
+        .then(token => {
+          // setNewFCMToken(token);
+          setFCMToken(token);
+          console.log(token);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }, []);
 
   return (
     <Modal
-      animationType="slide"
+      animationType="none"
       visible={qrOpen}
       transparent={true}
       onRequestClose={handleModalClose}>
-      <View className="flex-1 justify-center istems-center">
-        <View className="flex-1 justify-center items-center">
-          <View className="relative bg-black/50 rounded-xl p-10">
-            <EntypoIcons
-              name="cross"
-              size={30}
-              color="#FFFFFF"
-              onPress={handleModalClose}
-              style={{position: 'absolute', top: 10, right: 10}}
-            />
-            {FCMToken && <QRCode value={FCMToken} size={200} />}
-          </View>
+      <Pressable
+        className="flex-1 bg-black/80 justify-center items-center"
+        onPress={handleModalClose}>
+        <View
+          className="relative rounded-xl p-10"
+          onStartShouldSetResponder={() => true}>
+          {FCMToken && <QRCode value={FCMToken} size={200} />}
         </View>
-      </View>
+      </Pressable>
     </Modal>
   );
 };

@@ -7,6 +7,8 @@ interface AuthState {
   setAccessToken: (accessToken: string) => void;
   refreshToken: string;
   setRefreshToken: (refreshToken: string) => void;
+  FCMToken: string;
+  setFCMToken: (FCMToken: string) => void;
 }
 
 export const useAuthStore = create(
@@ -22,6 +24,12 @@ export const useAuthStore = create(
 
       setRefreshToken: refreshToken => {
         set({refreshToken});
+      },
+
+      FCMToken: '',
+
+      setFCMToken: FCMToken => {
+        set({FCMToken});
       },
     }),
     {

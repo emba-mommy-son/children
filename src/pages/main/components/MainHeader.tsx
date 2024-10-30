@@ -41,10 +41,10 @@ export const MainHeader = ({open, setOpen}: MainHeaderProps) => {
           ) : (
             <View className="w-9 h-9 rounded-full bg-white" />
           )}
-          <Text className="text-white text-subheading font-bold">
+          <Text className="text-white text-[18px] font-bold">
             {userInfo?.name}
           </Text>
-          <EntypoIcons name="chevron-down" size={25} color="white" />
+          <EntypoIcons name="chevron-down" size={20} color="white" />
         </View>
       </TouchableOpacity>
       <IoniconsIcons

@@ -1,6 +1,5 @@
 import {Fragment} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface BottomNavigationBarProps {
@@ -43,9 +42,6 @@ const ROUTES = [
 ];
 
 export const BottomNavigationBar = (props: BottomNavigationBarProps) => {
-  const insets = useSafeAreaInsets();
-  const message = 1;
-
   return (
     <View className="flex flex-row w-full py-3 items-center px-1">
       {props.state.routes.map((route: any, index: number) => {
@@ -81,11 +77,11 @@ export const BottomNavigationBar = (props: BottomNavigationBarProps) => {
                 <View className="flex justify-center items-center mb-2">
                   <Ionicons
                     name={ROUTES[index][`${focus}Icon`]}
-                    size={25}
+                    size={20}
                     color={isFocused ? '#000000' : '#8C8C8C'}
                   />
                 </View>
-                <Text style={{color: isFocused ? '#000000' : '#8C8C8C'}}>
+                <Text className='text-[12px]' style={{color: isFocused ? '#000000' : '#8C8C8C'}}>
                   {ROUTES[index].name}
                 </Text>
               </Fragment>
