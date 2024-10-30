@@ -30,7 +30,7 @@ import {AppNavigator} from '@/navigation/AppNavigator';
 
 // 커스텀 훅
 import {signIn} from '@/api/user/signIn';
-import {useLocation} from '@/hooks/useLocation';
+import {useLocation} from '@/hooks/useGeoLocation';
 import {useLogin} from '@/hooks/useLogin';
 import {useNotification} from '@/hooks/useNotification';
 
@@ -69,7 +69,6 @@ messaging().setBackgroundMessageHandler(async message => {
 function App(): React.JSX.Element {
   const {getLoginData} = useLogin();
   const {initialize} = useNotification();
-  const {getLocation} = useLocation();
   const {setAccessToken, setRefreshToken} = useAuthStore.getState();
   const fetchLoginData = async () => {
     const loginData = await getLoginData();
@@ -103,13 +102,6 @@ function App(): React.JSX.Element {
     return () => {
       unsubscribe;
     };
-  }, []);
-
-  // 위치 정보
-  useEffect(() => {
-    setInterval(() => {
-      // getLocation();
-    }, 1000);
   }, []);
 
   return (
