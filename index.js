@@ -7,6 +7,7 @@ import App from './App';
 import {name as appName} from './app.json';
 import websocket from 'websocket';
 import {WebSocket as WSWebSocket} from 'ws';
+import 'react-native-get-random-values';
 import * as encoding from 'text-encoding';
 
 // WebSocket 설정

@@ -19,6 +19,8 @@ import {RewardPage} from '@/pages/reward/pages/RewardPage';
 import {SleepPage} from '@/pages/sleep/pages/SleepPage';
 
 import {ROUTES} from '@/constants/routeURL';
+import { useGeoLocation } from '@/hooks/useGeoLocation';
+import { useEffect } from 'react';
 
 type AppNavigatorParamList = {
   [ROUTES.MAIN_TABS]: undefined;
@@ -74,6 +76,14 @@ const TabNavigator = () => {
 };
 
 export const AppNavigator = () => {
+  const {getLocation} = useGeoLocation();
+
+  useEffect(() => {
+    setInterval(() => {
+      getLocation();
+    }, 1000)
+  }, [])
+
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name={ROUTES.MAIN_TABS} component={TabNavigator} />
