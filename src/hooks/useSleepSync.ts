@@ -1,12 +1,12 @@
-import {useCallback} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useRealm} from '@realm/react';
-import {SleepSyncInfo} from '@/types/sleep';
 import {STORAGE_KEYS} from '@/constants/storage';
 import {useSleepData} from '@/hooks/useSleepData';
+import {SleepSyncInfo} from '@/types/sleep';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useRealm} from '@realm/react';
+import {useCallback} from 'react';
 
 export const useSleepSync = () => {
-  const relam = useRealm();
+  const realm = useRealm();
   const {getWeekSleepData} = useSleepData();
 
   // AsyncStorage에서 마지막 동기화 정보 조회
@@ -72,7 +72,7 @@ export const useSleepSync = () => {
       const sleepData = await getWeekSleepData();
 
       // Realm에 데이터 저장
-      relam.write(() => {
+      realm.write(() => {
         sleepData.forEach(session => {
           const sessionId = `${session.startDate}_${session.endDate}`;
           const startTime = new Date(session.startDate);
@@ -81,7 +81,7 @@ export const useSleepSync = () => {
             (endTime.getTime() - startTime.getTime()) / (1000 * 60),
           );
           // 데이터 저장 or 이미 존재하는 경우엔 업데이트
-          relam.create(
+          realm.create(
             'SleepSession',
             {
               id: sessionId,
@@ -104,7 +104,7 @@ export const useSleepSync = () => {
       // 동기화 실패 정보 저장
       await updateSyncInfo('failed');
     }
-  }, [relam, getWeekSleepData, needsSync, updateSyncInfo]);
+  }, [realm, getWeekSleepData, needsSync, updateSyncInfo]);
   return {
     syncSleepData,
   };

@@ -30,6 +30,7 @@ import {AppWrapper} from '@/components/AppWrapper';
 
 // 커스텀 훅
 import {signIn} from '@/api/user/signIn';
+import {useLocation} from '@/hooks/useLocation';
 import {useLogin} from '@/hooks/useLogin';
 import {useNotification} from '@/hooks/useNotification';
 
@@ -82,7 +83,6 @@ function App(): React.JSX.Element {
 
     return {username: 'rlaehdud1002', password: 'username_010-9976-1003'};
     // return null;
-
   };
 
   // 로그인
@@ -111,6 +111,17 @@ function App(): React.JSX.Element {
       unsubscribe;
     };
   }, []);
+
+  // 위치 정보
+  const {initialize: locationInit} = useLocation();
+
+  useEffect(() => {
+    locationInit();
+  }, []);
+
+  // if (!loginInfo) {
+  //   return <InitialQR />;
+  // }
 
   return (
     <QueryClientProvider client={queryClient}>
