@@ -120,8 +120,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:20.7.0"
 
     // GoogleMap
-    implementation "com.google.android.gms:play-services-base:latest.version"
-    implementation "com.google.android.gms:play-services-maps:latest.version"
+    implementation "com.google.android.gms:play-services-base:18.5.0"
+    implementation "com.google.android.gms:play-services-maps:19.0.0"
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

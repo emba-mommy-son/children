@@ -18,9 +18,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <!-- 구글맵 -->
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <!-- location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -43,9 +43,10 @@
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true"
       android:supportsRtl="true">
+      <!-- location -->
       <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyDoCwml99ABel0pZ45NCRlf7W7WvBCgsGo"/>
+        android:value="AIzaSyBQW7RHsZp56sXVV8OHlObIClONbx1-7IA"/>
       <uses-library android:name="org.apache.http.legacy" android:required="false"/>
       <activity
         android:name=".MainActivity"

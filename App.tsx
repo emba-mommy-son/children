@@ -68,7 +68,6 @@ messaging().setBackgroundMessageHandler(async message => {
 function App(): React.JSX.Element {
   const {getLoginData} = useLogin();
   const {initialize} = useNotification();
-  const {getLocation} = useLocation();
   const {setAccessToken, setRefreshToken} = useAuthStore.getState();
   const [loginInfo, setLoginInfo] = useState<null | {
     username: string;
@@ -84,7 +83,6 @@ function App(): React.JSX.Element {
 
     return {username: 'rlaehdud1002', password: 'username_010-9976-1003'};
     // return null;
-
   };
 
   // 로그인
@@ -115,10 +113,10 @@ function App(): React.JSX.Element {
   }, []);
 
   // 위치 정보
+  const {initialize: locationInit} = useLocation();
+
   useEffect(() => {
-    setInterval(() => {
-      // getLocation();
-    }, 1000);
+    locationInit();
   }, []);
 
   // if (!loginInfo) {

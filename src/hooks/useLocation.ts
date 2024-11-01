@@ -1,7 +1,23 @@
+import {useEffect, useState} from 'react';
 import {PermissionsAndroid, Platform} from 'react-native';
 import GeoLocation from 'react-native-geolocation-service';
 
+interface Location {
+  latitude: number;
+  longitude: number;
+}
+
 export const useLocation = () => {
+  const [init, setInit] = useState(false);
+  const [location, setLocation] = useState<Location>({
+    latitude: 0,
+    longitude: 0,
+  });
+
+  const initialize = () => {
+    setInit(true);
+  };
+
   // 권한 설정 되었는지 확인
   const checkPermission = async () => {
     try {
@@ -18,12 +34,21 @@ export const useLocation = () => {
   // 현재 위치 정보 가져오기
   const getLocation = () => {
     checkPermission().then(result => {
-      console.log('permission result', result);
       if (result === 'granted') {
-        console.log('허용됨');
         GeoLocation.getCurrentPosition(
           position => {
-            console.log(position);
+            if (
+              position.coords.latitude === 0 &&
+              position.coords.longitude === 0
+            ) {
+              return;
+            }
+            setLocation(() => {
+              return {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              };
+            });
           },
           error => {
             console.log(error.code, error.message);
@@ -38,5 +63,17 @@ export const useLocation = () => {
     });
   };
 
-  return {getLocation};
+  useEffect(() => {
+    if (init) {
+      const interval = setInterval(() => {
+        getLocation();
+      }, 2000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [init]);
+
+  return {location, initialize, getLocation};
 };
