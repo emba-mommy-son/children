@@ -30,9 +30,11 @@ import {AppWrapper} from '@/components/AppWrapper';
 
 // 커스텀 훅
 import {signIn} from '@/api/user/signIn';
-import {useLocation} from '@/hooks/useLocation';
 import {useLogin} from '@/hooks/useLogin';
-import {useNotification} from '@/hooks/useNotification';
+
+// 타입
+import {Boundary} from '@/database/schemas/BoundarySchema';
+import {NotificationType} from '@/types/notification';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,31 +45,71 @@ const queryClient = new QueryClient({
   },
 });
 
+// background notification
 const CHANNEL_ID = 'children';
+
+const parseNotification = (type: string) => {
+  switch (type) {
+    case 'HEALTH':
+      return NotificationType.HEALTH;
+    case 'NOTICE':
+      return NotificationType.NOTICE;
+    case 'FRIENDS':
+      return NotificationType.FRIENDS;
+    case 'LOCATION':
+      return NotificationType.LOCATION;
+    case 'CHILDREN_SIGN_IN':
+      return NotificationType.CHILD_SIGN_IN;
+    case 'CHAT':
+      return NotificationType.CHAT;
+    default:
+      return NotificationType.UNKNOWN;
+  }
+};
 
 messaging().setBackgroundMessageHandler(async message => {
   console.log('background message: ', message);
   const {notification} = message;
 
   if (notification && notification.body) {
+    const notificationType = parseNotification(notification.title || '');
+
     // 만약, 자녀 로그인 알림이라면 노티피케이션을 띄우지 않는다.
-    if (notification.title === 'CHILD_SIGN_IN') {
+    if (notificationType === NotificationType.CHILD_SIGN_IN) {
       const {username, password} = JSON.parse(notification.body);
       await KeyChain.setGenericPassword(username, password);
       return;
     }
 
-    PushNotification.localNotification({
-      channelId: CHANNEL_ID,
-      title: notification.title,
-      message: notification.body,
-    });
+    // * 위치 알림
+    if (notificationType === NotificationType.LOCATION) {
+      console.log('LOCATION', notification.body);
+      PushNotification.localNotification({
+        channelId: CHANNEL_ID,
+        title: notification.title,
+        message: notification.body,
+      });
+    }
+
+    // * HEALTH, CHAT, FRIENDS 알림
+    if (
+      notificationType === NotificationType.HEALTH ||
+      notificationType === NotificationType.CHAT ||
+      notificationType === NotificationType.FRIENDS
+    ) {
+      console.log(notificationType, notification.body);
+
+      PushNotification.localNotification({
+        channelId: CHANNEL_ID,
+        title: notification.title,
+        message: notification.body,
+      });
+    }
   }
 });
 
 function App(): React.JSX.Element {
   const {getLoginData} = useLogin();
-  const {initialize} = useNotification();
   const {setAccessToken, setRefreshToken} = useAuthStore.getState();
   const [loginInfo, setLoginInfo] = useState<null | {
     username: string;
@@ -103,22 +145,6 @@ function App(): React.JSX.Element {
     });
   }, []);
 
-  // 푸시 알림
-  useEffect(() => {
-    const unsubscribe = initialize();
-
-    return () => {
-      unsubscribe;
-    };
-  }, []);
-
-  // 위치 정보
-  const {initialize: locationInit} = useLocation();
-
-  useEffect(() => {
-    locationInit();
-  }, []);
-
   // if (!loginInfo) {
   //   return <InitialQR />;
   // }
@@ -134,6 +160,7 @@ function App(): React.JSX.Element {
             Sentiment,
             GenerateMessage,
             SleepSession,
+            Boundary,
           ]}>
           <AppWrapper />
         </RealmProvider>

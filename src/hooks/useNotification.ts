@@ -1,18 +1,27 @@
+import {useLogin} from '@/hooks/useLogin';
 import {NotificationType} from '@/types/notification';
 import messaging from '@react-native-firebase/messaging';
+import {useRealm} from '@realm/react';
 import {useState} from 'react';
 import PushNotification from 'react-native-push-notification';
-import {useLogin} from './useLogin';
 
 const CHANNEL_ID = 'children';
 
+interface LocationData {
+  id: number;
+  latitude: number;
+  longitude: number;
+  radius: number;
+  danger: boolean;
+}
+
 export const useNotification = () => {
+  const realm = useRealm();
   const [init, setInit] = useState(false);
   const {setLoginData} = useLogin();
 
   const initialize = async () => {
     if (!init) {
-      console.log('initialize');
       PushNotification.configure({
         onRegister: function (token) {
           console.log('TOKEN:', token);
@@ -33,15 +42,57 @@ export const useNotification = () => {
         created => console.log(`createChannel returned '${created}'`),
       );
 
+      // foreground notification
       const unsubscribe = messaging().onMessage(async message => {
         const {notification} = message;
-        console.log('message: ', message);
-
         if (notification && notification.body) {
           const notificationType = parseNotification(notification.title || '');
 
           if (notificationType === NotificationType.UNKNOWN) {
             return;
+          }
+
+          // * 친구 관계 알림
+          if (notificationType === NotificationType.FRIENDS) {
+            console.log('FRIENDS', notification.body);
+            PushNotification.localNotification({
+              channelId: CHANNEL_ID,
+              // !FIXME: notification.title로 넣지 말고 직접 설정
+              title: notification.title,
+              message: notification.body,
+            });
+          }
+
+          // * 위치 알림
+          if (notificationType === NotificationType.LOCATION) {
+            console.log('LOCATION', notification.body);
+
+            // PushNotification.localNotification({
+            //   channelId: CHANNEL_ID,
+            //   title: '위치 알림',
+            //   message: notification.body,
+            // });
+
+            const locationData: LocationData[] = [
+              JSON.parse(notification.body),
+            ];
+
+            realm.write(() => {
+              const boundaries = realm.objects('Boundary');
+              realm.delete(boundaries);
+
+              locationData.forEach(location => {
+                console.log('location data : ', location);
+                realm.create('Boundary', {
+                  id: location.id,
+                  latitude: location.latitude,
+                  longitude: location.longitude,
+                  radius: location.radius,
+                  danger: location.danger,
+                  createdAt: new Date(),
+                });
+              });
+            });
           }
 
           // * 자녀 어플리케이션 로그인 연결 알림 처리
@@ -71,14 +122,14 @@ export const useNotification = () => {
         return NotificationType.HEALTH;
       case 'NOTICE':
         return NotificationType.NOTICE;
-      case 'REWARD':
-        return NotificationType.REWARD;
       case 'FRIENDS':
         return NotificationType.FRIENDS;
       case 'LOCATION':
         return NotificationType.LOCATION;
       case 'CHILDREN_SIGN_IN':
         return NotificationType.CHILD_SIGN_IN;
+      case 'CHAT':
+        return NotificationType.CHAT;
       default:
         return NotificationType.UNKNOWN;
     }

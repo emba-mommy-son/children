@@ -10,6 +10,8 @@ export interface ILocation {
   speed: number;
   provider: string;
   createdAt: Date;
+  danger: boolean;
+  isSent: boolean;
 }
 
 interface LocationCreateProps {
@@ -19,6 +21,8 @@ interface LocationCreateProps {
   accuracy: number;
   speed: number;
   provider: string;
+  danger: boolean;
+  isSent: boolean;
 }
 
 export class Location extends Realm.Object {
@@ -30,9 +34,20 @@ export class Location extends Realm.Object {
   speed!: number;
   provider!: string;
   createdAt!: Date;
+  danger!: boolean;
+  isSent!: boolean;
 
   static create(props: LocationCreateProps): ILocation {
-    const {altitude, latitude, longitude, accuracy, speed, provider} = props;
+    const {
+      altitude,
+      latitude,
+      longitude,
+      accuracy,
+      speed,
+      provider,
+      danger,
+      isSent,
+    } = props;
 
     return {
       id: uuid(),
@@ -43,6 +58,8 @@ export class Location extends Realm.Object {
       speed,
       provider,
       createdAt: new Date(),
+      danger,
+      isSent,
     };
   }
 
@@ -58,6 +75,8 @@ export class Location extends Realm.Object {
       speed: 'float',
       provider: 'string',
       createdAt: 'date',
+      danger: 'bool',
+      isSent: 'bool',
     },
   };
 }
