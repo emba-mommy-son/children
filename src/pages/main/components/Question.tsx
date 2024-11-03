@@ -3,8 +3,8 @@ import {Image, Text, View} from 'react-native';
 
 // 아이콘
 import Angry from '@/assets/icons/emotion/angry.png';
-import Bad from '@/assets/icons/emotion/bad.png';
-import Good from '@/assets/icons/emotion/good.png';
+import Happy from '@/assets/icons/emotion/happy.png';
+import Soso from '@/assets/icons/emotion/soso.png';
 
 export const Question = () => {
   return (
@@ -13,8 +13,8 @@ export const Question = () => {
         어제 하루는 어땠나요?
       </Text>
       <View className="flex flex-row justify-evenly">
-        <Image source={Bad} className="w-[40px] h-[40px]" />
-        <Image source={Good} className="w-[40px] h-[40px]" />
+        <Image source={Happy} className="w-[40px] h-[40px]" />
+        <Image source={Soso} className="w-[40px] h-[40px]" />
         <Image source={Angry} className="w-[40px] h-[40px]" />
       </View>
     </View>
