@@ -55,7 +55,7 @@ export const WishBox = ({ratio}: WishBoxProps) => {
               className="w-[85px] h-[85px] absolute rounded-full"
             />
           </View>
-          <Text className="text-lg text-black font-bold">
+          <Text className="text-lg text-black text-center font-bold">
             {percentValue}% 달성
           </Text>
         </View>

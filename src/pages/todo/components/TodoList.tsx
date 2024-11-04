@@ -1,38 +1,58 @@
+import {useCompleteGoal, useDeleteGoal, useUncompleteGoal} from '@/api/todo';
 import {useState} from 'react';
 import {Text, View} from 'react-native';
 
+import EntypoIcons from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface TodoListProps {
+  id: number;
   content: string;
-  isComplete: boolean;
+  done: boolean;
 }
 
-export const TodoList = ({content, isComplete}: TodoListProps) => {
-  const [complete, setComplete] = useState<boolean>(isComplete);
+export const TodoList = ({id, content, done}: TodoListProps) => {
+  const [isDone, setIsDone] = useState<boolean>(done);
+  const {mutate: deleteGoal} = useDeleteGoal();
+  const {mutate: completeGoal} = useCompleteGoal();
+  const {mutate: uncompleteGoal} = useUncompleteGoal();
 
   const hanelePress = () => {
-    setComplete(!complete);
+    if (isDone) {
+      uncompleteGoal(id);
+    } else {
+      completeGoal(id);
+    }
+
+    setIsDone(!isDone);
+  };
+
+  const handleDeleteGoal = () => {
+    deleteGoal(id);
   };
 
   return (
-    <View className="flex flex-row items-center space-x-3 my-1">
-      {complete ? (
-        <MaterialCommunityIcons
-          name="checkbox-marked"
-          color="#9D4BFF"
-          size={24}
-          onPress={hanelePress}
-        />
-      ) : (
-        <MaterialCommunityIcons
-          name="checkbox-blank-outline"
-          color="#9D4BFF"
-          size={24}
-          onPress={hanelePress}
-        />
-      )}
-      <Text className="text-lg text-black">{content}</Text>
+    <View className="flex flex-row items-center justify-between">
+      <View className="flex flex-row items-center space-x-3 my-1">
+        {isDone ? (
+          <MaterialCommunityIcons
+            name="checkbox-marked"
+            color="#9D4BFF"
+            size={24}
+            onPress={hanelePress}
+          />
+        ) : (
+          <MaterialCommunityIcons
+            name="checkbox-blank-outline"
+            color="#9D4BFF"
+            size={24}
+            onPress={hanelePress}
+          />
+        )}
+        <Text className="text-lg text-black">{content}</Text>
+      </View>
+
+      <EntypoIcons name="cross" size={20} onPress={handleDeleteGoal} />
     </View>
   );
 };

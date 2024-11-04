@@ -1,35 +1,26 @@
+import {useGetGoal} from '@/api/todo';
 import {PlusTodoModal} from '@/pages/todo/components/PlusTodoModal';
 import {TodoCountBox} from '@/pages/todo/components/TodoCountBox';
 import {TodoList} from '@/pages/todo/components/TodoList';
 import {WishBox} from '@/pages/todo/components/WishBox';
-import {useState} from 'react';
+import {Goal} from '@/types/goal';
+import {useEffect, useMemo, useState} from 'react';
 import {Text, View} from 'react-native';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 
-const TodoListItem = [
-  {
-    id: 1,
-    content: '할 일 1',
-    isComplete: false,
-  },
-  {id: 2, content: '할 일 2', isComplete: false},
-  {id: 3, content: '할 일 3', isComplete: false},
-  {id: 4, content: '할 일 4', isComplete: false},
-  {id: 5, content: '할 일 5', isComplete: false},
-  {id: 6, content: '할 일 6', isComplete: true},
-  {id: 7, content: '할 일 7', isComplete: true},
-  {id: 8, content: '할 일 8', isComplete: true},
-  {id: 9, content: '할 일 9', isComplete: true},
-  {id: 10, content: '할 일 10', isComplete: false},
-  {id: 11, content: '할 일 11', isComplete: true},
-  {id: 12, content: '할 일 12', isComplete: false},
-  {id: 13, content: '할 일 13', isComplete: true},
-];
-
 export const TodoBox = () => {
   const [isTodoModalOpen, setIsTodoModalOpen] = useState<boolean>(false);
-  const todoList = TodoListItem.filter(todo => !todo.isComplete);
-  const completeList = TodoListItem.filter(todo => todo.isComplete);
+  const {data} = useGetGoal();
+  const todoList = useMemo(() => data.filter(todo => !todo.done), [data]);
+  const completeList = useMemo<Goal[]>(
+    () => data.filter(todo => todo.done),
+    [data],
+  );
+  const [ratio, setRatio] = useState<number>(0);
+
+  useEffect(() => {
+    setRatio((completeList.length / data.length) * 100);
+  }, [data]);
 
   const handleOpen = () => {
     setIsTodoModalOpen(true);
@@ -37,7 +28,7 @@ export const TodoBox = () => {
 
   return (
     <View className="flex flex-col space-y-3 mt-3">
-      <WishBox ratio={(todoList.length / TodoListItem.length) * 100} />
+      <WishBox ratio={ratio} />
       <View className="flex flex-row itmes-center justify-center space-x-3">
         <TodoCountBox title="할 일" count={todoList.length} />
         <TodoCountBox title="완료" count={completeList.length} />
@@ -49,25 +40,43 @@ export const TodoBox = () => {
         <Text className="border-b-[1px] border-gray-700 text-black text-center text-lg font-bold pb-3 mb-3">
           TODO
         </Text>
-        {todoList.map(todo => (
-          <TodoList
-            key={todo.id}
-            content={todo.content}
-            isComplete={todo.isComplete}
-          />
-        ))}
+        {todoList.length > 0 ? (
+          todoList.map(todo => (
+            <TodoList
+              key={todo.goalId}
+              id={todo.goalId}
+              content={todo.content}
+              done={todo.done}
+            />
+          ))
+        ) : (
+          <View className="w-full h-32 flex items-center justify-center">
+            <Text className="text-black text-center font-bold">
+              현재 목표가 없습니다.
+            </Text>
+          </View>
+        )}
       </View>
       <View className="bg-white rounded-xl shadow-md shadow-black p-4">
         <Text className="border-b-[1px] border-gray-700 text-black text-center text-lg font-bold pb-3 mb-3">
           COMPLETE
         </Text>
-        {completeList.map(todo => (
-          <TodoList
-            key={todo.id}
-            content={todo.content}
-            isComplete={todo.isComplete}
-          />
-        ))}
+        {completeList.length > 0 ? (
+          completeList.map(todo => (
+            <TodoList
+              key={todo.goalId}
+              id={todo.goalId}
+              content={todo.content}
+              done={todo.done}
+            />
+          ))
+        ) : (
+          <View className="w-full h-32 flex items-center justify-center">
+            <Text className="text-black text-center font-bold">
+              현재 완료한 목표가 없습니다.
+            </Text>
+          </View>
+        )}
       </View>
       {isTodoModalOpen && (
         <PlusTodoModal
