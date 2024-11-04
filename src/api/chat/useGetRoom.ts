@@ -1,5 +1,5 @@
 import {client} from '@/api/core/client';
-import {useQueries, UseQueryResult} from '@tanstack/react-query';
+import {useSuspenseQueries} from '@tanstack/react-query';
 import {BaseResponse} from '@/types/baseResponse';
 import {RoomData, Message} from '@/types/chat';
 import {QUERY_KEYS} from '@/constants/queryKeys';
@@ -18,24 +18,21 @@ const getRoomMessages = async (roomId: number): Promise<Message[]> => {
   return response.data;
 };
 
-export const useGetRoom = (
-  roomId: number,
-): [UseQueryResult<RoomData, Error>, UseQueryResult<Message[], Error>] => {
-  const results = useQueries({
+export const useGetRoom = (roomId: number): readonly [RoomData, Message[]] => {
+  const results = useSuspenseQueries({
     queries: [
       {
         queryKey: QUERY_KEYS.CHAT.DETAIL(roomId),
         queryFn: () => getRoomData(roomId),
+        staleTime: 0,
       },
       {
         queryKey: QUERY_KEYS.CHAT.MESSAGES(roomId),
         queryFn: () => getRoomMessages(roomId),
+        staleTime: 0,
       },
     ],
   });
 
-  return results as [
-    UseQueryResult<RoomData, Error>,
-    UseQueryResult<Message[], Error>,
-  ];
+  return [results[0].data, results[1].data] as const;
 };
