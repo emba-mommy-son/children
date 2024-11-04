@@ -13,4 +13,5 @@ export const ROUTES = {
   CHATTING: 'Chatting',
   FRIEND_RANKING: 'FriendRanking',
   ADD_FRIEND: 'AddFriend',
+  TODO: 'Todo',
 } as const;
