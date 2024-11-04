@@ -11,6 +11,10 @@ import {TodoBox} from '@/pages/todo/components/TodoBox';
 import {useUserStore} from '@/store/useUserStore';
 
 // 아이콘
+import {ErrorComponent} from '@/components/common/ErrorComponent';
+import {GoalContentSkeleton} from '@/pages/todo/components/GoalContentSkeleton';
+import {Suspense} from 'react';
+import ErrorBoundary from 'react-native-error-boundary';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export const TodoPage = () => {
@@ -34,7 +38,11 @@ export const TodoPage = () => {
           <Text className="text-white text-[16px]">{userName}의 목표</Text>
         </View>
         <View className="w-full p-4">
-          <TodoBox />
+          <ErrorBoundary FallbackComponent={ErrorComponent}>
+            <Suspense fallback={<GoalContentSkeleton />}>
+              <TodoBox />
+            </Suspense>
+          </ErrorBoundary>
         </View>
       </ScrollView>
     </SafeAreaView>
