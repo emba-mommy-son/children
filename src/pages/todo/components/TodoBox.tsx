@@ -19,7 +19,7 @@ export const TodoBox = () => {
   const [ratio, setRatio] = useState<number>(0);
 
   useEffect(() => {
-    setRatio((completeList.length / data.length) * 100);
+    setRatio((completeList.length / Math.max(1, data.length)) * 100);
   }, [data]);
 
   const handleOpen = () => {
@@ -38,7 +38,7 @@ export const TodoBox = () => {
           <EntypoIcons name="plus" size={25} onPress={handleOpen} />
         </View>
         <Text className="border-b-[1px] border-gray-700 text-black text-center text-lg font-bold pb-3 mb-3">
-          TODO
+          할 일
         </Text>
         {todoList.length > 0 ? (
           todoList.map(todo => (
@@ -59,7 +59,7 @@ export const TodoBox = () => {
       </View>
       <View className="bg-white rounded-xl shadow-md shadow-black p-4">
         <Text className="border-b-[1px] border-gray-700 text-black text-center text-lg font-bold pb-3 mb-3">
-          COMPLETE
+          완료
         </Text>
         {completeList.length > 0 ? (
           completeList.map(todo => (

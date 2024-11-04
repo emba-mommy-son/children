@@ -1,10 +1,12 @@
 import Card from '@/assets/icons/card.png';
 import {useMonthControl} from '@/hooks/useMonthControl';
 import {RewardList} from '@/pages/reward/components/RewardList';
+import {useUserStore} from '@/store/useUserStore';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 
 export function RewardContent() {
+  const reward = useUserStore(state => state.userInfo?.reward);
   const {date, isCurrentMonth, handlePrevMonth, handleNextMonth} =
     useMonthControl();
 
@@ -12,9 +14,11 @@ export function RewardContent() {
     <View className="p-4 space-y-3">
       <View className="bg-primary w-full p-4 rounded-2xl flex flex-col justify-center items-center">
         <Text className="text-white text-[14px]">내가 보유한 리워드</Text>
-        <View className="flex flex-row items-center gap-2"> 
+        <View className="flex flex-row items-center gap-2">
           <Image source={Card} className="w-[40px] h-[40px] rotate-90" />
-          <Text className="text-white text-[14px] font-bold">12,000</Text>
+          <Text className="text-white text-[14px] font-bold">
+            {reward?.toLocaleString()}
+          </Text>
         </View>
       </View>
       <View className="bg-gray-700 p-3 rounded-lg flex-row justify-between items-center">
