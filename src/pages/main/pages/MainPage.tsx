@@ -3,7 +3,6 @@ import {useState} from 'react';
 import {SafeAreaView, ScrollView, View} from 'react-native';
 
 // 라이브러리
-import messaging from '@react-native-firebase/messaging';
 
 // 컴포넌트
 import {AttendanceModal} from '@/pages/main/components/AttendanceModal';
@@ -21,6 +20,7 @@ import {TodoList} from '@/pages/main/components/TodoList';
 export const MainPage = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [qrOpen, setQrOpen] = useState<boolean>(false);
+  // * TODO : 출석 모달 zustand 사용해서 관리
   const [attendanceOpen, setAttendanceOpen] = useState<boolean>(false);
 
   return (

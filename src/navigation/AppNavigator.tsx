@@ -17,10 +17,11 @@ import {LocationPage} from '@/pages/location/pages/LocationPage';
 import {MainPage} from '@/pages/main/pages/MainPage';
 import {RewardPage} from '@/pages/reward/pages/RewardPage';
 import {SleepPage} from '@/pages/sleep/pages/SleepPage';
+import {TodoPage} from '@/pages/todo/pages/TodoPage';
 
 import {ROUTES} from '@/constants/routeURL';
-import { useGeoLocation } from '@/hooks/useGeoLocation';
-import { useEffect } from 'react';
+import {useGeoLocation} from '@/hooks/useGeoLocation';
+import {useEffect} from 'react';
 
 type AppNavigatorParamList = {
   [ROUTES.MAIN_TABS]: undefined;
@@ -29,6 +30,7 @@ type AppNavigatorParamList = {
   [ROUTES.CHATTING]: {roomId: number};
   [ROUTES.FRIEND_RANKING]: undefined;
   [ROUTES.ADD_FRIEND]: undefined;
+  [ROUTES.TODO]: undefined;
 };
 
 export type AppNavigatorProp = NativeStackNavigationProp<AppNavigatorParamList>;
@@ -81,8 +83,8 @@ export const AppNavigator = () => {
   useEffect(() => {
     setInterval(() => {
       getLocation();
-    }, 1000)
-  }, [])
+    }, 1000);
+  }, []);
 
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -95,6 +97,7 @@ export const AppNavigator = () => {
         component={FriendRankingPage}
       />
       <Stack.Screen name={ROUTES.ADD_FRIEND} component={AddFriendPage} />
+      <Stack.Screen name={ROUTES.TODO} component={TodoPage} />
     </Stack.Navigator>
   );
 };

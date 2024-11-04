@@ -1,5 +1,4 @@
 import useLocation from '@/database/query/useLocation';
-import {Location} from '@/database/schemas/LocationSchema';
 import {useRealm} from '@realm/react';
 import {useEffect, useState} from 'react';
 import {PermissionsAndroid, Platform} from 'react-native';
@@ -56,32 +55,34 @@ export const useGeoLocation = () => {
               };
             });
 
-            const prev = new Date(findLastCreatedAt()!!);
-            const now = new Date(position.timestamp);
-            const diff = now.getTime() - prev.getTime();
+            // !FIXME : asyncStorage로 저장(createdAt)
+            // const prev = new Date(findLastCreatedAt()!!);
+            // const now = new Date(position.timestamp);
+            // const diff = now.getTime() - prev.getTime();
 
-            // 1분 이내에 저장된 위치 정보는 저장하지 않음
-            if (diff < 60 * 1000) {
-              return;
-            }
+            // // 1분 이내에 저장된 위치 정보는 저장하지 않음
+            // if (diff < 60 * 1000) {
+            //   return;
+            // }
 
-            console.log('position', position);
+            // console.log('position', position);
 
-            realm.write(() => {
-              realm.create<Location>(
-                'Location',
-                Location.create({
-                  altitude: position.coords.altitude || 0,
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude,
-                  accuracy: position.coords.accuracy,
-                  speed: position.coords.speed || 0,
-                  provider: position.provider || 'none',
-                  danger: false,
-                  isSent: false,
-                }),
-              );
-            });
+            // !FIXME: realm 저장에서 에러남
+            // realm.write(() => {
+            //   realm.create<Location>(
+            //     'Location',
+            //     Location.create({
+            //       altitude: position.coords.altitude || 0,
+            //       latitude: position.coords.latitude,
+            //       longitude: position.coords.longitude,
+            //       accuracy: position.coords.accuracy,
+            //       speed: position.coords.speed || 0,
+            //       provider: position.provider || 'none',
+            //       danger: false,
+            //       isSent: false,
+            //     }),
+            //   );
+            // });
           },
           error => {
             console.log(error.code, error.message);
