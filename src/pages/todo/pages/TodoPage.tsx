@@ -18,7 +18,7 @@ import ErrorBoundary from 'react-native-error-boundary';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export const TodoPage = () => {
-  const userName = useUserStore(state => state.userInfo?.username);
+  const name = useUserStore(state => state.userInfo?.name);
   const nav = useNavigation();
 
   const handleBackPress = () => {
@@ -35,7 +35,7 @@ export const TodoPage = () => {
             size={20}
             onPress={handleBackPress}
           />
-          <Text className="text-white text-[16px]">{userName}의 목표</Text>
+          <Text className="text-white text-[16px]">{name}의 목표</Text>
         </View>
         <View className="w-full p-4">
           <ErrorBoundary FallbackComponent={ErrorComponent}>
