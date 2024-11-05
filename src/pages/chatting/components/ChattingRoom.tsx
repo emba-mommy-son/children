@@ -1,6 +1,7 @@
 import {Alert, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {useQueryClient} from '@tanstack/react-query';
 import {Client} from '@stomp/stompjs';
 import {Message} from '@/types/chat';
 import {useUserStore} from '@/store/useUserStore';
@@ -16,6 +17,7 @@ interface ChattingRoomProps {
 }
 
 export const ChattingRoom: React.FC<ChattingRoomProps> = ({roomId}) => {
+  const queryClient = useQueryClient();
   const nav = useNavigation();
   const userId = useUserStore(state => state.userInfo?.id);
   const {mutate: createAnalysis} = useCreateAnalysis();
@@ -142,6 +144,9 @@ export const ChattingRoom: React.FC<ChattingRoomProps> = ({roomId}) => {
   };
 
   const goBack = async () => {
+    await queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.CHAT.ALL],
+    });
     nav.goBack();
   };
 

@@ -1,12 +1,15 @@
 import {FlatList} from 'react-native';
 import React, {useEffect, useRef} from 'react';
+import {useQueryClient} from '@tanstack/react-query';
 import {Client} from '@stomp/stompjs';
 import {Room} from '@/types/chat';
 import {ChattingItem} from '@/pages/chatting/components/ChattingItem';
 import {useUserStore} from '@/store/useUserStore';
 import {useGetRooms} from '@/api/chat';
+import {QUERY_KEYS} from '@/constants/queryKeys';
 
 export const ChattingList: React.FC = () => {
+  const queryClient = useQueryClient();
   const {data: rooms} = useGetRooms();
   const stompClientRef = useRef<Client | null>(null);
   const userId = useUserStore(state => state.userInfo?.id);
@@ -69,6 +72,9 @@ export const ChattingList: React.FC = () => {
         // 걍 여기 낙관적 업데이트 말고 쿼리무효화 해야할듯
         // 낙관업데이트 치면 채팅방에서 말하다가 나왔을때 이 컴포넌트가 마운트되는게 아니라서 데이터 최신화를 못함
         //
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.CHAT.ALL],
+        });
       });
     }
   };
