@@ -89,7 +89,9 @@ export const WishModal = ({
           <View className="absolute top-2 right-2">
             <EntypoIcons name="cross" size={20} onPress={handleModalClose} />
           </View>
-          <Text className="text-black font-bold text-lg">WISH 등록 / 변경</Text>
+          <Text className="text-black font-bold text-lg">
+            {rewardImage ? '선물 수정' : '선물 등록'}
+          </Text>
           <TouchableOpacity onPress={handleImageSelect}>
             {selectedImage?.uri || rewardImage ? (
               <Image
@@ -109,7 +111,7 @@ export const WishModal = ({
             disabled={!selectedImage}>
             <View className="bg-primary flex flex-row rounded-lg mt-2">
               <Text className="text-white text-base font-bold w-full text-center py-1.5">
-                등록
+                {!selectedImage ? '새로운 선물을 등록해주세요' : '등록'}
               </Text>
             </View>
           </TouchableOpacity>

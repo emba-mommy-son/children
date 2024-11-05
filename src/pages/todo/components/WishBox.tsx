@@ -16,7 +16,9 @@ interface WishBoxProps {
 export const WishBox = ({ratio}: WishBoxProps) => {
   const [isWishModalOpen, setIsWishModalOpen] = useState<boolean>(false);
   const percentValue = Math.round(ratio);
-  const rewardImage = useUserStore(state => state.userInfo?.rewardImage);
+  // 일단 데이터 없어서 그냥 프로필 이미지로 하자
+  // const rewardImage = useUserStore(state => state.userInfo?.rewardImage);
+  const rewardImage = useUserStore(state => state.userInfo?.profileImage);
   console.log('이미지', rewardImage);
 
   return (
