@@ -1,30 +1,23 @@
 // 리액트
+import {useState} from 'react';
 import {Image, Text, View} from 'react-native';
 
 // 라이브러리
 import CircularProgress from 'react-native-circular-progress-indicator';
-
+import {useUserStore} from '@/store/useUserStore';
 // 아이콘
-import Bike from '@/assets/icons/bike.png';
 import {WishModal} from '@/pages/todo/components/WishModal';
-import {useState} from 'react';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 
 interface WishBoxProps {
   ratio: number;
 }
 
-interface WishList {
-  wishImg: any;
-}
-
-const wishList: WishList = {
-  wishImg: Bike,
-};
-
 export const WishBox = ({ratio}: WishBoxProps) => {
   const [isWishModalOpen, setIsWishModalOpen] = useState<boolean>(false);
   const percentValue = Math.round(ratio);
+  const rewardImage = useUserStore(state => state.userInfo?.rewardImage);
+  console.log('이미지', rewardImage);
 
   return (
     <View className="relative w-full bg-lightpurple rounded-xl flex flex-col items-center justify-center p-4 space-y-2">
@@ -35,7 +28,7 @@ export const WishBox = ({ratio}: WishBoxProps) => {
           onPress={() => setIsWishModalOpen(true)}
         />
       </View>
-      {wishList ? (
+      {rewardImage ? (
         <View>
           <View className="flex justify-center items-center relative">
             <CircularProgress
@@ -51,7 +44,7 @@ export const WishBox = ({ratio}: WishBoxProps) => {
               progressValueStyle={{display: 'none'}}
             />
             <Image
-              source={wishList.wishImg}
+              source={{uri: rewardImage}} // rewardImage URL을 사용
               className="w-[85px] h-[85px] absolute rounded-full"
             />
           </View>
@@ -62,7 +55,7 @@ export const WishBox = ({ratio}: WishBoxProps) => {
       ) : (
         <View className="flex items-center justify-center h-20">
           <Text className="text-black text-base font-bold">
-            등록한 WISH가 없습니다!
+            나를 위한 선물을 등록해보세요! 🎁
           </Text>
         </View>
       )}
@@ -70,6 +63,7 @@ export const WishBox = ({ratio}: WishBoxProps) => {
         <WishModal
           isModalOpen={isWishModalOpen}
           setIsModalOpen={setIsWishModalOpen}
+          rewardImage={rewardImage}
         />
       )}
     </View>

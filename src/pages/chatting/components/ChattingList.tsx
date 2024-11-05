@@ -1,4 +1,4 @@
-import {FlatList, SafeAreaView, Text, View} from 'react-native';
+import {FlatList} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {Client} from '@stomp/stompjs';
 import {Room} from '@/types/chat';
@@ -66,6 +66,9 @@ export const ChattingList: React.FC = () => {
       stompClientRef.current.subscribe(`/sub/chat/user/${userId}`, message => {
         console.log('Received message:', message);
         showMessage(message.body);
+        // 걍 여기 낙관적 업데이트 말고 쿼리무효화 해야할듯
+        // 낙관업데이트 치면 채팅방에서 말하다가 나왔을때 이 컴포넌트가 마운트되는게 아니라서 데이터 최신화를 못함
+        //
       });
     }
   };
