@@ -36,7 +36,7 @@ export const ChattingList: React.FC = () => {
       },
       // 연결 성공했을때 콘솔에 찍히게
       onConnect: () => {
-        console.log('연결 성공~~~');
+        console.log('연결 성공');
         subscribeToChat();
       },
       // stomp 프로토콜 레벨에서 에러 발생했을때 찍히는거
@@ -63,15 +63,10 @@ export const ChattingList: React.FC = () => {
       console.log('Disconnected');
     }
   };
-  // 채팅 메시지 구독 일단 1번만 구독
   const subscribeToChat = () => {
     if (stompClientRef.current) {
       stompClientRef.current.subscribe(`/sub/chat/user/${userId}`, message => {
-        console.log('Received message:', message);
         showMessage(message.body);
-        // 걍 여기 낙관적 업데이트 말고 쿼리무효화 해야할듯
-        // 낙관업데이트 치면 채팅방에서 말하다가 나왔을때 이 컴포넌트가 마운트되는게 아니라서 데이터 최신화를 못함
-        //
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.CHAT.ALL],
         });

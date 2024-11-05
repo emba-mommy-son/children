@@ -5,8 +5,8 @@ import {useQueryClient} from '@tanstack/react-query';
 import {Client} from '@stomp/stompjs';
 import {Message} from '@/types/chat';
 import {useUserStore} from '@/store/useUserStore';
-import {Receive} from '@/pages/chatting/components/Receive';
 import {Send} from '@/pages/chatting/components/Send';
+import {ChatMessages} from '@/pages/chatting/components/ChatMessages';
 import {useGetRoom} from '@/api/chat';
 import {useCreateAnalysis} from '@/api/analysis';
 import {QUERY_KEYS} from '@/constants/queryKeys';
@@ -24,6 +24,10 @@ export const ChattingRoom: React.FC<ChattingRoomProps> = ({roomId}) => {
 
   const [roomData, messages] = useGetRoom(roomId);
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
+  console.log('--------------------');
+  console.log('방정보', roomData);
+  console.log('채팅내역', messages);
+  console.log('--------------------');
   const stompClientRef = useRef<Client | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
   const [first, setFirst] = useState<boolean>(true);
@@ -163,26 +167,12 @@ export const ChattingRoom: React.FC<ChattingRoomProps> = ({roomId}) => {
           <AntDesignIcons name="linechart" color="white" size={20} />
         </TouchableOpacity>
       </View>
-      <ScrollView
+      <ChatMessages
         ref={scrollViewRef}
-        className="flex flex-col my-5 p-4"
-        onContentSizeChange={scrollToBottom}>
-        {chatMessages.map((message, index) =>
-          message.userId === userId ? (
-            <Send
-              key={index}
-              content={message.content}
-              createdAt={message.createdAt}
-            />
-          ) : (
-            <Receive
-              key={index}
-              content={message.content}
-              createdAt={message.createdAt}
-            />
-          ),
-        )}
-      </ScrollView>
+        messages={chatMessages}
+        userId={userId!!}
+        onContentSizeChange={scrollToBottom}
+      />
       <Send onSend={sendMessage} />
     </>
   );
