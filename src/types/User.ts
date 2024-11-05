@@ -15,6 +15,7 @@ export interface UserInfo {
   phoneNumber: string;
   profileImage: string;
   reward: number;
+  rewardImage: string;
 }
 
 export interface FriendInfo {

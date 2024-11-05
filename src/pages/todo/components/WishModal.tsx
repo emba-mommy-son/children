@@ -1,5 +1,14 @@
 // 리액트
-import {Modal, Pressable, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Modal,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+} from 'react-native';
+import {useState} from 'react';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 // 아이콘
 import EntypoIcons from 'react-native-vector-icons/Entypo';
@@ -7,11 +16,62 @@ import EntypoIcons from 'react-native-vector-icons/Entypo';
 interface WishModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
+  rewardImage?: string;
 }
 
-export const WishModal = ({isModalOpen, setIsModalOpen}: WishModalProps) => {
+export const WishModal = ({
+  isModalOpen,
+  setIsModalOpen,
+  rewardImage,
+}: WishModalProps) => {
+  const [selectedImage, setSelectedImage] = useState<{
+    uri: string;
+    type: string;
+    name: string;
+  } | null>(null);
+
   const handleModalClose = () => {
     setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+
+  const handleImageSelect = async () => {
+    try {
+      const result = await launchImageLibrary({
+        mediaType: 'photo',
+        quality: 0.7,
+        maxWidth: 1024,
+        maxHeight: 1024,
+        selectionLimit: 1,
+      });
+
+      const asset = result.assets?.[0];
+      // 타입 단언
+      if (!asset?.uri || !asset?.type || !asset?.fileName) return;
+
+      if (result.assets && result.assets[0]) {
+        const file = {
+          uri: asset.uri,
+          type: asset.type,
+          name: asset.fileName,
+        };
+        setSelectedImage(file);
+        // updateProfileImage(file, {
+        //   onSuccess: () => {
+        //     Alert.alert('완료', '프로필 수정이 완료되었습니다.');
+        //     setOpen(false);
+        //   },
+        // });
+      }
+    } catch (error) {
+      console.error('이미지 선택 에러:', error);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (selectedImage) {
+      console.log('이미지 등록 요청 해야됨');
+    }
   };
 
   return (
@@ -30,10 +90,23 @@ export const WishModal = ({isModalOpen, setIsModalOpen}: WishModalProps) => {
             <EntypoIcons name="cross" size={20} onPress={handleModalClose} />
           </View>
           <Text className="text-black font-bold text-lg">WISH 등록 / 변경</Text>
-          <View className="w-40 h-40 rounded-full bg-gray-700 flex items-center justify-center">
-            <Text>이미지 선택</Text>
-          </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleImageSelect}>
+            {selectedImage?.uri || rewardImage ? (
+              <Image
+                source={{uri: selectedImage?.uri || rewardImage}}
+                className="w-40 h-40 rounded-full"
+                resizeMode="cover"
+              />
+            ) : (
+              <View className="w-40 h-40 rounded-full bg-gray-700 flex items-center justify-center">
+                <Text>이미지 선택</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleSubmit}
+            className={`${!selectedImage ? 'opacity-50' : ''}`}
+            disabled={!selectedImage}>
             <View className="bg-primary flex flex-row rounded-lg mt-2">
               <Text className="text-white text-base font-bold w-full text-center py-1.5">
                 등록
