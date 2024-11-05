@@ -16,10 +16,7 @@ interface WishBoxProps {
 export const WishBox = ({ratio}: WishBoxProps) => {
   const [isWishModalOpen, setIsWishModalOpen] = useState<boolean>(false);
   const percentValue = Math.round(ratio);
-  // 일단 데이터 없어서 그냥 프로필 이미지로 하자
-  // const rewardImage = useUserStore(state => state.userInfo?.rewardImage);
-  const rewardImage = useUserStore(state => state.userInfo?.profileImage);
-  console.log('이미지', rewardImage);
+  const rewardImage = useUserStore(state => state.userInfo?.rewardImage);
 
   return (
     <View className="relative w-full bg-lightpurple rounded-xl flex flex-col items-center justify-center p-4 space-y-2">
@@ -46,7 +43,7 @@ export const WishBox = ({ratio}: WishBoxProps) => {
               progressValueStyle={{display: 'none'}}
             />
             <Image
-              source={{uri: rewardImage}} // rewardImage URL을 사용
+              source={{uri: rewardImage}}
               className="w-[85px] h-[85px] absolute rounded-full"
             />
           </View>
