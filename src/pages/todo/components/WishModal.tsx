@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {useCreateWishImage} from '@/api/todo/useCreateWishImage';
+import {useCreateWishImage} from '@/api/todo';
 
 // 아이콘
 import EntypoIcons from 'react-native-vector-icons/Entypo';
@@ -89,7 +89,7 @@ export const WishModal = ({
           className="relative bg-white rounded-xl w-[280px] flex flex-col items-center justify-center p-3 space-y-4"
           onStartShouldSetResponder={() => true}>
           <View className="absolute top-2 right-2">
-            <EntypoIcons name="cross" size={20} onPress={handleModalClose} />
+            <EntypoIcons name="cross" size={25} onPress={handleModalClose} />
           </View>
           <Text className="text-black font-bold text-lg">
             {rewardImage ? '선물 수정' : '선물 등록'}
