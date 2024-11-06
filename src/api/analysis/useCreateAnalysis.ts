@@ -1,5 +1,6 @@
 import {useMutation, UseMutationResult} from '@tanstack/react-query';
-import {BaseResponse} from '@/types/baseResponse';
+import {AxiosError} from 'axios';
+import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 
 type CreateAnalysisRequest = {
@@ -17,7 +18,7 @@ const createAnalysis = async (data: CreateAnalysisRequest): Promise<void> => {
 
 export const useCreateAnalysis = (): UseMutationResult<
   void,
-  Error,
+  AxiosError<ErrorResponse>,
   CreateAnalysisRequest
 > => {
   return useMutation({
