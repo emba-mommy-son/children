@@ -6,9 +6,11 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Alert,
 } from 'react-native';
 import {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {useCreateWishImage} from '@/api/todo';
 
 // 아이콘
 import EntypoIcons from 'react-native-vector-icons/Entypo';
@@ -24,6 +26,7 @@ export const WishModal = ({
   setIsModalOpen,
   rewardImage,
 }: WishModalProps) => {
+  const {mutate: createWishImage} = useCreateWishImage();
   const [selectedImage, setSelectedImage] = useState<{
     uri: string;
     type: string;
@@ -56,12 +59,6 @@ export const WishModal = ({
           name: asset.fileName,
         };
         setSelectedImage(file);
-        // updateProfileImage(file, {
-        //   onSuccess: () => {
-        //     Alert.alert('완료', '프로필 수정이 완료되었습니다.');
-        //     setOpen(false);
-        //   },
-        // });
       }
     } catch (error) {
       console.error('이미지 선택 에러:', error);
@@ -70,7 +67,12 @@ export const WishModal = ({
 
   const handleSubmit = () => {
     if (selectedImage) {
-      console.log('이미지 등록 요청 해야됨');
+      createWishImage(selectedImage, {
+        onSuccess: () => {
+          Alert.alert('완료', '선물 등록이 완료되었습니다.');
+          handleModalClose();
+        },
+      });
     }
   };
 
@@ -87,7 +89,7 @@ export const WishModal = ({
           className="relative bg-white rounded-xl w-[280px] flex flex-col items-center justify-center p-3 space-y-4"
           onStartShouldSetResponder={() => true}>
           <View className="absolute top-2 right-2">
-            <EntypoIcons name="cross" size={20} onPress={handleModalClose} />
+            <EntypoIcons name="cross" size={25} onPress={handleModalClose} />
           </View>
           <Text className="text-black font-bold text-lg">
             {rewardImage ? '선물 수정' : '선물 등록'}
@@ -111,7 +113,7 @@ export const WishModal = ({
             disabled={!selectedImage}>
             <View className="bg-primary flex flex-row rounded-lg mt-2">
               <Text className="text-white text-base font-bold w-full text-center py-1.5">
-                {!selectedImage ? '새로운 선물을 등록해주세요' : '등록'}
+                등록
               </Text>
             </View>
           </TouchableOpacity>
