@@ -3,7 +3,6 @@ import {
   UseMutationResult,
   useQueryClient,
 } from '@tanstack/react-query';
-
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 import {BaseResponse, ErrorResponse} from '@/types/baseResponse';

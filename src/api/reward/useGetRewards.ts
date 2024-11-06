@@ -5,11 +5,6 @@ import {Reward} from '@/types/reward';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
-interface GetRewardsRequest {
-  year: number;
-  month: number;
-}
-
 const getRewards = async ({
   year,
   month,
