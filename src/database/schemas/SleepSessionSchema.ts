@@ -8,6 +8,7 @@ export interface ISleepSession {
   totalSleepTime: number;
   createdAt: Date;
   updatedAt: Date;
+  isSynced: boolean;
 }
 
 export class SleepSession extends Realm.Object {
@@ -30,6 +31,7 @@ export class SleepSession extends Realm.Object {
       totalSleepTime: 'int',
       createdAt: 'date',
       updatedAt: 'date',
+      isSynced: {type: 'bool', default: false},
     },
   };
 }
