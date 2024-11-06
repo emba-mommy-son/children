@@ -1,6 +1,7 @@
-import useLocation from '@/database/query/useLocation';
-import {useRealm} from '@realm/react';
-import {useEffect, useState} from 'react';
+import {useCreateLocation} from '@/api/location/useCreateLocation';
+import {useGeofence} from '@/hooks/useGeofence';
+import {useLocationStore} from '@/store/useLocationStore';
+import {useEffect, useRef, useState} from 'react';
 import {PermissionsAndroid, Platform} from 'react-native';
 import GeoLocation from 'react-native-geolocation-service';
 
@@ -10,13 +11,17 @@ interface GeoLocation {
 }
 
 export const useGeoLocation = () => {
+  const {mutate: createLocation} = useCreateLocation();
+  const {checkBoundary} = useGeofence();
   const [init, setInit] = useState(false);
-  const [location, setLocation] = useState<GeoLocation>({
-    latitude: 0,
-    longitude: 0,
-  });
-  const realm = useRealm();
-  const {findAll, findLastCreatedAt} = useLocation();
+
+  const {createdAt, setCreatedAt, location, setLocation} = useLocationStore(
+    state => state,
+  );
+  const createdAtRef = useRef(createdAt);
+  // useEffect(() => {
+  //   createdAtRef.current = createdAt;
+  // }, [createdAt]);
 
   const initialize = () => {
     setInit(true);
@@ -40,7 +45,7 @@ export const useGeoLocation = () => {
     checkPermission().then(result => {
       if (result === 'granted') {
         GeoLocation.getCurrentPosition(
-          position => {
+          async position => {
             if (
               position.coords.latitude === 0 &&
               position.coords.longitude === 0
@@ -48,41 +53,25 @@ export const useGeoLocation = () => {
               return;
             }
 
-            setLocation(() => {
-              return {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-              };
+            const outOfBoundaries = await checkBoundary({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
             });
 
-            // !FIXME : asyncStorage로 저장(createdAt)
-            // const prev = new Date(findLastCreatedAt()!!);
-            // const now = new Date(position.timestamp);
+            console.log('outOfBoundaries', outOfBoundaries);
+            console.log('position', position.coords);
+
+            // const prev = new Date(createdAtRef.current);
+            // const now = new Date();
             // const diff = now.getTime() - prev.getTime();
 
-            // // 1분 이내에 저장된 위치 정보는 저장하지 않음
             // if (diff < 60 * 1000) {
             //   return;
             // }
 
-            // console.log('position', position);
+            // TODO : 여기에서 마지막 저장된 위치 asyncstorage에 저장
 
-            // !FIXME: realm 저장에서 에러남
-            // realm.write(() => {
-            //   realm.create<Location>(
-            //     'Location',
-            //     Location.create({
-            //       altitude: position.coords.altitude || 0,
-            //       latitude: position.coords.latitude,
-            //       longitude: position.coords.longitude,
-            //       accuracy: position.coords.accuracy,
-            //       speed: position.coords.speed || 0,
-            //       provider: position.provider || 'none',
-            //       danger: false,
-            //       isSent: false,
-            //     }),
-            //   );
-            // });
+            // setCreatedAt(now);
           },
           error => {
             console.log(error.code, error.message);
@@ -101,9 +90,7 @@ export const useGeoLocation = () => {
     if (init) {
       const interval = setInterval(() => {
         getLocation();
-        // console.log(findAll());
-        // console.log('get location');
-      }, 10000); // 10초에 한 번씩 저장 시도
+      }, 10000); // 1초에 1번씩 위치 불러오기
 
       return () => {
         clearInterval(interval);
@@ -111,5 +98,5 @@ export const useGeoLocation = () => {
     }
   }, [init]);
 
-  return {location, initialize, getLocation};
+  return {initialize, getLocation};
 };

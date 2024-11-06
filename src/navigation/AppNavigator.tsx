@@ -78,14 +78,6 @@ const TabNavigator = () => {
 };
 
 export const AppNavigator = () => {
-  const {getLocation} = useGeoLocation();
-
-  useEffect(() => {
-    setInterval(() => {
-      getLocation();
-    }, 1000);
-  }, []);
-
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name={ROUTES.MAIN_TABS} component={TabNavigator} />

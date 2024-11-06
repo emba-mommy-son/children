@@ -1,5 +1,4 @@
 import {useGeoLocation} from '@/hooks/useGeoLocation';
-import {useGeofence} from '@/hooks/useGeofence';
 import {useNotification} from '@/hooks/useNotification';
 import {useSleepSync} from '@/hooks/useSleepSync';
 import {AppNavigator} from '@/navigation/AppNavigator';
@@ -11,7 +10,7 @@ export const AppWrapper: React.FC = () => {
   const {syncSleepData} = useSleepSync();
 
   // 지오펜스
-  const {initialze: geofenceInit, isOutOfBounds} = useGeofence();
+  // const {initialze: geofenceInit, isOutOfBounds} = useGeofence();
 
   // 위치 정보
   // useEffect(() => {
@@ -25,17 +24,18 @@ export const AppWrapper: React.FC = () => {
 
   useEffect(() => {
     const unsubscribe = initialize();
-
+    console.log(unsubscribe);
+    syncSleepData();
+    // geofenceInit();
+    locationInit();
     return () => {
       unsubscribe;
     };
   }, []);
 
-  useEffect(() => {
-    syncSleepData();
-    // geofenceInit();
-    // locationInit();
-  }, []);
+  // useEffect(() => {
+
+  // }, []);
 
   return (
     <NavigationContainer>

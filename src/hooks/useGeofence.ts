@@ -1,27 +1,12 @@
 import useBoundary from '@/database/query/useBoundary';
-import useLocation from '@/database/query/useLocation';
-import {useEffect, useState} from 'react';
 
-interface GeofenceData {
-  id: number;
+interface LocationData {
   latitude: number;
   longitude: number;
-  radius: number;
-  danger: boolean;
-  createdAt: Date;
 }
 
 export const useGeofence = () => {
-  const [init, setInit] = useState(true);
-  const [boundaries, setBoundaries] = useState<GeofenceData[]>([]);
-  const {findLastLocation} = useLocation();
   const {findAll} = useBoundary();
-
-  const [isOutOfBounds, setIsOutOfBounds] = useState<number[]>([]);
-
-  const initialze = () => {
-    setInit(true);
-  };
 
   const toRad = (value: number) => {
     return (value * Math.PI) / 180;
@@ -51,17 +36,16 @@ export const useGeofence = () => {
     return R * c;
   };
 
-  const checkBoundary = () => {
-    const currentLocation = findLastLocation();
-    if (currentLocation === null) {
-      return;
-    }
+  const checkBoundary = async ({latitude, longitude}: LocationData) => {
+    const boundaries = await findAll();
+
+    console.log('boundaries', boundaries);
 
     const newBoundaries = boundaries
       .filter(boundary => {
         const distance = calculateDistance({
-          lat1: currentLocation.latitude,
-          lon1: currentLocation.longitude,
+          lat1: latitude,
+          lon1: longitude,
           lat2: boundary.latitude,
           lon2: boundary.longitude,
         });
@@ -73,31 +57,8 @@ export const useGeofence = () => {
         return boundary.id;
       });
 
-    setIsOutOfBounds(newBoundaries);
+    return newBoundaries;
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const storedBoundaries = findAll();
-      // console.log('storedBoundaries', storedBoundaries);
-
-      if (storedBoundaries) {
-        setBoundaries(
-          storedBoundaries.map(boundary => boundary as GeofenceData),
-        );
-      }
-
-      if (init) {
-        checkBoundary();
-      }
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  return {
-    isOutOfBounds,
-    initialze,
-  };
+  return {checkBoundary};
 };

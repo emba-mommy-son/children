@@ -2,21 +2,17 @@
 import {Image, Pressable, Text, View} from 'react-native';
 
 // 아이콘
+import {usePostStatus} from '@/api/user/usePostStatus';
 import Angry from '@/assets/icons/emotion/angry.png';
 import Happy from '@/assets/icons/emotion/happy.png';
 import Soso from '@/assets/icons/emotion/soso.png';
-import {useEffect, useState} from 'react';
 
 export const Question = () => {
-  const [selected, setSelected] = useState<string>('');
+  const {mutate: statusMutate} = usePostStatus();
 
   const handleClick = (emotion: string) => {
-    setSelected(emotion);
+    statusMutate(emotion);
   };
-
-  useEffect(() => {
-    console.log(selected);
-  }, [selected]);
 
   return (
     <View className="bg-navy w-[280px] h-[125px] rounded-2xl p-5 flex flex-col justify-center space-y-3 mt-6">

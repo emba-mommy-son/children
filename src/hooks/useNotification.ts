@@ -1,7 +1,6 @@
 import {useLogin} from '@/hooks/useLogin';
 import {NotificationType} from '@/types/notification';
 import messaging from '@react-native-firebase/messaging';
-import {useRealm} from '@realm/react';
 import {useState} from 'react';
 import PushNotification from 'react-native-push-notification';
 
@@ -16,7 +15,7 @@ interface LocationData {
 }
 
 export const useNotification = () => {
-  const realm = useRealm();
+  // const realm = useRealm();
   const [init, setInit] = useState(false);
   const {setLoginData} = useLogin();
 
@@ -42,8 +41,11 @@ export const useNotification = () => {
         created => console.log(`createChannel returned '${created}'`),
       );
 
+      console.log('억까');
+
       // foreground notification
       const unsubscribe = messaging().onMessage(async message => {
+        console.log(message);
         const {notification} = message;
         if (notification && notification.body) {
           const notificationType = parseNotification(notification.title || '');
@@ -77,22 +79,22 @@ export const useNotification = () => {
               JSON.parse(notification.body),
             ];
 
-            realm.write(() => {
-              const boundaries = realm.objects('Boundary');
-              realm.delete(boundaries);
+            // realm.write(() => {
+            //   const boundaries = realm.objects('Boundary');
+            //   realm.delete(boundaries);
 
-              locationData.forEach(location => {
-                console.log('location data : ', location);
-                realm.create('Boundary', {
-                  id: location.id,
-                  latitude: location.latitude,
-                  longitude: location.longitude,
-                  radius: location.radius,
-                  danger: location.danger,
-                  createdAt: new Date(),
-                });
-              });
-            });
+            //   locationData.forEach(location => {
+            //     console.log('location data : ', location);
+            //     realm.create('Boundary', {
+            //       id: location.id,
+            //       latitude: location.latitude,
+            //       longitude: location.longitude,
+            //       radius: location.radius,
+            //       danger: location.danger,
+            //       createdAt: new Date(),
+            //     });
+            //   });
+            // });
           }
 
           // * 자녀 어플리케이션 로그인 연결 알림 처리
@@ -109,6 +111,8 @@ export const useNotification = () => {
           }
         }
       });
+
+      unsubscribe();
 
       setInit(true);
 
