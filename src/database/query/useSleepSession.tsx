@@ -1,7 +1,12 @@
 import {useCallback, useMemo} from 'react';
 import {useQuery} from '@realm/react';
 import {SleepSession} from '@/database/schemas/SleepSessionSchema';
-
+import {
+  calculateSleepTimeScore,
+  calculateBedTimeScore,
+  calculateWakeTimeScore,
+  calculateActualSleep,
+} from '@/utils/sleepUtils';
 export const useSleepSession = () => {
   const sleepSessions = useQuery(SleepSession);
 
@@ -82,6 +87,12 @@ export const useSleepSession = () => {
     // 가장 최근 수면 데이터
     const lastSession = sessions[0];
 
+    // 수면 점수 계산(숙면도, 숙면 시간)
+    const sleepTimeScore = calculateSleepTimeScore(lastSession.totalSleepTime);
+    const bedTimeScore = calculateBedTimeScore(lastSession.startDate);
+    const wakeTimeScore = calculateWakeTimeScore(lastSession.endDate);
+    const totalSleepQuality = sleepTimeScore + bedTimeScore + wakeTimeScore;
+
     const formatTime = (minutes: number) => {
       const hours = Math.floor(minutes / 60);
       const mins = minutes % 60;
@@ -101,13 +112,15 @@ export const useSleepSession = () => {
       totalSleepTime: totalMinutes / 60, // 시간 단위
       averageBedTime: formatTimeWithAmPm(avgBedTime),
       averageWakeTime: formatTimeWithAmPm(avgWakeTime),
-      sleepQuality: 75, // 임시값, 나중에 실제 퀄리티 계산 해야됨
+      sleepQuality: totalSleepQuality,
       weeklyHours,
       lastNightSleep: {
         totalSleep: formatTime(lastSession.totalSleepTime),
         bedTime: formatTimeWithAmPm(lastSession.startDate),
         wakeUpTime: formatTimeWithAmPm(lastSession.endDate),
-        actualSleep: formatTime(lastSession.totalSleepTime), // !FIXME : 숙면시간 수정해야됨
+        actualSleep: formatTime(
+          calculateActualSleep(lastSession.totalSleepTime),
+        ),
       },
     };
   }, [findWeeklyData]);
