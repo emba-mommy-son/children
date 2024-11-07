@@ -19,8 +19,11 @@ import {RewardPage} from '@/pages/reward/pages/RewardPage';
 import {SleepPage} from '@/pages/sleep/pages/SleepPage';
 import {TodoPage} from '@/pages/todo/pages/TodoPage';
 
+import {useGetBoundary} from '@/api/location/useGetBoundary';
 import {ROUTES} from '@/constants/routeURL';
 import {useGeoLocation} from '@/hooks/useGeoLocation';
+import {WarningLocationPage} from '@/pages/location/pages/WarningLocationPage';
+import {useRealm} from '@realm/react';
 import {useEffect} from 'react';
 
 type AppNavigatorParamList = {
@@ -31,6 +34,7 @@ type AppNavigatorParamList = {
   [ROUTES.FRIEND_RANKING]: undefined;
   [ROUTES.ADD_FRIEND]: undefined;
   [ROUTES.TODO]: undefined;
+  [ROUTES.WARNING]: undefined;
 };
 
 export type AppNavigatorProp = NativeStackNavigationProp<AppNavigatorParamList>;
@@ -57,6 +61,42 @@ const Stack = createNativeStackNavigator<AppNavigatorParamList>();
 // }, [handlePressBack]);
 
 const TabNavigator = () => {
+  const realm = useRealm();
+  const {initialize: locationInit} = useGeoLocation();
+  const {data: boundaryData} = useGetBoundary();
+
+  useEffect(() => {
+    const fetchAndStoreBoundaries = async () => {
+      try {
+        if (boundaryData) {
+          realm.write(() => {
+            const boundaries = realm.objects('Boundary');
+            realm.delete(boundaries);
+
+            boundaryData.forEach(boundary => {
+              realm.create('Boundary', {
+                id: boundary.boundaryId,
+                name: boundary.name,
+                latitude: boundary.latitude,
+                longitude: boundary.longitude,
+                radius: boundary.radius,
+                danger: boundary.danger,
+              });
+            });
+          });
+        }
+      } catch (error) {
+        console.error('boundary 데이터 가져오기 실패', error);
+      }
+    };
+
+    fetchAndStoreBoundaries();
+  }, [boundaryData]);
+
+  useEffect(() => {
+    locationInit();
+  }, []);
+
   return (
     <Tab.Navigator
       initialRouteName={ROUTES.HOME}
@@ -90,6 +130,7 @@ export const AppNavigator = () => {
       />
       <Stack.Screen name={ROUTES.ADD_FRIEND} component={AddFriendPage} />
       <Stack.Screen name={ROUTES.TODO} component={TodoPage} />
+      <Stack.Screen name={ROUTES.WARNING} component={WarningLocationPage} />
     </Stack.Navigator>
   );
 };

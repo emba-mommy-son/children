@@ -1,9 +1,13 @@
 import {useCreateLocation} from '@/api/location/useCreateLocation';
 import {useGeofence} from '@/hooks/useGeofence';
+import {mapKey} from '@/secret/mapKey';
 import {useLocationStore} from '@/store/useLocationStore';
-import {useEffect, useRef, useState} from 'react';
+import {Location} from '@/types/location';
+import {useEffect, useState} from 'react';
 import {PermissionsAndroid, Platform} from 'react-native';
 import GeoLocation from 'react-native-geolocation-service';
+
+const GOOGLE_MAPS_API_KEY = mapKey;
 
 interface GeoLocation {
   latitude: number;
@@ -15,13 +19,7 @@ export const useGeoLocation = () => {
   const {checkBoundary} = useGeofence();
   const [init, setInit] = useState(false);
 
-  const {createdAt, setCreatedAt, location, setLocation} = useLocationStore(
-    state => state,
-  );
-  const createdAtRef = useRef(createdAt);
-  // useEffect(() => {
-  //   createdAtRef.current = createdAt;
-  // }, [createdAt]);
+  const setLocation = useLocationStore(state => state.setLocation);
 
   const initialize = () => {
     setInit(true);
@@ -61,17 +59,28 @@ export const useGeoLocation = () => {
             console.log('outOfBoundaries', outOfBoundaries);
             console.log('position', position.coords);
 
-            // const prev = new Date(createdAtRef.current);
-            // const now = new Date();
-            // const diff = now.getTime() - prev.getTime();
+            if (!outOfBoundaries) {
+              return;
+            }
 
-            // if (diff < 60 * 1000) {
-            //   return;
-            // }
+            const response = await fetch(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=${GOOGLE_MAPS_API_KEY}&language=ko`,
+            );
+            const data = await response.json();
 
-            // TODO : 여기에서 마지막 저장된 위치 asyncstorage에 저장
+            outOfBoundaries.forEach(async boundary => {
+              const newLocation = {
+                boundaryId: boundary.id,
+                name: data.results[0].formatted_address,
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                danger: true,
+              };
 
-            // setCreatedAt(now);
+              console.log('newLocation', newLocation);
+
+              createLocation(newLocation as Location);
+            });
           },
           error => {
             console.log(error.code, error.message);
@@ -90,7 +99,7 @@ export const useGeoLocation = () => {
     if (init) {
       const interval = setInterval(() => {
         getLocation();
-      }, 10000); // 1초에 1번씩 위치 불러오기
+      }, 5 * 60 * 1000); // 5분에 1번씩 위치 불러오기
 
       return () => {
         clearInterval(interval);

@@ -41,21 +41,17 @@ export const useGeofence = () => {
 
     console.log('boundaries', boundaries);
 
-    const newBoundaries = boundaries
-      .filter(boundary => {
-        const distance = calculateDistance({
-          lat1: latitude,
-          lon1: longitude,
-          lat2: boundary.latitude,
-          lon2: boundary.longitude,
-        });
-        return boundary.danger
-          ? distance < boundary.radius / 1000
-          : distance > boundary.radius / 1000;
-      })
-      .map(boundary => {
-        return boundary.id;
+    const newBoundaries = boundaries.filter(boundary => {
+      const distance = calculateDistance({
+        lat1: latitude,
+        lon1: longitude,
+        lat2: boundary.latitude,
+        lon2: boundary.longitude,
       });
+      return boundary.danger
+        ? distance < boundary.radius / 1000
+        : distance > boundary.radius / 1000;
+    });
 
     return newBoundaries;
   };

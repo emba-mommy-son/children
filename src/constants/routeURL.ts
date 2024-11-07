@@ -14,4 +14,5 @@ export const ROUTES = {
   FRIEND_RANKING: 'FriendRanking',
   ADD_FRIEND: 'AddFriend',
   TODO: 'Todo',
+  WARNING: 'Warning',
 } as const;

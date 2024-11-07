@@ -23,6 +23,9 @@ export const QUERY_KEYS = {
   GOAL: {
     ALL: ['goals'] as const,
   },
+  LOCATION: {
+    BOUNDARY: ['boundary'] as const,
+  },
 } as const;
 
 // 중앙관리의 장점

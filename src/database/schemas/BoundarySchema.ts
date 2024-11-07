@@ -2,15 +2,16 @@ import Realm from 'realm';
 
 export interface IBoundary {
   id: number;
+  name: string;
   latitude: number;
   longitude: number;
   danger: boolean;
   radius: number;
-  createdAt: Date;
 }
 
 interface BoundaryCreateProps {
   id: number;
+  name: string;
   latitude: number;
   longitude: number;
   danger: boolean;
@@ -19,22 +20,22 @@ interface BoundaryCreateProps {
 
 export class Boundary extends Realm.Object {
   id!: number;
+  name!: string;
   latitude!: number;
   longitude!: number;
   danger!: boolean;
   radius!: number;
-  createdAt!: Date;
 
   static create(props: BoundaryCreateProps): IBoundary {
-    const {id, latitude, longitude, danger, radius} = props;
+    const {id, name, latitude, longitude, danger, radius} = props;
 
     return {
       id,
+      name,
       latitude,
       longitude,
       danger,
       radius,
-      createdAt: new Date(),
     };
   }
 
@@ -43,11 +44,11 @@ export class Boundary extends Realm.Object {
     primaryKey: 'id',
     properties: {
       id: 'int',
-      latitude: 'float',
-      longitude: 'float',
+      name: 'string',
+      latitude: 'double',
+      longitude: 'double',
       danger: 'bool',
       radius: 'int',
-      createdAt: 'date',
     },
   };
 }

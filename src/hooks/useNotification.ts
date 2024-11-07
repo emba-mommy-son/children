@@ -1,6 +1,8 @@
+import {useGetBoundary} from '@/api/location/useGetBoundary';
 import {useLogin} from '@/hooks/useLogin';
 import {NotificationType} from '@/types/notification';
 import messaging from '@react-native-firebase/messaging';
+import {useRealm} from '@realm/react';
 import {useState} from 'react';
 import PushNotification from 'react-native-push-notification';
 
@@ -8,6 +10,7 @@ const CHANNEL_ID = 'children';
 
 interface LocationData {
   id: number;
+  name: string;
   latitude: number;
   longitude: number;
   radius: number;
@@ -15,7 +18,7 @@ interface LocationData {
 }
 
 export const useNotification = () => {
-  // const realm = useRealm();
+  const realm = useRealm();
   const [init, setInit] = useState(false);
   const {setLoginData} = useLogin();
 
@@ -41,8 +44,6 @@ export const useNotification = () => {
         created => console.log(`createChannel returned '${created}'`),
       );
 
-      console.log('억까');
-
       // foreground notification
       const unsubscribe = messaging().onMessage(async message => {
         console.log(message);
@@ -60,7 +61,7 @@ export const useNotification = () => {
             PushNotification.localNotification({
               channelId: CHANNEL_ID,
               // !FIXME: notification.title로 넣지 말고 직접 설정
-              title: notification.title,
+              title: '친구 관계 알림',
               message: notification.body,
             });
           }
@@ -69,32 +70,26 @@ export const useNotification = () => {
           if (notificationType === NotificationType.LOCATION) {
             console.log('LOCATION', notification.body);
 
-            // PushNotification.localNotification({
-            //   channelId: CHANNEL_ID,
-            //   title: '위치 알림',
-            //   message: notification.body,
-            // });
-
             const locationData: LocationData[] = [
               JSON.parse(notification.body),
             ];
 
-            // realm.write(() => {
-            //   const boundaries = realm.objects('Boundary');
-            //   realm.delete(boundaries);
+            realm.write(() => {
+              const boundaries = realm.objects('Boundary');
+              realm.delete(boundaries);
 
-            //   locationData.forEach(location => {
-            //     console.log('location data : ', location);
-            //     realm.create('Boundary', {
-            //       id: location.id,
-            //       latitude: location.latitude,
-            //       longitude: location.longitude,
-            //       radius: location.radius,
-            //       danger: location.danger,
-            //       createdAt: new Date(),
-            //     });
-            //   });
-            // });
+              locationData.forEach(location => {
+                realm.create('Boundary', {
+                  id: location.id,
+                  name: location.name,
+                  latitude: location.latitude,
+                  longitude: location.longitude,
+                  radius: location.radius,
+                  danger: location.danger,
+                  createdAt: new Date(),
+                });
+              });
+            });
           }
 
           // * 자녀 어플리케이션 로그인 연결 알림 처리
@@ -108,11 +103,30 @@ export const useNotification = () => {
             };
             console.log('CHILD_SIGN_IN', userId, username, password);
             setLoginData({username, password});
+
+            // const {data: BoundaryData} = await useGetBoundary();
+
+            // console.log('BoundaryData', BoundaryData);
+
+            // realm.write(() => {
+            //   const boundaries = realm.objects('Boundary');
+            //   realm.delete(boundaries);
+
+            //   BoundaryData.forEach(boundary => {
+            //     realm.create('Boundary', {
+            //       id: boundary.boundaryId,
+            //       name: boundary.name,
+            //       latitude: boundary.latitude,
+            //       longitude: boundary.longitude,
+            //       radius: boundary.radius,
+            //       danger: boundary.danger,
+            //       createdAt: boundary.cratedAt,
+            //     });
+            //   }); 
+            // });
           }
         }
       });
-
-      unsubscribe();
 
       setInit(true);
 
