@@ -15,7 +15,7 @@ export const Question = () => {
   };
 
   return (
-    <View className="bg-navy w-[280px] h-[125px] rounded-2xl p-5 flex flex-col justify-center space-y-3 mt-6">
+    <View className="bg-navy w-full h-[125px] rounded-2xl p-5 flex flex-col justify-center space-y-3 mt-6">
       <Text className="text-white text-[16px] font-semibold mb-2 text-center">
         어제 하루는 어땠나요?
       </Text>
