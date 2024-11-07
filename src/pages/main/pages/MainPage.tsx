@@ -5,6 +5,7 @@ import {SafeAreaView, ScrollView, View} from 'react-native';
 // 라이브러리
 
 // 컴포넌트
+import {useGetEmotion} from '@/api/user/useGetEmotion';
 import {AttendanceModal} from '@/pages/main/components/AttendanceModal';
 import {BestFriend} from '@/pages/main/components/BestFriend';
 import {Emotion} from '@/pages/main/components/Emotion';
@@ -20,6 +21,10 @@ import {TodoList} from '@/pages/main/components/TodoList';
 export const MainPage = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [qrOpen, setQrOpen] = useState<boolean>(false);
+  const {data: emotionData} = useGetEmotion();
+
+  console.log('emotion', emotionData);
+
   // * TODO : 출석 모달 zustand 사용해서 관리
   const [attendanceOpen, setAttendanceOpen] = useState<boolean>(false);
 
@@ -30,19 +35,17 @@ export const MainPage = () => {
           <MainHeader open={open} setOpen={setOpen} />
           <GetUserInfo />
           {open && <MainProfile setQrOpen={setQrOpen} setOpen={setOpen} />}
-          <View className="flex flex-col items-center space-y-3 px-3 z-0 w-full">
-            <View className="w-full">
-              <TodoList />
-            </View>
-            <View className="flex flex-row space-x-3">
+          <View className="flex flex-col items-center space-y-3 px-4 z-0 w-full">
+            <TodoList />
+            <View className="flex flex-row">
               <BestFriend />
               <Sleep />
             </View>
-            <View className="flex flex-row space-x-3">
+            <View className="flex flex-row">
               <Reward />
-              <Emotion />
+              <Emotion status={emotionData} />
             </View>
-            <Question />
+            {!emotionData && <Question />}
           </View>
           {qrOpen && <QRCodeModal qrOpen={qrOpen} setQrOpen={setQrOpen} />}
           {attendanceOpen && (

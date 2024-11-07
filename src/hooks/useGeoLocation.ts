@@ -97,6 +97,7 @@ export const useGeoLocation = () => {
 
   useEffect(() => {
     if (init) {
+      getLocation();
       const interval = setInterval(() => {
         getLocation();
       }, 5 * 60 * 1000); // 5분에 1번씩 위치 불러오기

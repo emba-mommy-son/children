@@ -8,17 +8,20 @@ export const LocationPage = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const location = useLocationStore(state => state.location);
 
+  console.log('location 페이지', location);
+
   const handleOpen = () => {
     setModalOpen(true);
   };
+
   return (
     <View className="flex-1 relative">
       {location && (
         <MapView
           provider={PROVIDER_GOOGLE}
-          initialRegion={{
+          region={{
             latitude: location.latitude,
-            longitude: location.latitude,
+            longitude: location.longitude,
             latitudeDelta: 0.005,
             longitudeDelta: 0.005,
           }}
