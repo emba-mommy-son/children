@@ -22,14 +22,20 @@ export const useCreateLocation = (): UseMutationResult<
   AxiosError<ErrorResponse>,
   Location
 > => {
-  const setLocation = useLocationStore(state => state.setLocation);
+  const {setLocation, locationIds, setLocationIds} = useLocationStore(
+    state => state,
+  );
   const nav = useNavigation<AppNavigatorProp>();
 
   return useMutation({
     mutationFn: createLocation,
     onSuccess: data => {
       setLocation(data);
-      console.log('location 저장 성공', data);
+      if (locationIds.includes(data.locationId!!)) {
+        return;
+      }
+
+      setLocationIds([...locationIds, data.locationId!!]);
       nav.navigate('Warning');
     },
 

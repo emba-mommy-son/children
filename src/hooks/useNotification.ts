@@ -1,4 +1,3 @@
-import {useGetBoundary} from '@/api/location/useGetBoundary';
 import {useLogin} from '@/hooks/useLogin';
 import {NotificationType} from '@/types/notification';
 import messaging from '@react-native-firebase/messaging';
@@ -122,7 +121,7 @@ export const useNotification = () => {
             //       danger: boundary.danger,
             //       createdAt: boundary.cratedAt,
             //     });
-            //   }); 
+            //   });
             // });
           }
         }

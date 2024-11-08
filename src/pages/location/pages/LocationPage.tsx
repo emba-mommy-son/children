@@ -17,7 +17,11 @@ export const LocationPage = () => {
     latitude: number;
     longitude: number;
     name: string;
-  }>();
+  }>({
+    latitude: location?.latitude || 0,
+    longitude: location?.longitude || 0,
+    name: location?.name || '',
+  });
 
   console.log('location 페이지', location);
 
@@ -35,7 +39,7 @@ export const LocationPage = () => {
               position.coords.longitude === 0
             ) {
               return;
-            }
+            }``
 
             const response = await fetch(
               `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=${GOOGLE_MAPS_API_KEY}&language=ko`,

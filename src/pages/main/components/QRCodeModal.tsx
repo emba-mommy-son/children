@@ -7,7 +7,9 @@ import messaging from '@react-native-firebase/messaging';
 import QRCode from 'react-native-qrcode-svg';
 
 // 아이콘
+import {useUpdateFcmToken} from '@/api/user/useUpdateFcmToken';
 import {useAuthStore} from '@/store/useAuthStore';
+import {useUserStore} from '@/store/useUserStore';
 
 interface QRCodeModalProps {
   qrOpen: boolean;
@@ -15,8 +17,9 @@ interface QRCodeModalProps {
 }
 
 export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
-  // const [newFCMToken, setNewFCMToken] = useState<string>('');
   const {FCMToken, setFCMToken} = useAuthStore(state => state);
+  const {userInfo, setUserInfo} = useUserStore(state => state);
+  const {mutate: updateFcmToken} = useUpdateFcmToken();
 
   const getFCMToken = async () => {
     return await messaging().getToken();
@@ -28,11 +31,12 @@ export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
 
   useEffect(() => {
     console.log('FCM TOKEN', FCMToken);
-    if (!FCMToken) {
+    if (FCMToken !== userInfo?.fcmToken) {
       getFCMToken()
         .then(token => {
-          // setNewFCMToken(token);
           setFCMToken(token);
+          updateFcmToken(token);
+          // !FIXME: setUserInfo 사용해서 async storage update
           console.log(token);
         })
         .catch(err => {

@@ -1,3 +1,4 @@
+import {useGetLocation} from '@/api/location/useGetLocation';
 import {useEffect, useRef} from 'react';
 import {
   Animated,
@@ -28,6 +29,7 @@ export const LocationModal = ({
   const today = new Date().toLocaleString().split('.');
   const date = `${today[1]}월 ${today[2]}일`;
   const time = today[3].split(':').slice(0, 2).join(':');
+  const {data: notiLocations} = useGetLocation();
 
   useEffect(() => {
     if (modalOpen) {
@@ -82,23 +84,26 @@ export const LocationModal = ({
               <View className="px-5 py-7 rounded-lg shadow-lg shadow-gray-700">
                 <View className="flex flex-row justify-between">
                   <View className="flex flex-col">
-                    <Text className="text-black">
-                      13:44 오후 ~ 14:00 오후 (16분)
+                    <Text className="text-black text-lg mt-1">
+                      부모님께 알림이 전송된 위치
                     </Text>
-                    <Text className="text-black text-lg mt-1">1.1 km 이동</Text>
                   </View>
                   <FontAwesome5Icons name="running" color="black" size={25} />
                 </View>
-                <View className="flex flex-row justify-center items-center mt-4 space-x-3">
-                  <FontAwesome6Icons
-                    name="location-dot"
-                    color="#E86256"
-                    size={25}
-                  />
-                  <Text className="text-black">
-                    {name.split(' ').slice(2).join(' ')}
-                  </Text>
-                </View>
+                {notiLocations?.map(location => {
+                  return (
+                    <View className="flex flex-row justify-center items-center mt-4 space-x-3">
+                      <FontAwesome6Icons
+                        name="location-dot"
+                        color="#E86256"
+                        size={25}
+                      />
+                      <Text className="text-black">
+                        {location.name.split(' ').slice(2).join(' ')}
+                      </Text>
+                    </View>
+                  );
+                })}
               </View>
             </Animated.View>
           </TouchableWithoutFeedback>
