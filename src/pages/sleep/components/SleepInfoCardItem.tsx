@@ -12,7 +12,6 @@ export const SleepInfoCardItem: React.FC<SleepInfoCardItemProps> = ({
   value,
   label,
 }) => {
-  const displayValue = !value || value === '-' ? '0시간 0분' : value;
   return (
     <View className="flex-1 flex-row items-center justify-center gap-4">
       <Image
@@ -21,7 +20,7 @@ export const SleepInfoCardItem: React.FC<SleepInfoCardItemProps> = ({
         resizeMode="contain"
       />
       <View>
-        <Text className="text-lg font-bold">{displayValue}</Text>
+        <Text className="text-lg font-bold">{value}</Text>
         <Text className="text-gray-900 text-sm">{label}</Text>
       </View>
     </View>
