@@ -25,9 +25,9 @@ export const SleepInfoCard: React.FC<SleepInfoCardProps> = ({
           label={LABELS.sleep.TOTAL}
         />
         <SleepInfoCardItem
-          iconType="WAKE"
-          value={wakeUpTime}
-          label={LABELS.sleep.WAKE}
+          iconType="DEEP"
+          value={actualSleep}
+          label={LABELS.sleep.DEEP}
         />
       </View>
       <View className="flex-row justify-between">
@@ -37,9 +37,9 @@ export const SleepInfoCard: React.FC<SleepInfoCardProps> = ({
           label={LABELS.sleep.INBED}
         />
         <SleepInfoCardItem
-          iconType="DEEP"
-          value={actualSleep}
-          label={LABELS.sleep.DEEP}
+          iconType="WAKE"
+          value={wakeUpTime}
+          label={LABELS.sleep.WAKE}
         />
       </View>
     </View>
