@@ -35,6 +35,7 @@ import {useLogin} from '@/hooks/useLogin';
 // 타입
 import {Boundary} from '@/database/schemas/BoundarySchema';
 import {NotificationType} from '@/types/notification';
+import ReactNativeForegroundService from '@supersami/rn-foreground-service';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -144,6 +145,37 @@ function App(): React.JSX.Element {
       }
     });
   }, []);
+
+  // 특정 작업을 백그라운드에서 주기적으로 실행
+  // console.log() 자리에 실행할 함수를 넣으면 됨
+  // useEffect(() => {
+  //   ReactNativeForegroundService.add_task(() => console.log(), {
+  //     delay: 1000, // 반복 실행 시간
+  //     onLoop: true, // 반복 실행 여부
+  //     taskId: 'mommy-son', // 고유 식별자
+  //     onError: e => console.error(e),
+  //   });
+  // }, []);
+
+  // const startTask = () => {
+  //   ReactNativeForegroundService.start({
+  //     id: 'mommy-son',
+  //     title: 'Mommy-son',
+  //     message: 'mommy-son 어플이 실행 중입니다.',
+  //     icon: 'ic_launcher',
+  //     button: true,
+  //     button2: true,
+  //     buttonText: 'Button',
+  //     button2Text: 'Button2',
+  //     buttonOnPress: 'cray',
+  //     setOnlyAlertOnce: 'true',
+  //     color: '#000000',
+  //   });
+  // };
+
+  // const stopTask = () => {
+  //   ReactNativeForegroundService.stopAll();
+  // };
 
   // if (!loginInfo) {
   //   return <InitialQR />;

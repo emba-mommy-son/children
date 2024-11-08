@@ -1,5 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+ <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/> declare permission like this according to your use case https://developer.android.com/about/versions/14/changes/fgs-types-required -->
+
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -15,24 +19,21 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <!-- notification -->
+    <!-- foreground-service  -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <!-- 구글맵 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
     <!-- location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <!-- 갤러리 권한 -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
   
     <!-- 안드로이드 32 이하 갤러리 권한-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
 
     <application
       android:name=".MainApplication"
@@ -43,11 +44,28 @@
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true"
       android:supportsRtl="true">
+      <meta-data
+        android:name="com.supersami.foregroundservice.notification_channel_name"
+        android:value="Sticky Title"
+      />
+      <meta-data
+        android:name="com.supersami.foregroundservice.notification_channel_description"
+        android:value="Sticky Description."
+      />
+      <meta-data
+        android:name="com.supersami.foregroundservice.notification_color"
+        android:resource="@color/blue"
+      />
+    
+      <service android:name="com.supersami.foregroundservice.ForegroundService"></service> // also define android:foregroundServiceType="" according to your use case
+      <service android:name="com.supersami.foregroundservice.ForegroundServiceTask"></service> // also define android:foregroundServiceType="" according to your use case
+
       <!-- location -->
       <meta-data
         android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyBQW7RHsZp56sXVV8OHlObIClONbx1-7IA"/>
       <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

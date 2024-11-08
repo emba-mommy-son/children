@@ -24,6 +24,7 @@ import {ROUTES} from '@/constants/routeURL';
 import {useGeoLocation} from '@/hooks/useGeoLocation';
 import {WarningLocationPage} from '@/pages/location/pages/WarningLocationPage';
 import {useRealm} from '@realm/react';
+import ReactNativeForegroundService from '@supersami/rn-foreground-service';
 import {useEffect} from 'react';
 
 type AppNavigatorParamList = {
@@ -62,7 +63,7 @@ const Stack = createNativeStackNavigator<AppNavigatorParamList>();
 
 const TabNavigator = () => {
   const realm = useRealm();
-  const {initialize: locationInit} = useGeoLocation();
+  const {getLocation} = useGeoLocation();
   const {data: boundaryData} = useGetBoundary();
 
   useEffect(() => {
@@ -93,9 +94,43 @@ const TabNavigator = () => {
     fetchAndStoreBoundaries();
   }, [boundaryData]);
 
+  // 특정 작업을 백그라운드에서 주기적으로 실행
   useEffect(() => {
-    locationInit();
+    ReactNativeForegroundService.add_task(() => getLocation(), {
+      delay: 5 * 60 * 1000, // 반복 실행 시간
+      onLoop: true, // 반복 실행 여부
+      taskId: 'mommy-son', // 고유 식별자
+      onError: e => console.error(e),
+    });
+
+    startTask();
+
+    return () => {
+      stopTask();
+    };
   }, []);
+
+  const startTask = () => {
+    ReactNativeForegroundService.start({
+      id: 'mommy-son',
+      title: 'Mommy-son',
+      message: 'mommy-son 어플이 실행 중입니다.',
+      ServiceType: 'location',
+      icon: 'ic_launcher',
+      button: true,
+      button2: true,
+      buttonText: 'Button',
+      button2Text: 'Button2',
+      buttonOnPress: 'cray',
+      setOnlyAlertOnce: 'true',
+      color: '#000000',
+    });
+  };
+
+  const stopTask = () => {
+    ReactNativeForegroundService.stopAll();
+    console.log('stop');
+  };
 
   return (
     <Tab.Navigator

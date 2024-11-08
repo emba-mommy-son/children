@@ -1,12 +1,23 @@
+import {useGeoLocation} from '@/hooks/useGeoLocation';
 import {LocationModal} from '@/pages/location/components/LocationModal';
+import {mapKey} from '@/secret/mapKey';
 import {useLocationStore} from '@/store/useLocationStore';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Pressable, Text, View} from 'react-native';
+import GeoLocation from 'react-native-geolocation-service';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+
+const GOOGLE_MAPS_API_KEY = mapKey;
 
 export const LocationPage = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const location = useLocationStore(state => state.location);
+  const {checkPermission} = useGeoLocation();
+  const [nowPosition, setNowPosition] = useState<{
+    latitude: number;
+    longitude: number;
+    name: string;
+  }>();
 
   console.log('location 페이지', location);
 
@@ -14,14 +25,42 @@ export const LocationPage = () => {
     setModalOpen(true);
   };
 
+  useEffect(() => {
+    setInterval(() => {
+      checkPermission().then(result => {
+        if (result === 'granted') {
+          GeoLocation.getCurrentPosition(async position => {
+            if (
+              position.coords.latitude === 0 &&
+              position.coords.longitude === 0
+            ) {
+              return;
+            }
+
+            const response = await fetch(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=${GOOGLE_MAPS_API_KEY}&language=ko`,
+            );
+            const data = await response.json();
+
+            setNowPosition({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              name: data.results[0].formatted_address,
+            });
+          });
+        }
+      });
+    }, 2 * 60 * 1000);
+  }, []);
+
   return (
     <View className="flex-1 relative">
-      {location && (
+      {nowPosition && (
         <MapView
           provider={PROVIDER_GOOGLE}
           region={{
-            latitude: location.latitude,
-            longitude: location.longitude,
+            latitude: nowPosition.latitude,
+            longitude: nowPosition.longitude,
             latitudeDelta: 0.005,
             longitudeDelta: 0.005,
           }}
@@ -37,11 +76,10 @@ export const LocationPage = () => {
           상세 위치 보기
         </Text>
       </Pressable>
-      {modalOpen && location && (
+      {modalOpen && nowPosition && (
         <LocationModal
-          latitude={location.latitude}
-          longitude={location.latitude}
           modalOpen={modalOpen}
+          name={nowPosition.name}
           setModalOpen={setModalOpen}
         />
       )}
