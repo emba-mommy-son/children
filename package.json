@@ -22,6 +22,7 @@
     "@realm/react": "^0.10.1",
     "@realm/react-native-template-ts": "^0.4.2",
     "@stomp/stompjs": "^7.0.0",
+    "@supersami/rn-foreground-service": "^2.2.1",
     "@tanstack/react-query": "^5.59.13",
     "axios": "^1.7.7",
     "eslint-import-resolver-babel-module": "^5.3.2",

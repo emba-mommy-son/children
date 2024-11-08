@@ -1,9 +1,7 @@
 import {useCreateLocation} from '@/api/location/useCreateLocation';
 import {useGeofence} from '@/hooks/useGeofence';
 import {mapKey} from '@/secret/mapKey';
-import {useLocationStore} from '@/store/useLocationStore';
 import {Location} from '@/types/location';
-import {useEffect, useState} from 'react';
 import {PermissionsAndroid, Platform} from 'react-native';
 import GeoLocation from 'react-native-geolocation-service';
 
@@ -17,13 +15,6 @@ interface GeoLocation {
 export const useGeoLocation = () => {
   const {mutate: createLocation} = useCreateLocation();
   const {checkBoundary} = useGeofence();
-  const [init, setInit] = useState(false);
-
-  const setLocation = useLocationStore(state => state.setLocation);
-
-  const initialize = () => {
-    setInit(true);
-  };
 
   // 권한 설정 되었는지 확인
   const checkPermission = async () => {
@@ -95,18 +86,5 @@ export const useGeoLocation = () => {
     });
   };
 
-  useEffect(() => {
-    if (init) {
-      getLocation();
-      const interval = setInterval(() => {
-        getLocation();
-      }, 5 * 60 * 1000); // 5분에 1번씩 위치 불러오기
-
-      return () => {
-        clearInterval(interval);
-      };
-    }
-  }, [init]);
-
-  return {initialize, getLocation};
+  return {checkPermission, getLocation};
 };

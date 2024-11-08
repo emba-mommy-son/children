@@ -1,4 +1,3 @@
-import useGeocoding from '@/hooks/useGeoCoding';
 import {useEffect, useRef} from 'react';
 import {
   Animated,
@@ -13,22 +12,19 @@ import FontAwesome5Icons from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6Icons from 'react-native-vector-icons/FontAwesome6';
 
 interface LocationModalProps {
-  latitude: number;
-  longitude: number;
   modalOpen: boolean;
+  name: string;
   setModalOpen: (modalOpen: boolean) => void;
 }
 
 const {height} = Dimensions.get('window');
 
 export const LocationModal = ({
-  latitude,
-  longitude,
   modalOpen,
+  name,
   setModalOpen,
 }: LocationModalProps) => {
   const slideAnim = useRef(new Animated.Value(height)).current;
-  const {address, reverseGeocode} = useGeocoding();
   const today = new Date().toLocaleString().split('.');
   const date = `${today[1]}월 ${today[2]}일`;
   const time = today[3].split(':').slice(0, 2).join(':');
@@ -47,10 +43,6 @@ export const LocationModal = ({
       }).start();
     }
   }, [modalOpen, slideAnim]);
-
-  useEffect(() => {
-    reverseGeocode(latitude, longitude);
-  }, []);
 
   const handleClose = () => {
     setModalOpen(false);
@@ -82,7 +74,7 @@ export const LocationModal = ({
                   <Text className="text-black">{time}</Text>
                 </View>
                 <Text className="text-center text-black mt-6 mb-3">
-                  {address?.split(' ').slice(2).join(' ')}
+                  {name.split(' ').slice(2).join(' ')}
                 </Text>
               </View>
 
@@ -104,7 +96,7 @@ export const LocationModal = ({
                     size={25}
                   />
                   <Text className="text-black">
-                    {address?.split(' ').slice(2).join(' ')}
+                    {name.split(' ').slice(2).join(' ')}
                   </Text>
                 </View>
               </View>
