@@ -7,7 +7,6 @@ import ErrorBoundary from 'react-native-error-boundary';
 
 // 컴포넌트
 import {ErrorComponent} from '@/components/common/ErrorComponent';
-import {AttendanceModal} from '@/pages/main/components/AttendanceModal';
 import {BestFriend} from '@/pages/main/components/BestFriend';
 import {Emotion} from '@/pages/main/components/Emotion';
 import {MainHeader} from '@/pages/main/components/MainHeader';
@@ -19,6 +18,7 @@ import {Sleep} from '@/pages/main/components/Sleep';
 import {TodoList} from '@/pages/main/components/TodoList';
 
 // 커스텀 훅
+import {useGetAttendance, usePostAttendance} from '@/api/attendance';
 import {useGetEmotion} from '@/api/user/useGetEmotion';
 import useUser from '@/hooks/useUser';
 
@@ -29,7 +29,23 @@ export const MainPage = () => {
   const [emotion, setEmotion] = useState<string>('');
   const {user, refetch} = useUser();
 
-  const [attendanceOpen, setAttendanceOpen] = useState<boolean>(true);
+  const {data: attendanceData} = useGetAttendance();
+  const {mutate: postAttendance} = usePostAttendance();
+
+  const todayDate = new Date().toISOString().split('T')[0];
+
+  useEffect(() => {
+    if (attendanceData === undefined) return;
+
+    console.log(attendanceData, todayDate);
+
+    if (attendanceData.includes(todayDate)) {
+      console.log('출석 완료');
+      return;
+    }
+
+    postAttendance(null);
+  }, [attendanceData]);
 
   useEffect(() => {
     if (emotionData) {
@@ -63,12 +79,6 @@ export const MainPage = () => {
             {!emotion && <Question setEmotion={setEmotion} />}
           </View>
           {qrOpen && <QRCodeModal qrOpen={qrOpen} setQrOpen={setQrOpen} />}
-          {attendanceOpen && (
-            <AttendanceModal
-              attendanceOpen={attendanceOpen}
-              setAttendanceOpen={setAttendanceOpen}
-            />
-          )}
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -59,7 +59,6 @@ export const useNotification = () => {
             console.log('FRIENDS', notification.body);
             PushNotification.localNotification({
               channelId: CHANNEL_ID,
-              // !FIXME: notification.title로 넣지 말고 직접 설정
               title: '친구 관계 알림',
               message: notification.body,
             });

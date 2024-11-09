@@ -16,7 +16,6 @@ const getAttendance = async (): Promise<string[]> => {
 };
 
 export const useGetAttendance = (): UseQueryResult<string[], Error> => {
-  //!FIXME : suspenseQuery로 수정
   return useQuery({
     queryKey: QUERY_KEYS.USER.ATTENDANCE,
     queryFn: getAttendance,
