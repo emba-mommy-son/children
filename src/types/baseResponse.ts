@@ -9,10 +9,10 @@ export interface BaseErrorResponse {
   success: boolean;
   status: number;
   message: string;
-  errors: ErrorResponse[];
+  errors: ValidationError[];
 }
 
-export interface ErrorResponse {
+export interface ValidationError {
   field: string;
   code: string;
   message: string;

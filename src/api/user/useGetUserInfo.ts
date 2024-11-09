@@ -1,7 +1,7 @@
 import {UseQueryResult, useQuery} from '@tanstack/react-query';
 import {AxiosError} from 'axios';
 import {UserInfo} from '@/types/user';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
@@ -13,9 +13,9 @@ const getUserInfo = async (): Promise<UserInfo> => {
 
 export const useGetUserInfo = (): UseQueryResult<
   UserInfo,
-  AxiosError<ErrorResponse>
+  AxiosError<BaseErrorResponse>
 > => {
-  return useQuery<UserInfo, AxiosError<ErrorResponse>>({
+  return useQuery<UserInfo, AxiosError<BaseErrorResponse>>({
     queryKey: QUERY_KEYS.USER.USERINFO,
     queryFn: getUserInfo,
   });

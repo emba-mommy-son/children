@@ -1,11 +1,12 @@
-import {client} from '@/api/core/client';
-import {AppNavigatorProp} from '@/navigation/AppNavigator';
-import {useLocationStore} from '@/store/useLocationStore';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
-import {Location} from '@/types/location';
+import {ToastAndroid} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {UseMutationResult, useMutation} from '@tanstack/react-query';
 import {AxiosError} from 'axios';
+import {UseMutationResult, useMutation} from '@tanstack/react-query';
+import {AppNavigatorProp} from '@/navigation/AppNavigator';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
+import {Location} from '@/types/location';
+import {useLocationStore} from '@/store/useLocationStore';
+import {client} from '@/api/core/client';
 
 const createLocation = async (location: Location): Promise<Location> => {
   console.log('저장하는 location', location);
@@ -19,7 +20,7 @@ const createLocation = async (location: Location): Promise<Location> => {
 
 export const useCreateLocation = (): UseMutationResult<
   Location,
-  AxiosError<ErrorResponse>,
+  AxiosError<BaseErrorResponse>,
   Location
 > => {
   const setLocation = useLocationStore(state => state.setLocation);
@@ -33,8 +34,8 @@ export const useCreateLocation = (): UseMutationResult<
       nav.navigate('Warning');
     },
 
-    onError: error => {
-      console.error('location 저장 실패', error.message);
+    onError: () => {
+      ToastAndroid.show('서버 상태가 불안정합니다.', 2000);
     },
   });
 };

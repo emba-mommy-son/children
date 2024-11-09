@@ -1,10 +1,11 @@
+import {ToastAndroid} from 'react-native';
 import {
   useMutation,
   UseMutationResult,
   useQueryClient,
 } from '@tanstack/react-query';
 import {AxiosError} from 'axios';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
@@ -29,7 +30,7 @@ const updateProfileImage = async (file: ImageFile): Promise<void> => {
 
 export const useUpdateProfileImage = (): UseMutationResult<
   void,
-  AxiosError<ErrorResponse>,
+  AxiosError<BaseErrorResponse>,
   ImageFile
 > => {
   const queryClient = useQueryClient();
@@ -39,8 +40,8 @@ export const useUpdateProfileImage = (): UseMutationResult<
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: QUERY_KEYS.USER.USERINFO});
     },
-    onError: error => {
-      console.error('프로필 이미지 업데이트 실패:', error);
+    onError: () => {
+      ToastAndroid.show('서버 상태가 불안정합니다.', 2000);
     },
   });
 };
