@@ -147,9 +147,9 @@ const TabNavigator = () => {
     };
   }, []);
 
-  if (!isLogin) {
-    return <InitialQR/>
-  }
+  // if (!isLogin) {
+  //   return <InitialQR/>
+  // }
 
   return (
     <Tab.Navigator

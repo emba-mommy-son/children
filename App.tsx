@@ -7,7 +7,7 @@
 
 // 리액트
 import {useEffect, useState} from 'react';
-
+import {LogBox} from 'react-native';
 // 라이브러리
 import messaging from '@react-native-firebase/messaging';
 import {RealmProvider} from '@realm/react';
@@ -47,6 +47,7 @@ const queryClient = new QueryClient({
 
 // background notification
 const CHANNEL_ID = 'children';
+LogBox.ignoreAllLogs();
 
 const parseNotification = (type: string) => {
   switch (type) {

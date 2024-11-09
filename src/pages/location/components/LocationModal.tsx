@@ -88,7 +88,7 @@ export const LocationModal = ({
               <View className="px-5 py-7 rounded-lg shadow-lg shadow-gray-700">
                 <View className="flex flex-row justify-between">
                   <View className="flex flex-col">
-                    <Text className="text-black text-lg mt-1">
+                    <Text className="text-black text-base text-center mt-1">
                       부모님께 알림이 전송된 위치
                     </Text>
                   </View>
