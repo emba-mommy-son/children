@@ -3,14 +3,6 @@ export interface BaseResponse<T> {
   status: number;
   message: string;
   data: T;
-  errors?: ErrorResponse[];
-}
-
-export interface ErrorResponse {
-  field: string;
-  code: string;
-  message: string;
-  objectName: string;
 }
 
 export interface BaseErrorResponse {
@@ -18,4 +10,11 @@ export interface BaseErrorResponse {
   status: number;
   message: string;
   errors: ErrorResponse[];
+}
+
+export interface ErrorResponse {
+  field: string;
+  code: string;
+  message: string;
+  objectName: string;
 }

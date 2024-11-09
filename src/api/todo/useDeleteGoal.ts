@@ -1,12 +1,13 @@
-import {client} from '@/api/core/client';
-import {QUERY_KEYS} from '@/constants/queryKeys';
-import {ErrorResponse} from '@/types/baseResponse';
+import {ToastAndroid} from 'react-native';
+import {AxiosError} from 'axios';
 import {
   UseMutationResult,
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import {AxiosError} from 'axios';
+import {BaseErrorResponse} from '@/types/baseResponse';
+import {client} from '@/api/core/client';
+import {QUERY_KEYS} from '@/constants/queryKeys';
 
 const deleteGoal = async (goalId: number): Promise<void> => {
   await client.delete<null>({
@@ -16,7 +17,7 @@ const deleteGoal = async (goalId: number): Promise<void> => {
 
 export const useDeleteGoal = (): UseMutationResult<
   void,
-  AxiosError<ErrorResponse>,
+  AxiosError<BaseErrorResponse>,
   number
 > => {
   const queryClient = useQueryClient();
@@ -25,11 +26,10 @@ export const useDeleteGoal = (): UseMutationResult<
     mutationFn: deleteGoal,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: QUERY_KEYS.GOAL.ALL});
-      console.log('todo 삭제 성공');
     },
 
-    onError: error => {
-      console.error('todo 삭제 실패', error.message);
+    onError: () => {
+      ToastAndroid.show('서버 상태가 불안정합니다.', 2000);
     },
   });
 };

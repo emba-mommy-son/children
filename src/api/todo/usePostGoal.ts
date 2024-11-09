@@ -1,12 +1,13 @@
-import {client} from '@/api/core/client';
-import {QUERY_KEYS} from '@/constants/queryKeys';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
+import {ToastAndroid} from 'react-native';
+import {AxiosError} from 'axios';
 import {
   UseMutationResult,
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import {AxiosError} from 'axios';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
+import {client} from '@/api/core/client';
+import {QUERY_KEYS} from '@/constants/queryKeys';
 
 const postGoal = async (content: string): Promise<void> => {
   await client.post<BaseResponse<null>>({
@@ -17,7 +18,7 @@ const postGoal = async (content: string): Promise<void> => {
 
 export const usePostGoal = (): UseMutationResult<
   void,
-  AxiosError<ErrorResponse>,
+  AxiosError<BaseErrorResponse>,
   string
 > => {
   const queryClient = useQueryClient();
@@ -26,11 +27,10 @@ export const usePostGoal = (): UseMutationResult<
     mutationFn: postGoal,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: QUERY_KEYS.GOAL.ALL});
-      console.log('todo 추가 성공');
     },
 
-    onError: error => {
-      console.error('todo 추가 실패', error.message);
+    onError: () => {
+      ToastAndroid.show('서버 상태가 불안정합니다.', 2000);
     },
   });
 };

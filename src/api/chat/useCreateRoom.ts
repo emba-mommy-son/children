@@ -1,7 +1,8 @@
 import {useMutation, UseMutationResult} from '@tanstack/react-query';
 import {AxiosError} from 'axios';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
+import {ToastAndroid} from 'react-native';
 
 type CreateRoomRequest = {
   receiverId: number;
@@ -24,16 +25,13 @@ const createRoom = async (
 // !FIXME : 이렇게 채팅방을 생성하고 return 으로 받는 roomId로 바로 채팅방 입장시키기
 export const useCreateRoom = (): UseMutationResult<
   CreateRoomResponse,
-  AxiosError<ErrorResponse>,
+  AxiosError<BaseErrorResponse>,
   CreateRoomRequest
 > => {
   return useMutation({
     mutationFn: createRoom,
-    onSuccess: () => {
-      console.log('채팅방 생성 완료');
-    },
-    onError: error => {
-      console.error(error.message);
+    onError: () => {
+      ToastAndroid.show('채팅방 생성에 실패했습니다.', 2000);
     },
   });
 };

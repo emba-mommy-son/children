@@ -1,6 +1,6 @@
 import {useSuspenseQuery, UseSuspenseQueryResult} from '@tanstack/react-query';
 import {AxiosError} from 'axios';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {Reward} from '@/types/reward';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
@@ -25,8 +25,8 @@ export const useGetRewards = ({
 }: {
   year: number;
   month: number;
-}): UseSuspenseQueryResult<Reward[], AxiosError<ErrorResponse>> => {
-  return useSuspenseQuery<Reward[], AxiosError<ErrorResponse>>({
+}): UseSuspenseQueryResult<Reward[], AxiosError<BaseErrorResponse>> => {
+  return useSuspenseQuery<Reward[], AxiosError<BaseErrorResponse>>({
     queryKey: QUERY_KEYS.REWARD.BY_MONTH(year, month),
     queryFn: () => getRewards({year, month}),
   });
