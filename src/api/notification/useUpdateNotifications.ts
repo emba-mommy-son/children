@@ -3,8 +3,9 @@ import {
   UseMutationResult,
   useQueryClient,
 } from '@tanstack/react-query';
+import {ToastAndroid} from 'react-native';
 import {AxiosError} from 'axios';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
@@ -19,19 +20,17 @@ const updateNotifications = async (): Promise<void> => {
 
 export const useUpdateNotifications = (): UseMutationResult<
   void,
-  AxiosError<ErrorResponse>,
+  AxiosError<BaseErrorResponse>,
   void
 > => {
   const queryClient = useQueryClient();
   return useMutation({
-    // !FIXME : 성공시 처리(토스트 or 노티)
     mutationFn: updateNotifications,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: QUERY_KEYS.NOTIFICATION.ALL});
     },
-    // !FIXME : 에러시 처리(토스트 or 노티)
-    onError: error => {
-      console.error('알림 읽기 실패', error.message);
+    onError: () => {
+      ToastAndroid.show('서버 상태가 불안정합니다.', 2000);
     },
   });
 };
