@@ -3,8 +3,9 @@ import {
   UseMutationResult,
   useQueryClient,
 } from '@tanstack/react-query';
+import {ToastAndroid} from 'react-native';
 import {AxiosError} from 'axios';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
@@ -16,25 +17,26 @@ const deleteFriend = async (friendId: number): Promise<void> => {
 
 export const useDeleteFriend = (): UseMutationResult<
   void,
-  AxiosError<ErrorResponse>,
+  AxiosError<BaseErrorResponse>,
   number
 > => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteFriend,
-    // !FIXME : 성공시 처리(토스트 or 노티)
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: QUERY_KEYS.FRIEND.ALL});
-      console.log('친구 삭제 성공');
+      ToastAndroid.show('친구 삭제 성공', 2000);
     },
-    // !FIXME : 에러시 처리(토스트 or 노티)
     onError: error => {
       switch (error.response?.status) {
         case 400:
-          console.error('친구가 아닌 유저입니다.');
+          ToastAndroid.show('친구가 아닌 유저입니다.', 2000);
+          break;
+        case 500:
+          ToastAndroid.show('서버 상태가 불안정합니다.', 2000);
           break;
         default:
-          console.error('친구 삭제 실패', error.message);
+          ToastAndroid.show('친구 삭제에 실패했습니다.', 2000);
       }
     },
   });
