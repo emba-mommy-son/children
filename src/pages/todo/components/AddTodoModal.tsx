@@ -7,37 +7,33 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ToastAndroid,
 } from 'react-native';
 
 // 아이콘
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 
-interface PlusTodoModalProps {
+interface AddTodoModalProps {
   isModalOpen: boolean;
-  setIsModalOpen: (isModalOpen: boolean) => void;
+  onClose: () => void;
 }
 
-export const PlusTodoModal = ({
-  isModalOpen,
-  setIsModalOpen,
-}: PlusTodoModalProps) => {
+export const AddTodoModal = ({isModalOpen, onClose}: AddTodoModalProps) => {
   const [input, setInput] = useState<string>('');
   const {mutate: createTodo} = usePostGoal();
 
   const handleModalClose = () => {
-    setIsModalOpen(false);
+    onClose();
   };
 
   const handleCreateTodo = () => {
-    console.log('input', input);
-    if (!input) {
+    if (!input.trim()) {
+      ToastAndroid.show('내용을 입력해주세요', 2000);
       return;
     }
-
-    console.log('TODO 추가', input);
-
-    createTodo(input);
-    setIsModalOpen(false);
+    createTodo(input.trim());
+    setInput('');
+    onClose();
   };
 
   return (
@@ -55,7 +51,7 @@ export const PlusTodoModal = ({
           <View className="absolute top-2 right-2">
             <EntypoIcons name="cross" size={20} onPress={handleModalClose} />
           </View>
-          <Text className="text-black font-bold text-lg">TODO 추가</Text>
+          <Text className="text-black text-lg">할일 추가</Text>
           <TextInput
             className="w-full h-40 rounded-xl bg-white border-[1px] border-gray-700"
             value={input}
