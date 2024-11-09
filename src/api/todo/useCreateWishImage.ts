@@ -1,13 +1,9 @@
 import {ToastAndroid} from 'react-native';
 import {AxiosError} from 'axios';
-import {
-  useMutation,
-  UseMutationResult,
-  useQueryClient,
-} from '@tanstack/react-query';
+import {useMutation, UseMutationResult} from '@tanstack/react-query';
 import {BaseErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
-import {QUERY_KEYS} from '@/constants/queryKeys';
+import useUser from '@/hooks/useUser';
 
 export type ImageFile = {
   uri: string;
@@ -33,16 +29,14 @@ export const useCreateWishImage = (): UseMutationResult<
   AxiosError<BaseErrorResponse>,
   ImageFile
 > => {
-  const queryClient = useQueryClient();
+  const {refetch} = useUser();
 
   return useMutation({
     mutationFn: createWishImage,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.USER.USERINFO,
-      });
+      refetch();
     },
-    onError: error => {
+    onError: () => {
       ToastAndroid.show('서버 상태가 불안정합니다.', 2000);
     },
   });
