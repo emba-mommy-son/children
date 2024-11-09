@@ -49,7 +49,7 @@ export const TodoList = ({id, content, done}: TodoListProps) => {
             onPress={hanelePress}
           />
         )}
-        <Text className="text-lg text-black">{content}</Text>
+        <Text className="text-black">{content}</Text>
       </View>
 
       <EntypoIcons name="cross" size={20} onPress={handleDeleteGoal} />
