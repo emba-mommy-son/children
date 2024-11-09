@@ -81,17 +81,7 @@ messaging().setBackgroundMessageHandler(async message => {
       return;
     }
 
-    // * 위치 알림
-    if (notificationType === NotificationType.LOCATION) {
-      console.log('LOCATION', notification.body);
-      PushNotification.localNotification({
-        channelId: CHANNEL_ID,
-        title: notification.title,
-        message: notification.body,
-      });
-    }
-
-    // * HEALTH, CHAT, FRIENDS 알림
+    // !FIXME : HEALTH, CHAT, FRIENDS 알림
     if (
       notificationType === NotificationType.HEALTH ||
       notificationType === NotificationType.CHAT ||
