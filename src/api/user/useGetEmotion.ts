@@ -1,8 +1,8 @@
-import {client} from '@/api/core/client';
-import {QUERY_KEYS} from '@/constants/queryKeys';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
 import {UseQueryResult, useQuery} from '@tanstack/react-query';
 import {AxiosError} from 'axios';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
+import {client} from '@/api/core/client';
+import {QUERY_KEYS} from '@/constants/queryKeys';
 
 const getEmotion = async (): Promise<string> => {
   const response = await client.get<BaseResponse<string>>({
@@ -14,9 +14,9 @@ const getEmotion = async (): Promise<string> => {
 
 export const useGetEmotion = (): UseQueryResult<
   string,
-  AxiosError<ErrorResponse>
+  AxiosError<BaseErrorResponse>
 > => {
-  return useQuery<string, AxiosError<ErrorResponse>>({
+  return useQuery<string, AxiosError<BaseErrorResponse>>({
     queryKey: QUERY_KEYS.USER.EMOTION,
     queryFn: getEmotion,
   });

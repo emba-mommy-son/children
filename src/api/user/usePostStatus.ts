@@ -1,5 +1,5 @@
 import {client} from '@/api/core/client';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {UseMutationResult, useMutation} from '@tanstack/react-query';
 import {AxiosError} from 'axios';
 
@@ -12,7 +12,7 @@ const postStatus = async (status: string): Promise<void> => {
 
 export const usePostStatus = (): UseMutationResult<
   void,
-  AxiosError<ErrorResponse>,
+  AxiosError<BaseErrorResponse>,
   string
 > => {
   return useMutation({
