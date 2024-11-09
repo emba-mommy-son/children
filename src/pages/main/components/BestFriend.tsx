@@ -6,10 +6,12 @@ import {AppNavigatorProp} from '@/navigation/AppNavigator';
 import {useNavigation} from '@react-navigation/native';
 
 // 아이콘
+import {useGetFriendRank} from '@/api/friend';
 import Friend from '@/assets/icons/friend.png';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 export const BestFriend = () => {
+  const {data: rankingList} = useGetFriendRank();
   const nav = useNavigation<AppNavigatorProp>();
   const handlePress = () => {
     nav.navigate('FriendRanking');
@@ -23,7 +25,9 @@ export const BestFriend = () => {
         <Text className="text-white text-[16px] font-semibold">단짝친구</Text>
         <AntDesignIcons name="right" color="white" size={16} />
       </View>
-      <Text className="text-white text-[14px] font-semibold">민준수</Text>
+      <Text className="text-white text-[14px] font-semibold">
+        {rankingList ? rankingList[0].name : '랭킹이 없습니다.'}
+      </Text>
       <Image source={Friend} className="w-[40px] h-[40px] ml-auto mt-auto" />
     </TouchableOpacity>
   );

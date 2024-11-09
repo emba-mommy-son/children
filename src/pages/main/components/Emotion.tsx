@@ -5,7 +5,7 @@ import {Image, Text, View} from 'react-native';
 import Graph from '@/assets/icons/graph.png';
 
 interface EmotionProps {
-  status?: string;
+  emotion: string;
 }
 
 enum EmotionType {
@@ -14,20 +14,19 @@ enum EmotionType {
   angry = '화나요',
 }
 
-export const Emotion = ({status}: EmotionProps) => {
-  console.log('status', status);
+export const Emotion = ({emotion}: EmotionProps) => {
   return (
     <View className="flex flex-col bg-bluishgreen w-3/5 h-[150px] rounded-2xl p-5">
       <Text className="text-white text-[16px] font-semibold mb-2">
         요즘 기분
       </Text>
       <Text className="text-white text-[14px] font-semibold">
-        {status
-          ? {
-              happy: EmotionType.happy,
-              soso: EmotionType.soso,
-              angry: EmotionType.angry,
-            }[status]
+        {emotion === 'happy'
+          ? EmotionType.happy
+          : emotion === 'soso'
+          ? EmotionType.soso
+          : emotion === 'angry'
+          ? EmotionType.angry
           : ''}
       </Text>
       <Image source={Graph} className="w-[40px] h-[40px] ml-auto mt-auto" />

@@ -104,7 +104,7 @@ const TabNavigator = () => {
     });
 
     startTask();
-
+    getLocation();
     return () => {
       stopTask();
     };

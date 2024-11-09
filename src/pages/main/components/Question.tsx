@@ -7,11 +7,16 @@ import Angry from '@/assets/icons/emotion/angry.png';
 import Happy from '@/assets/icons/emotion/happy.png';
 import Soso from '@/assets/icons/emotion/soso.png';
 
-export const Question = () => {
+interface QuestionProps {
+  setEmotion: (emotion: string) => void;
+}
+
+export const Question = ({setEmotion}: QuestionProps) => {
   const {mutate: statusMutate} = usePostStatus();
 
   const handleClick = (emotion: string) => {
     statusMutate(emotion);
+    setEmotion(emotion);
   };
 
   return (

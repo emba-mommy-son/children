@@ -8,7 +8,7 @@ type Coordinates = {
   longitude: number;
 };
 
-const useGeocoding = () => {
+export const useGeocoding = () => {
   const [address, setAddress] = useState<string | null>(null);
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const [loading, setLoading] = useState(false);
@@ -67,5 +67,3 @@ const useGeocoding = () => {
 
   return {address, coordinates, loading, error, reverseGeocode, geocode};
 };
-
-export default useGeocoding;

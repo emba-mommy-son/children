@@ -12,6 +12,7 @@ export interface UserInfo {
   id: number;
   username: string;
   name: string;
+  fcmToken: string;
   phoneNumber: string;
   profileImage: string;
   reward: number;

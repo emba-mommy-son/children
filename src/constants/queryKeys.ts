@@ -25,6 +25,7 @@ export const QUERY_KEYS = {
     ALL: ['goals'] as const,
   },
   LOCATION: {
+    ALL: ['locations'] as const,
     BOUNDARY: ['boundary'] as const,
   },
 } as const;

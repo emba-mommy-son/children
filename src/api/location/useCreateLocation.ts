@@ -9,7 +9,6 @@ import {useLocationStore} from '@/store/useLocationStore';
 import {client} from '@/api/core/client';
 
 const createLocation = async (location: Location): Promise<Location> => {
-  console.log('저장하는 location', location);
   const response = await client.post<BaseResponse<Location>>({
     url: '/location',
     data: location,
@@ -23,14 +22,20 @@ export const useCreateLocation = (): UseMutationResult<
   AxiosError<BaseErrorResponse>,
   Location
 > => {
-  const setLocation = useLocationStore(state => state.setLocation);
+  const {setLocation, locationIds, setLocationIds} = useLocationStore(
+    state => state,
+  );
   const nav = useNavigation<AppNavigatorProp>();
 
   return useMutation({
     mutationFn: createLocation,
     onSuccess: data => {
       setLocation(data);
-      console.log('location 저장 성공', data);
+      if (locationIds.includes(data.locationId!!)) {
+        return;
+      }
+
+      setLocationIds([...locationIds, data.locationId!!]);
       nav.navigate('Warning');
     },
 

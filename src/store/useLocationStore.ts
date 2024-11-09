@@ -8,6 +8,8 @@ interface LocationState {
   setCreatedAt: (createdAt: Date) => void;
   location: Location | null;
   setLocation: (location: Location) => void;
+  locationIds: number[];
+  setLocationIds: (locationIds: number[]) => void;
 }
 
 export const useLocationStore = create(
@@ -23,6 +25,12 @@ export const useLocationStore = create(
 
       setLocation: location => {
         set({location});
+      },
+
+      locationIds: [],
+
+      setLocationIds: locationIds => {
+        set({locationIds});
       },
     }),
     {
