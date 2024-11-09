@@ -6,7 +6,6 @@ import Moon from '@/assets/icons/moon.png';
 
 export const Sleep = () => {
   const {weeklyStats} = useSleepSession();
-  console.log(weeklyStats.sleepQuality);
 
   const getSleepMessage = (quality: number | undefined) => {
     if (quality === undefined || quality === 0) {
