@@ -7,6 +7,7 @@ import {
   calculateWakeTimeScore,
   calculateActualSleep,
 } from '@/utils/sleepUtils';
+
 export const useSleepSession = () => {
   const sleepSessions = useQuery(SleepSession);
 
@@ -16,8 +17,12 @@ export const useSleepSession = () => {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - 7);
 
+    // 날짜 범위를 시작일 00:00:00부터 종료일 23:59:59로 설정
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(23, 59, 59, 999);
+
     return sleepSessions
-      .filtered('startDate >= $0 && endDate <= $1', startDate, endDate)
+      .filtered('startDate >= $0 AND endDate <= $1', startDate, endDate)
       .sorted('startDate', true);
   }, [sleepSessions]);
 
@@ -41,39 +46,37 @@ export const useSleepSession = () => {
       };
     }
 
-    // 총 수면 시간과 평균 계산
-    let totalMinutes = 0;
-    const weeklyHours: number[] = new Array(7).fill(0);
+    // 날짜별 수면 시간을 저장할 객체
+    const dailySleep: {[key: string]: number} = {};
     const bedTimes: Date[] = [];
     const wakeTimes: Date[] = [];
-
-    // 오늘 날짜
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    let totalMinutes = 0;
 
     sessions.forEach(session => {
-      totalMinutes += session.totalSleepTime;
-
-      // 세션 날짜의 시작일
+      // 수면 시작일을 기준으로 날짜 구하기
       const sessionDate = new Date(session.startDate);
-      sessionDate.setHours(0, 0, 0, 0);
+      const dateKey = sessionDate.toISOString().split('T')[0];
 
-      // 오늘로부터 몇 일 전인지 계산
-      const diffDays = Math.floor(
-        (today.getTime() - sessionDate.getTime()) / (1000 * 60 * 60 * 24),
-      );
-
-      // 7일 이내의 데이터만 처리
-      if (diffDays >= 0 && diffDays < 7) {
-        weeklyHours[diffDays] = session.totalSleepTime / 60;
+      // 해당 날짜의 수면 시간 누적
+      if (!dailySleep[dateKey]) {
+        dailySleep[dateKey] = 0;
       }
+      dailySleep[dateKey] += session.totalSleepTime / 60; // 시간 단위로 변환
 
+      totalMinutes += session.totalSleepTime;
       bedTimes.push(session.startDate);
       wakeTimes.push(session.endDate);
     });
 
-    // weeklyHours 배열 뒤집기(제일 오랜된 날짜가 마지막에 오도록)
-    weeklyHours.reverse();
+    // 최근 7일의 수면 시간 배열 생성
+    const weeklyHours = Array(7).fill(0);
+    for (let i = 0; i < 7; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const dateKey = date.toISOString().split('T')[0];
+      // 배열의 마지막부터 채움 (최신 데이터가 마지막에)
+      weeklyHours[6 - i] = dailySleep[dateKey] || 0;
+    }
 
     // 평균 취침/기상 시간 계산
     const avgBedTime = new Date(
@@ -113,7 +116,7 @@ export const useSleepSession = () => {
       averageBedTime: formatTimeWithAmPm(avgBedTime),
       averageWakeTime: formatTimeWithAmPm(avgWakeTime),
       sleepQuality: totalSleepQuality,
-      weeklyHours,
+      weeklyHours, // 수정된 weeklyHours 배열
       lastNightSleep: {
         totalSleep: formatTime(lastSession.totalSleepTime),
         bedTime: formatTimeWithAmPm(lastSession.startDate),

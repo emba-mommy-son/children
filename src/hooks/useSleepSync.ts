@@ -108,9 +108,17 @@ export const useSleepSync = () => {
           const sessionId = `${session.startDate}_${session.endDate}`;
           const startTime = new Date(session.startDate);
           const endTime = new Date(session.endDate);
-          const totalMinutes = Math.floor(
+
+          let totalMinutes = Math.floor(
             (endTime.getTime() - startTime.getTime()) / (1000 * 60),
           );
+
+          // 날짜가 바뀌는 경우에도 정상적으로 계산되도록 함
+          if (endTime.getDate() !== startTime.getDate()) {
+            totalMinutes = Math.floor(
+              (endTime.getTime() - startTime.getTime()) / (1000 * 60),
+            );
+          }
           // 데이터 저장 or 이미 존재하는 경우엔 업데이트
           realm.create(
             'SleepSession',
