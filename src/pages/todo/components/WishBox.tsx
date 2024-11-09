@@ -1,6 +1,6 @@
 // 리액트
 import {useState} from 'react';
-import {Image, Text, View, Alert} from 'react-native';
+import {Image, Text, View, Alert, TouchableOpacity} from 'react-native';
 
 // 라이브러리
 import CircularProgress from 'react-native-circular-progress-indicator';
@@ -8,8 +8,7 @@ import {useUserStore} from '@/store/useUserStore';
 import {useDeleteWishImage} from '@/api/todo';
 // 아이콘
 import {WishModal} from '@/pages/todo/components/WishModal';
-import EntypoIcons from 'react-native-vector-icons/Entypo';
-import AntDesignIcons from 'react-native-vector-icons/AntDesign';
+
 interface WishBoxProps {
   ratio: number;
 }
@@ -41,27 +40,27 @@ export const WishBox = ({ratio}: WishBoxProps) => {
   };
 
   return (
-    <View className="relative w-full bg-lightpurple rounded-xl flex flex-col items-center justify-center p-4 space-y-2">
-      <View className="absolute top-2 right-3 flex flex-row gap-3">
+    <View className="relative w-full bg-white shadow-md shadow-black rounded-xl flex flex-col items-center justify-center p-4 space-y-2">
+      <View className="absolute top-2 right-3 flex flex-row gap-2">
         {rewardImage ? (
           <>
-            <AntDesignIcons
-              name="edit"
-              size={23}
+            <TouchableOpacity
               onPress={() => setIsWishModalOpen(true)}
-            />
-            <AntDesignIcons
-              name="delete"
-              size={22}
+              className="py-1 rounded-md">
+              <Text className="text-sm text-primary font-medium">수정</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={handleDeletePress}
-            />
+              className="py-1 rounded-md">
+              <Text className="text-sm font-medium">삭제</Text>
+            </TouchableOpacity>
           </>
         ) : (
-          <EntypoIcons
-            name="plus"
-            size={25}
+          <TouchableOpacity
             onPress={() => setIsWishModalOpen(true)}
-          />
+            className="py-1 rounded-md">
+            <Text className="text-sm text-primary font-medium">추가</Text>
+          </TouchableOpacity>
         )}
       </View>
       {rewardImage ? (

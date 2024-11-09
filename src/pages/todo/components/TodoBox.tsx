@@ -1,5 +1,5 @@
 import {useGetGoal} from '@/api/todo';
-import {PlusTodoModal} from '@/pages/todo/components/PlusTodoModal';
+import {AddTodoModal} from '@/pages/todo/components/AddTodoModal';
 import {TodoCountBox} from '@/pages/todo/components/TodoCountBox';
 import {TodoList} from '@/pages/todo/components/TodoList';
 import {WishBox} from '@/pages/todo/components/WishBox';
@@ -37,9 +37,7 @@ export const TodoBox = () => {
         <View className="absolute top-4 right-4 z-50">
           <EntypoIcons name="plus" size={25} onPress={handleOpen} />
         </View>
-        <Text className="border-b-[1px] border-gray-700 text-black text-center text-lg font-bold pb-3 mb-3">
-          할 일
-        </Text>
+        <Text className="text-black text-lg font-bold pb-3">할 일</Text>
         {todoList.length > 0 ? (
           todoList.map(todo => (
             <TodoList
@@ -58,9 +56,7 @@ export const TodoBox = () => {
         )}
       </View>
       <View className="bg-white rounded-xl shadow-md shadow-black p-4">
-        <Text className="border-b-[1px] border-gray-700 text-black text-center text-lg font-bold pb-3 mb-3">
-          완료
-        </Text>
+        <Text className="text-black text-lg font-bold pb-3">완료</Text>
         {completeList.length > 0 ? (
           completeList.map(todo => (
             <TodoList
@@ -79,9 +75,9 @@ export const TodoBox = () => {
         )}
       </View>
       {isTodoModalOpen && (
-        <PlusTodoModal
+        <AddTodoModal
           isModalOpen={isTodoModalOpen}
-          setIsModalOpen={setIsTodoModalOpen}
+          onClose={() => setIsTodoModalOpen(false)}
         />
       )}
     </View>
