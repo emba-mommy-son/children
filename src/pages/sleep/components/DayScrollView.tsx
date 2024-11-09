@@ -6,19 +6,15 @@ interface DayScrollViewProps {
 }
 
 export const DayScrollView: React.FC<DayScrollViewProps> = ({weeklyHours}) => {
-  const today = new Date();
-  const days = [];
-
-  // 오늘부터 7일 전까지의 요일
-  for (let i = 0; i < 7; i++) {
-    const date = new Date(today);
-    date.setDate(date.getDate() - i);
-    days.unshift(
-      date.toLocaleDateString('ko-KR', {
+  const days = Array(7)
+    .fill(0)
+    .map((_, index) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (6 - index)); // 6부터 시작해서 0까지
+      return date.toLocaleDateString('ko-KR', {
         weekday: 'short',
-      }),
-    );
-  }
+      });
+    });
   // 시간 정수로 포멧팅 ex) 7.2 -> 7
   const formatHours = (hours: number) => {
     return `${Math.floor(hours)}h`;

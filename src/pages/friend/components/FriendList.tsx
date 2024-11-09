@@ -23,11 +23,22 @@ export const FriendList: React.FC<FriendListProps> = ({searchQuery}) => {
   const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
 
   const filteredFriends = useMemo(() => {
-    if (!searchQuery.trim()) return friendList;
-    const query = searchQuery.toLowerCase().trim();
-    return friendList?.filter(friend =>
-      friend.name.toLowerCase().includes(query),
-    );
+    if (!friendList) return [];
+
+    let result = [...friendList];
+
+    // 이름순 정렬
+    result.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+
+    // 검색어가 있는 경우 필터링
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
+      result = result.filter(friend =>
+        friend.name.toLowerCase().includes(query),
+      );
+    }
+
+    return result;
   }, [friendList, searchQuery]);
 
   const handleDeleteFriend = useCallback(
