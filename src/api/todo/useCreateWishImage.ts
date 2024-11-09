@@ -5,7 +5,7 @@ import {
   UseMutationResult,
   useQueryClient,
 } from '@tanstack/react-query';
-import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
+import {BaseErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
@@ -19,7 +19,7 @@ const createWishImage = async (file: ImageFile): Promise<void> => {
   const formData = new FormData();
   formData.append('rewardImage', file as any);
 
-  await client.post<BaseResponse<null>>({
+  await client.post({
     url: '/reward/image',
     data: formData,
     headers: {
