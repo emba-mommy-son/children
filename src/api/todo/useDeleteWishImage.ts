@@ -1,7 +1,8 @@
+import {ToastAndroid} from 'react-native';
+import {AxiosError} from 'axios';
 import {useQueryClient} from '@tanstack/react-query';
 import {useMutation, UseMutationResult} from '@tanstack/react-query';
-import {AxiosError} from 'axios';
-import {ErrorResponse} from '@/types/baseResponse';
+import {BaseErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
@@ -13,7 +14,7 @@ const deleteWishImage = async (): Promise<void> => {
 
 export const useDeleteWishImage = (): UseMutationResult<
   void,
-  AxiosError<ErrorResponse>,
+  AxiosError<BaseErrorResponse>,
   void
 > => {
   const queryClient = useQueryClient();
@@ -24,8 +25,8 @@ export const useDeleteWishImage = (): UseMutationResult<
         queryKey: QUERY_KEYS.USER.USERINFO,
       });
     },
-    onError: error => {
-      console.error(error.response?.data);
+    onError: () => {
+      ToastAndroid.show('서버 상태가 불안정합니다.', 2000);
     },
   });
 };

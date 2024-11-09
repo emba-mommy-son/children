@@ -1,7 +1,11 @@
-import {useQueryClient} from '@tanstack/react-query';
-import {useMutation, UseMutationResult} from '@tanstack/react-query';
+import {ToastAndroid} from 'react-native';
 import {AxiosError} from 'axios';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
@@ -26,7 +30,7 @@ const createWishImage = async (file: ImageFile): Promise<void> => {
 
 export const useCreateWishImage = (): UseMutationResult<
   void,
-  AxiosError<ErrorResponse>,
+  AxiosError<BaseErrorResponse>,
   ImageFile
 > => {
   const queryClient = useQueryClient();
@@ -39,7 +43,7 @@ export const useCreateWishImage = (): UseMutationResult<
       });
     },
     onError: error => {
-      console.error('wish 이미지 업데이트 실패:', error.response?.data);
+      ToastAndroid.show('서버 상태가 불안정합니다.', 2000);
     },
   });
 };

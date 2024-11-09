@@ -24,10 +24,6 @@ export const ChattingRoom: React.FC<ChattingRoomProps> = ({roomId}) => {
 
   const [roomData, messages] = useGetRoom(roomId);
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
-  console.log('--------------------');
-  console.log('방정보', roomData);
-  console.log('채팅내역', messages);
-  console.log('--------------------');
   const stompClientRef = useRef<Client | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
   const [first, setFirst] = useState<boolean>(true);

@@ -1,6 +1,6 @@
 import {useMutation, UseMutationResult} from '@tanstack/react-query';
 import {AxiosError} from 'axios';
-import {BaseResponse, ErrorResponse} from '@/types/baseResponse';
+import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
 
 interface SleepData {
@@ -17,7 +17,7 @@ const createSleep = async (data: SleepData[]): Promise<void> => {
 
 export const useCreateSleep = (): UseMutationResult<
   void,
-  AxiosError<ErrorResponse>,
+  AxiosError<BaseErrorResponse>,
   SleepData[]
 > => {
   return useMutation({

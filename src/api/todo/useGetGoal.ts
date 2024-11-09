@@ -1,9 +1,9 @@
-import {client} from '@/api/core/client';
-import {QUERY_KEYS} from '@/constants/queryKeys';
+import {AxiosError} from 'axios';
+import {UseSuspenseQueryResult, useSuspenseQuery} from '@tanstack/react-query';
 import {BaseErrorResponse, BaseResponse} from '@/types/baseResponse';
 import {Goal} from '@/types/goal';
-import {UseSuspenseQueryResult, useSuspenseQuery} from '@tanstack/react-query';
-import {AxiosError} from 'axios';
+import {client} from '@/api/core/client';
+import {QUERY_KEYS} from '@/constants/queryKeys';
 
 const getGoal = async (): Promise<Goal[]> => {
   const response = await client.get<BaseResponse<Goal[]>>({
