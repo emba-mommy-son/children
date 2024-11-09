@@ -39,8 +39,6 @@ export const useGeofence = () => {
   const checkBoundary = async ({latitude, longitude}: LocationData) => {
     const boundaries = await findAll();
 
-    console.log('boundaries', boundaries);
-
     const newBoundaries = boundaries.filter(boundary => {
       const distance = calculateDistance({
         lat1: latitude,

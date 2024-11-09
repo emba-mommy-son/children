@@ -47,9 +47,6 @@ export const useGeoLocation = () => {
               longitude: position.coords.longitude,
             });
 
-            console.log('outOfBoundaries', outOfBoundaries);
-            console.log('position', position.coords);
-
             if (!outOfBoundaries) {
               return;
             }
@@ -67,8 +64,6 @@ export const useGeoLocation = () => {
                 longitude: position.coords.longitude,
                 danger: true,
               };
-
-              console.log('newLocation', newLocation);
 
               createLocation(newLocation as Location);
             });

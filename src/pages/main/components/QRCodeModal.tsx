@@ -8,8 +8,8 @@ import QRCode from 'react-native-qrcode-svg';
 
 // 아이콘
 import {useUpdateFcmToken} from '@/api/user/useUpdateFcmToken';
+import useUser from '@/hooks/useUser';
 import {useAuthStore} from '@/store/useAuthStore';
-import {useUserStore} from '@/store/useUserStore';
 
 interface QRCodeModalProps {
   qrOpen: boolean;
@@ -18,8 +18,9 @@ interface QRCodeModalProps {
 
 export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
   const {FCMToken, setFCMToken} = useAuthStore(state => state);
-  const {userInfo, setUserInfo} = useUserStore(state => state);
+  // const {userInfo, setUserInfo} = useUserStore(state => state);
   const {mutate: updateFcmToken} = useUpdateFcmToken();
+  const {user: userInfo, refetch} = useUser();
 
   const getFCMToken = async () => {
     return await messaging().getToken();
@@ -37,6 +38,7 @@ export const QRCodeModal = ({qrOpen, setQrOpen}: QRCodeModalProps) => {
           setFCMToken(token);
           updateFcmToken(token);
           // !FIXME: setUserInfo 사용해서 async storage update
+          refetch();
           console.log(token);
         })
         .catch(err => {

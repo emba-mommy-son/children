@@ -8,7 +8,6 @@ import {UseMutationResult, useMutation} from '@tanstack/react-query';
 import {AxiosError} from 'axios';
 
 const createLocation = async (location: Location): Promise<Location> => {
-  console.log('저장하는 location', location);
   const response = await client.post<BaseResponse<Location>>({
     url: '/location',
     data: location,

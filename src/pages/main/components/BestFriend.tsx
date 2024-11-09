@@ -26,7 +26,7 @@ export const BestFriend = () => {
         <AntDesignIcons name="right" color="white" size={16} />
       </View>
       <Text className="text-white text-[14px] font-semibold">
-        {rankingList[0].name}
+        {rankingList ? rankingList[0].name : '랭킹이 없습니다.'}
       </Text>
       <Image source={Friend} className="w-[40px] h-[40px] ml-auto mt-auto" />
     </TouchableOpacity>
