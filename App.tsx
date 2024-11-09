@@ -58,7 +58,7 @@ const parseNotification = (type: string) => {
       return NotificationType.FRIENDS;
     case 'LOCATION':
       return NotificationType.LOCATION;
-    case 'CHILDREN_SIGN_IN':
+    case 'CHILD_SIGN_IN':
       return NotificationType.CHILD_SIGN_IN;
     case 'CHAT':
       return NotificationType.CHAT;
@@ -78,17 +78,7 @@ messaging().setBackgroundMessageHandler(async message => {
     if (notificationType === NotificationType.CHILD_SIGN_IN) {
       const {username, password} = JSON.parse(notification.body);
       await KeyChain.setGenericPassword(username, password);
-      return;
-    }
-
-    // !FIXME : HEALTH, CHAT, FRIENDS 알림
-    if (
-      notificationType === NotificationType.HEALTH ||
-      notificationType === NotificationType.CHAT ||
-      notificationType === NotificationType.FRIENDS
-    ) {
-      console.log(notificationType, notification.body);
-
+    } else {
       PushNotification.localNotification({
         channelId: CHANNEL_ID,
         title: notification.title,

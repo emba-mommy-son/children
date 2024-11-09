@@ -5,23 +5,10 @@ import {useAuthStore} from '@/store/useAuthStore';
 import {NotificationType} from '@/types/notification';
 import messaging from '@react-native-firebase/messaging';
 import {useNavigation} from '@react-navigation/native';
-import {useRealm} from '@realm/react';
 import {useState} from 'react';
 import PushNotification from 'react-native-push-notification';
 
-const CHANNEL_ID = 'children';
-
-interface LocationData {
-  id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-  radius: number;
-  danger: boolean;
-}
-
-export const useNotification = () => {
-  const realm = useRealm();
+export const useLoginFirebase = () => {
   const [init, setInit] = useState(false);
   const {setAccessToken, setRefreshToken} = useAuthStore();
   const {setLoginData} = useLogin();
@@ -40,59 +27,13 @@ export const useNotification = () => {
         requestPermissions: true,
       });
 
-      PushNotification.createChannel(
-        {
-          channelId: CHANNEL_ID,
-          channelName: '마미손 알림',
-          channelDescription: '마미손에서 발송하는 알림',
-        },
-        created => console.log(`createChannel returned '${created}'`),
-      );
-
       // foreground notification
       const unsubscribe = messaging().onMessage(async message => {
         console.log(message);
         const {notification} = message;
         if (notification && notification.body) {
           const notificationType = parseNotification(notification.title || '');
-
-          // * 위치 알림
-          if (notificationType === NotificationType.LOCATION) {
-            console.log('LOCATION', notification.body);
-
-            const locationData: LocationData[] = [
-              JSON.parse(notification.body),
-            ];
-
-            realm.write(() => {
-              const boundaries = realm.objects('Boundary');
-              realm.delete(boundaries);
-
-              locationData.forEach(location => {
-                realm.create('Boundary', {
-                  id: location.id,
-                  name: location.name,
-                  latitude: location.latitude,
-                  longitude: location.longitude,
-                  radius: location.radius,
-                  danger: location.danger,
-                  createdAt: new Date(),
-                });
-              });
-            });
-
-            PushNotification.localNotification({
-              channelId: CHANNEL_ID,
-              title: notification.title,
-              message: notification.body,
-            });
-          } else if (notificationType === NotificationType.CHILD_SIGN_IN) {
-            PushNotification.localNotification({
-              channelId: CHANNEL_ID,
-              title: notification.title,
-              message: notification.body,
-            });
-
+          if (notificationType === NotificationType.CHILD_SIGN_IN) {
             const {userId, username, password} = JSON.parse(
               notification.body,
             ) as {
@@ -109,12 +50,6 @@ export const useNotification = () => {
               setAccessToken(tokenData.accessToken);
               setRefreshToken(tokenData.refreshToken);
               nav.navigate('Home');
-            });
-          } else if (notificationType === NotificationType.FRIENDS) {
-            PushNotification.localNotification({
-              channelId: CHANNEL_ID,
-              title: notification.title,
-              message: notification.body,
             });
           }
         }

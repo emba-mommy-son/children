@@ -1,31 +1,38 @@
 // 라이브러리
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
-  createNativeStackNavigator,
+  BottomTabNavigationProp,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
+import {
   NativeStackNavigationProp,
+  createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 
 // 컴포넌트
-import {BottomNavigationBar} from '@/components/common/BottomNavigationBar';
-import {AlarmPage} from '@/pages/alarm/pages/AlarmPage';
-import {ChattingListPage} from '@/pages/chatting/pages/ChattingListPage';
-import {ChattingPage} from '@/pages/chatting/pages/ChattingPage';
-import {AddFriendPage} from '@/pages/friend/pages/AddFriendPage';
-import {FriendPage} from '@/pages/friend/pages/FriendPage';
-import {FriendRankingPage} from '@/pages/friend/pages/FriendRankingPage';
-import {LocationPage} from '@/pages/location/pages/LocationPage';
-import {MainPage} from '@/pages/main/pages/MainPage';
-import {RewardPage} from '@/pages/reward/pages/RewardPage';
-import {SleepPage} from '@/pages/sleep/pages/SleepPage';
-import {TodoPage} from '@/pages/todo/pages/TodoPage';
+import { BottomNavigationBar } from '@/components/common/BottomNavigationBar';
+import { AlarmPage } from '@/pages/alarm/pages/AlarmPage';
+import { ChattingListPage } from '@/pages/chatting/pages/ChattingListPage';
+import { ChattingPage } from '@/pages/chatting/pages/ChattingPage';
+import { AddFriendPage } from '@/pages/friend/pages/AddFriendPage';
+import { FriendPage } from '@/pages/friend/pages/FriendPage';
+import { FriendRankingPage } from '@/pages/friend/pages/FriendRankingPage';
+import { LocationPage } from '@/pages/location/pages/LocationPage';
+import { MainPage } from '@/pages/main/pages/MainPage';
+import { RewardPage } from '@/pages/reward/pages/RewardPage';
+import { SleepPage } from '@/pages/sleep/pages/SleepPage';
+import { TodoPage } from '@/pages/todo/pages/TodoPage';
 
-import {useGetBoundary} from '@/api/location/useGetBoundary';
-import {ROUTES} from '@/constants/routeURL';
-import {useGeoLocation} from '@/hooks/useGeoLocation';
-import {WarningLocationPage} from '@/pages/location/pages/WarningLocationPage';
-import {useRealm} from '@realm/react';
+import { useGetBoundary } from '@/api/location/useGetBoundary';
+import { InitialQR } from '@/components/common/InitialQR';
+import { ROUTES } from '@/constants/routeURL';
+import { useGeoLocation } from '@/hooks/useGeoLocation';
+import { useLogin } from '@/hooks/useLogin';
+import { useNotification } from '@/hooks/useNotification';
+import { useSleepSync } from '@/hooks/useSleepSync';
+import { WarningLocationPage } from '@/pages/location/pages/WarningLocationPage';
+import { useRealm } from '@realm/react';
 import ReactNativeForegroundService from '@supersami/rn-foreground-service';
-import {useEffect} from 'react';
+import { useEffect, useState } from 'react';
 
 type AppNavigatorParamList = {
   [ROUTES.MAIN_TABS]: undefined;
@@ -38,31 +45,26 @@ type AppNavigatorParamList = {
   [ROUTES.WARNING]: undefined;
 };
 
+type TabNavigatorParamList = {
+  [ROUTES.HOME]: undefined;
+  [ROUTES.FRIEND]: undefined;
+  [ROUTES.CHATTING_LIST]: undefined;
+  [ROUTES.SLEEP]: undefined;
+  [ROUTES.LOCATION]: undefined;
+};
+
 export type AppNavigatorProp = NativeStackNavigationProp<AppNavigatorParamList>;
+export type TabNavigatorProp = BottomTabNavigationProp<TabNavigatorParamList>;
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<TabNavigatorParamList>();
 const Stack = createNativeStackNavigator<AppNavigatorParamList>();
-
-// const navigation = useNavigation();
-
-// const handlePressBack = () => {
-//   if (navigation?.canGoBack()) {
-//     navigation.goBack();
-//     return true;
-//   }
-
-//   return false;
-// };
-
-// useEffect(() => {
-//   BackHandler.addEventListener('hardwareBackPress', handlePressBack);
-//   return () => {
-//     BackHandler.removeEventListener('hardwareBackPress', handlePressBack);
-//   };
-// }, [handlePressBack]);
 
 const TabNavigator = () => {
   const realm = useRealm();
+  const [isLogin, setIsLogin] = useState(false);
+  const {syncSleepData} = useSleepSync();
+  const {getLoginData} = useLogin();
+  const {initialize} = useNotification();
   const {getLocation} = useGeoLocation();
   const {data: boundaryData} = useGetBoundary();
 
@@ -131,6 +133,23 @@ const TabNavigator = () => {
     ReactNativeForegroundService.stopAll();
     console.log('stop');
   };
+
+  useEffect(() => {
+    const unsubscribe = initialize();
+    syncSleepData();
+    (async () => {
+      await getLoginData().then(data => {
+        setIsLogin(data !== null);
+      });
+    })();
+    return () => {
+      unsubscribe;
+    };
+  }, []);
+
+  if (!isLogin) {
+    return <InitialQR/>
+  }
 
   return (
     <Tab.Navigator

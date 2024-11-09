@@ -26,9 +26,13 @@ export const LocationModal = ({
   setModalOpen,
 }: LocationModalProps) => {
   const slideAnim = useRef(new Animated.Value(height)).current;
-  const today = new Date().toLocaleString().split('.');
-  const date = `${today[1]}월 ${today[2]}일`;
-  const time = today[3].split(':').slice(0, 2).join(':');
+  const today = new Date();
+  console.log('today', today);
+  const date = `${today.getMonth()}월 ${today.getDay()}일`;
+  console.log('date', date);
+  const time = `${String(today.getHours()).padStart(2, '0')}:${String(
+    today.getMinutes(),
+  ).padStart(2, '0')}`;
   const {data: notiLocations} = useGetLocation();
 
   useEffect(() => {

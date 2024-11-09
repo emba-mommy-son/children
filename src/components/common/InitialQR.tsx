@@ -24,10 +24,11 @@ export const InitialQR = () => {
         });
     }
   }, []);
+
   return (
     <View className="flex-1 justify-center items-center bg-secondary">
       <View className="relative rounded-xl p-10">
-        {FCMToken && <QRCode value={FCMToken} size={200}/>}
+        {FCMToken && <QRCode value={FCMToken} size={200} />}
       </View>
     </View>
   );
