@@ -13,36 +13,30 @@ export const useSleepData = () => {
 
   const requestAndroidPermissions = async (): Promise<boolean> => {
     try {
+      // API 29(Android 10) 이상에서만 ACTIVITY_RECOGNITION 권한 필요
       if (parseInt(Platform.Version as string) >= 29) {
-        const permissions = [
+        console.log('Android 10 이상: ACTIVITY_RECOGNITION 권한 요청');
+        const result = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACTIVITY_RECOGNITION,
-          'android.permission.FITNESS_ACTIVITY_READ',
-          'android.permission.FITNESS_SLEEP_READ',
-        ] as string[];
-
-        const results = await Promise.all(
-          permissions.map(permission =>
-            PermissionsAndroid.request(permission as string, {
-              title: '활동 권한',
-              message: '수면 데이터를 가져오기 위해 활동 권한이 필요합니다.',
-              buttonNeutral: '나중에 묻기',
-              buttonNegative: '취소',
-              buttonPositive: '확인',
-            }),
-          ),
+          {
+            title: '활동 권한',
+            message: '수면 데이터를 가져오기 위해 활동 권한이 필요합니다.',
+            buttonNeutral: '나중에 묻기',
+            buttonNegative: '취소',
+            buttonPositive: '확인',
+          },
         );
 
-        return results.every(
-          result => result === PermissionsAndroid.RESULTS.GRANTED,
-        );
+        return result === PermissionsAndroid.RESULTS.GRANTED;
       }
+
+      // Android 9 이하에서는 추가 권한이 필요하지 않음
       return true;
     } catch (err) {
       console.warn('권한 요청 에러:', err);
       return false;
     }
   };
-
   const initialize = useCallback(async (): Promise<boolean> => {
     if (isInitialized) return true;
 
@@ -51,7 +45,7 @@ export const useSleepData = () => {
       if (!permissionGranted) {
         throw new Error('활동 권한이 거부되었습니다.');
       }
-
+      console.log('권한 거부 안됨');
       const options = {
         scopes: [
           Scopes.FITNESS_ACTIVITY_READ,
@@ -61,7 +55,6 @@ export const useSleepData = () => {
         androidClientId:
           '631375258700-h4gv5afkqrd07au5advl4vr8olnh5igt.apps.googleusercontent.com',
       };
-
       const authResult = await GoogleFit.authorize(options);
       console.log('Google Fit 인증 결과:', authResult);
 
