@@ -75,28 +75,25 @@ export const LocationModal = ({
                   <Text className="text-red">현위치</Text>
                   <Text className="text-black">{time}</Text>
                 </View>
-                <Text className="text-center text-black mt-6 mb-3">
+                <Text className="text-black mt-6 mb-3 px-2">
                   {name.split(' ').slice(2).join(' ')}
                 </Text>
               </View>
 
               {/* 이동 거리 */}
               <View className="px-5 py-7 rounded-lg shadow-lg shadow-gray-700">
-                <View className="flex flex-row justify-between">
-                  <View className="flex flex-col">
-                    <Text className="text-black text-lg mt-1">
-                      부모님께 알림이 전송된 위치
-                    </Text>
-                  </View>
-                  <FontAwesome5Icons name="running" color="black" size={25} />
+                <View className="flex flex-row justify-between items-center">
+                  <Text className="text-red mt-1">
+                    부모님께 알림이 전송된 위치
+                  </Text>
                 </View>
                 {notiLocations?.map(location => {
                   return (
-                    <View className="flex flex-row justify-center items-center mt-4 space-x-3">
+                    <View className="flex flex-row items-center mt-4 space-x-2 px-2">
                       <FontAwesome6Icons
                         name="location-dot"
                         color="#E86256"
-                        size={25}
+                        size={15}
                       />
                       <Text className="text-black">
                         {location.name.split(' ').slice(2).join(' ')}
