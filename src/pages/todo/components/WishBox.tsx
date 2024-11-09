@@ -9,7 +9,7 @@ import {useDeleteWishImage} from '@/api/todo';
 // 아이콘
 import {WishModal} from '@/pages/todo/components/WishModal';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
-import AntDesignIcons from 'react-native-vector-icons/AntDesign'; // name에 delete edit
+import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 interface WishBoxProps {
   ratio: number;
 }

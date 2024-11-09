@@ -10,7 +10,7 @@ import {client} from '@/api/core/client';
 import {QUERY_KEYS} from '@/constants/queryKeys';
 
 const deleteGoal = async (goalId: number): Promise<void> => {
-  await client.delete<null>({
+  await client.delete({
     url: `/goal/${goalId}`,
   });
 };
