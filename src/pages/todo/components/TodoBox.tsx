@@ -31,13 +31,13 @@ export const TodoBox = () => {
       <WishBox ratio={ratio} />
       <View className="flex flex-row itmes-center justify-center space-x-3">
         <TodoCountBox title="할 일" count={todoList.length} />
-        <TodoCountBox title="완료" count={completeList.length} />
+        <TodoCountBox title="완료한 일" count={completeList.length} />
       </View>
       <View className="relative bg-white rounded-xl shadow-md shadow-black p-4 overflow-auto">
         <View className="absolute top-4 right-4 z-50">
           <EntypoIcons name="plus" size={25} onPress={handleOpen} />
         </View>
-        <Text className="text-black text-lg font-bold pb-3">할 일</Text>
+        <Text className="text-black text-lg pb-3">할 일</Text>
         {todoList.length > 0 ? (
           todoList.map(todo => (
             <TodoList
@@ -50,13 +50,13 @@ export const TodoBox = () => {
         ) : (
           <View className="w-full h-32 flex items-center justify-center">
             <Text className="text-black text-center font-bold">
-              현재 목표가 없습니다.
+              할 일을 추가해주세요.
             </Text>
           </View>
         )}
       </View>
       <View className="bg-white rounded-xl shadow-md shadow-black p-4">
-        <Text className="text-black text-lg font-bold pb-3">완료</Text>
+        <Text className="text-black text-lg pb-3">완료한 일</Text>
         {completeList.length > 0 ? (
           completeList.map(todo => (
             <TodoList
@@ -69,7 +69,7 @@ export const TodoBox = () => {
         ) : (
           <View className="w-full h-32 flex items-center justify-center">
             <Text className="text-black text-center font-bold">
-              현재 완료한 목표가 없습니다.
+              현재 완료한 일이 없습니다.
             </Text>
           </View>
         )}

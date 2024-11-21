@@ -34,13 +34,22 @@ export const TodoList = ({id, content, done}: TodoListProps) => {
   return (
     <View className="flex flex-row items-center justify-between">
       <View className="flex flex-row items-center space-x-3 my-1">
-        <MaterialCommunityIcons
-          name={isDone ? 'checkbox-marked' : 'checkbox-blank-outline'}
-          color="#9D4BFF"
-          size={24}
-          onPress={hanelePress}
-        />
-        <Text className="text-lg text-black">{content}</Text>
+        {isDone ? (
+          <MaterialCommunityIcons
+            name="checkbox-marked"
+            color="#9D4BFF"
+            size={24}
+            onPress={hanelePress}
+          />
+        ) : (
+          <MaterialCommunityIcons
+            name="checkbox-blank-outline"
+            color="#9D4BFF"
+            size={24}
+            onPress={hanelePress}
+          />
+        )}
+        <Text className="text-black">{content}</Text>
       </View>
 
       <EntypoIcons name="cross" size={20} onPress={handleDeleteGoal} />

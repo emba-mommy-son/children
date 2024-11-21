@@ -79,7 +79,7 @@ export const LocationModal = ({
                   <Text className="text-red">현위치</Text>
                   <Text className="text-black">{time}</Text>
                 </View>
-                <Text className="text-center text-black mt-6 mb-3">
+                <Text className="text-black mt-6 mb-3 px-2">
                   {name.split(' ').slice(2).join(' ')}
                 </Text>
               </View>
@@ -96,11 +96,11 @@ export const LocationModal = ({
                 </View>
                 {notiLocations?.map(location => {
                   return (
-                    <View className="flex flex-row justify-center items-center mt-4 space-x-3">
+                    <View className="flex flex-row items-center mt-4 space-x-2 px-2">
                       <FontAwesome6Icons
                         name="location-dot"
                         color="#E86256"
-                        size={25}
+                        size={15}
                       />
                       <Text className="text-black">
                         {location.name.split(' ').slice(2).join(' ')}
