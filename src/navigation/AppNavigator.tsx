@@ -9,30 +9,30 @@ import {
 } from '@react-navigation/native-stack';
 
 // 컴포넌트
-import { BottomNavigationBar } from '@/components/common/BottomNavigationBar';
-import { AlarmPage } from '@/pages/alarm/pages/AlarmPage';
-import { ChattingListPage } from '@/pages/chatting/pages/ChattingListPage';
-import { ChattingPage } from '@/pages/chatting/pages/ChattingPage';
-import { AddFriendPage } from '@/pages/friend/pages/AddFriendPage';
-import { FriendPage } from '@/pages/friend/pages/FriendPage';
-import { FriendRankingPage } from '@/pages/friend/pages/FriendRankingPage';
-import { LocationPage } from '@/pages/location/pages/LocationPage';
-import { MainPage } from '@/pages/main/pages/MainPage';
-import { RewardPage } from '@/pages/reward/pages/RewardPage';
-import { SleepPage } from '@/pages/sleep/pages/SleepPage';
-import { TodoPage } from '@/pages/todo/pages/TodoPage';
+import {BottomNavigationBar} from '@/components/common/BottomNavigationBar';
+import {AlarmPage} from '@/pages/alarm/pages/AlarmPage';
+import {ChattingListPage} from '@/pages/chatting/pages/ChattingListPage';
+import {ChattingPage} from '@/pages/chatting/pages/ChattingPage';
+import {AddFriendPage} from '@/pages/friend/pages/AddFriendPage';
+import {FriendPage} from '@/pages/friend/pages/FriendPage';
+import {FriendRankingPage} from '@/pages/friend/pages/FriendRankingPage';
+import {LocationPage} from '@/pages/location/pages/LocationPage';
+import {MainPage} from '@/pages/main/pages/MainPage';
+import {RewardPage} from '@/pages/reward/pages/RewardPage';
+import {SleepPage} from '@/pages/sleep/pages/SleepPage';
+import {TodoPage} from '@/pages/todo/pages/TodoPage';
 
-import { useGetBoundary } from '@/api/location/useGetBoundary';
-import { InitialQR } from '@/components/common/InitialQR';
-import { ROUTES } from '@/constants/routeURL';
-import { useGeoLocation } from '@/hooks/useGeoLocation';
-import { useLogin } from '@/hooks/useLogin';
-import { useNotification } from '@/hooks/useNotification';
-import { useSleepSync } from '@/hooks/useSleepSync';
-import { WarningLocationPage } from '@/pages/location/pages/WarningLocationPage';
-import { useRealm } from '@realm/react';
+import {useGetBoundary} from '@/api/location/useGetBoundary';
+import {ROUTES} from '@/constants/routeURL';
+import {useGeoLocation} from '@/hooks/useGeoLocation';
+import {useLogin} from '@/hooks/useLogin';
+import {useNotification} from '@/hooks/useNotification';
+import {useSleepSync} from '@/hooks/useSleepSync';
+import {ChatBotPage} from '@/pages/AI/pages/GenerateAIPage';
+import {WarningLocationPage} from '@/pages/location/pages/WarningLocationPage';
+import {useRealm} from '@realm/react';
 import ReactNativeForegroundService from '@supersami/rn-foreground-service';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 type AppNavigatorParamList = {
   [ROUTES.MAIN_TABS]: undefined;
@@ -51,6 +51,7 @@ type TabNavigatorParamList = {
   [ROUTES.CHATTING_LIST]: undefined;
   [ROUTES.SLEEP]: undefined;
   [ROUTES.LOCATION]: undefined;
+  [ROUTES.CHATBOT]: undefined;
 };
 
 export type AppNavigatorProp = NativeStackNavigationProp<AppNavigatorParamList>;
@@ -167,6 +168,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen name={ROUTES.SLEEP} component={SleepPage} />
       <Tab.Screen name={ROUTES.LOCATION} component={LocationPage} />
+      <Tab.Screen name={ROUTES.CHATBOT} component={ChatBotPage} />
     </Tab.Navigator>
   );
 };

@@ -1,5 +1,5 @@
-import {Fragment} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import { Fragment } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface BottomNavigationBarProps {
@@ -39,6 +39,12 @@ const ROUTES = [
     focusIcon: 'location',
     unfocusIcon: 'location-outline',
   },
+  {
+    name: "챗봇",
+    hasIcon: true,
+    focusIcon: 'logo-reddit',
+    unfocusIcon: 'logo-reddit',
+  }
 ];
 
 export const BottomNavigationBar = (props: BottomNavigationBarProps) => {
