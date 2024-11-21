@@ -26,9 +26,13 @@ export const LocationModal = ({
   setModalOpen,
 }: LocationModalProps) => {
   const slideAnim = useRef(new Animated.Value(height)).current;
-  const today = new Date().toLocaleString().split('.');
-  const date = `${today[1]}월 ${today[2]}일`;
-  const time = today[3].split(':').slice(0, 2).join(':');
+  const today = new Date();
+  console.log('today', today);
+  const date = `${today.getMonth()}월 ${today.getDay()}일`;
+  console.log('date', date);
+  const time = `${String(today.getHours()).padStart(2, '0')}:${String(
+    today.getMinutes(),
+  ).padStart(2, '0')}`;
   const {data: notiLocations} = useGetLocation();
 
   useEffect(() => {
@@ -82,10 +86,13 @@ export const LocationModal = ({
 
               {/* 이동 거리 */}
               <View className="px-5 py-7 rounded-lg shadow-lg shadow-gray-700">
-                <View className="flex flex-row justify-between items-center">
-                  <Text className="text-red mt-1">
-                    부모님께 알림이 전송된 위치
-                  </Text>
+                <View className="flex flex-row justify-between">
+                  <View className="flex flex-col">
+                    <Text className="text-black text-base text-center mt-1">
+                      부모님께 알림이 전송된 위치
+                    </Text>
+                  </View>
+                  <FontAwesome5Icons name="running" color="black" size={25} />
                 </View>
                 {notiLocations?.map(location => {
                   return (

@@ -1,8 +1,7 @@
-import {useMutation, UseMutationResult} from '@tanstack/react-query';
-import {ToastAndroid} from 'react-native';
-import {AxiosError} from 'axios';
-import {BaseResponse, BaseErrorResponse} from '@/types/baseResponse';
 import {client} from '@/api/core/client';
+import {BaseErrorResponse, BaseResponse} from '@/types/baseResponse';
+import {UseMutationResult, useMutation} from '@tanstack/react-query';
+import {AxiosError} from 'axios';
 
 type CreateAnalysisRequest = {
   roomId: number;
@@ -11,10 +10,15 @@ type CreateAnalysisRequest = {
 };
 
 const createAnalysis = async (data: CreateAnalysisRequest): Promise<void> => {
-  await client.post<BaseResponse<null>>({
-    url: '/analysis',
-    data,
-  });
+  try {
+    const response = await client.post<BaseResponse<null>>({
+      url: '/analysis',
+      data,
+    });
+  } catch (error) {
+    console.error('createAnalysis error', error);
+    throw error;
+  }
 };
 
 export const useCreateAnalysis = (): UseMutationResult<
@@ -25,7 +29,7 @@ export const useCreateAnalysis = (): UseMutationResult<
   return useMutation({
     mutationFn: createAnalysis,
     onError: () => {
-      ToastAndroid.show('서버 상태가 불안정합니다.', 2000);
+      // ToastAndroid.show('서버 상태가 불안정합니다.', 2000);
     },
   });
 };

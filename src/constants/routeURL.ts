@@ -6,6 +6,7 @@ export const ROUTES = {
   CHATTING_LIST: 'ChattingList',
   SLEEP: 'Sleep',
   LOCATION: 'Location',
+  CHATBOT: 'Chatbot',
 
   // Stack Routes
   ALARM: 'Alarm',

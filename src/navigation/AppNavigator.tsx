@@ -1,8 +1,11 @@
 // 라이브러리
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
-  createNativeStackNavigator,
+  BottomTabNavigationProp,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
+import {
   NativeStackNavigationProp,
+  createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 
 // 컴포넌트
@@ -22,10 +25,14 @@ import {TodoPage} from '@/pages/todo/pages/TodoPage';
 import {useGetBoundary} from '@/api/location/useGetBoundary';
 import {ROUTES} from '@/constants/routeURL';
 import {useGeoLocation} from '@/hooks/useGeoLocation';
+import {useLogin} from '@/hooks/useLogin';
+import {useNotification} from '@/hooks/useNotification';
+import {useSleepSync} from '@/hooks/useSleepSync';
+import {ChatBotPage} from '@/pages/AI/pages/GenerateAIPage';
 import {WarningLocationPage} from '@/pages/location/pages/WarningLocationPage';
 import {useRealm} from '@realm/react';
 import ReactNativeForegroundService from '@supersami/rn-foreground-service';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 
 type AppNavigatorParamList = {
   [ROUTES.MAIN_TABS]: undefined;
@@ -38,31 +45,27 @@ type AppNavigatorParamList = {
   [ROUTES.WARNING]: undefined;
 };
 
+type TabNavigatorParamList = {
+  [ROUTES.HOME]: undefined;
+  [ROUTES.FRIEND]: undefined;
+  [ROUTES.CHATTING_LIST]: undefined;
+  [ROUTES.SLEEP]: undefined;
+  [ROUTES.LOCATION]: undefined;
+  [ROUTES.CHATBOT]: undefined;
+};
+
 export type AppNavigatorProp = NativeStackNavigationProp<AppNavigatorParamList>;
+export type TabNavigatorProp = BottomTabNavigationProp<TabNavigatorParamList>;
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<TabNavigatorParamList>();
 const Stack = createNativeStackNavigator<AppNavigatorParamList>();
-
-// const navigation = useNavigation();
-
-// const handlePressBack = () => {
-//   if (navigation?.canGoBack()) {
-//     navigation.goBack();
-//     return true;
-//   }
-
-//   return false;
-// };
-
-// useEffect(() => {
-//   BackHandler.addEventListener('hardwareBackPress', handlePressBack);
-//   return () => {
-//     BackHandler.removeEventListener('hardwareBackPress', handlePressBack);
-//   };
-// }, [handlePressBack]);
 
 const TabNavigator = () => {
   const realm = useRealm();
+  const [isLogin, setIsLogin] = useState(false);
+  const {syncSleepData} = useSleepSync();
+  const {getLoginData} = useLogin();
+  const {initialize} = useNotification();
   const {getLocation} = useGeoLocation();
   const {data: boundaryData} = useGetBoundary();
 
@@ -132,6 +135,23 @@ const TabNavigator = () => {
     console.log('stop');
   };
 
+  useEffect(() => {
+    const unsubscribe = initialize();
+    syncSleepData();
+    (async () => {
+      await getLoginData().then(data => {
+        setIsLogin(data !== null);
+      });
+    })();
+    return () => {
+      unsubscribe;
+    };
+  }, []);
+
+  // if (!isLogin) {
+  //   return <InitialQR/>
+  // }
+
   return (
     <Tab.Navigator
       initialRouteName={ROUTES.HOME}
@@ -148,6 +168,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen name={ROUTES.SLEEP} component={SleepPage} />
       <Tab.Screen name={ROUTES.LOCATION} component={LocationPage} />
+      <Tab.Screen name={ROUTES.CHATBOT} component={ChatBotPage} />
     </Tab.Navigator>
   );
 };

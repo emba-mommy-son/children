@@ -1,4 +1,4 @@
-import useGeocoding from '@/hooks/useGeoCoding';
+import {useGeocoding} from '@/hooks/useGeoCoding';
 import {useLocationStore} from '@/store/useLocationStore';
 import {useNavigation} from '@react-navigation/native';
 import {useEffect} from 'react';

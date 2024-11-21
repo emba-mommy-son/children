@@ -1,9 +1,9 @@
-import {forwardRef} from 'react';
-import {ScrollView} from 'react-native';
-import {Message} from '@/types/chat';
+import {DateHeader} from '@/pages/chatting/components/DateHeader';
 import {Receive} from '@/pages/chatting/components/Receive';
 import {Send} from '@/pages/chatting/components/Send';
-import {DateHeader} from '@/pages/chatting/components/DateHeader';
+import {Message} from '@/types/chat';
+import {forwardRef} from 'react';
+import {ScrollView} from 'react-native';
 
 interface ChatMessagesProps {
   messages: Message[];
@@ -52,7 +52,7 @@ export const ChatMessages = forwardRef<ScrollView, ChatMessagesProps>(
     return (
       <ScrollView
         ref={ref}
-        className="flex flex-col my-5 p-4"
+        className="flex flex-col mt-2 mb-5 p-4 pt-0"
         onContentSizeChange={onContentSizeChange}>
         {renderMessages()}
       </ScrollView>

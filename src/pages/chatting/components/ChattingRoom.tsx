@@ -1,15 +1,15 @@
-import {Alert, ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import {useCallback, useEffect, useRef, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {useQueryClient} from '@tanstack/react-query';
-import {Client} from '@stomp/stompjs';
-import {Message} from '@/types/chat';
-import {useUserStore} from '@/store/useUserStore';
-import {Send} from '@/pages/chatting/components/Send';
-import {ChatMessages} from '@/pages/chatting/components/ChatMessages';
-import {useGetRoom} from '@/api/chat';
 import {useCreateAnalysis} from '@/api/analysis';
+import {useGetRoom} from '@/api/chat';
 import {QUERY_KEYS} from '@/constants/queryKeys';
+import {ChatMessages} from '@/pages/chatting/components/ChatMessages';
+import {Send} from '@/pages/chatting/components/Send';
+import {useUserStore} from '@/store/useUserStore';
+import {Message} from '@/types/chat';
+import {useNavigation} from '@react-navigation/native';
+import {Client} from '@stomp/stompjs';
+import {useQueryClient} from '@tanstack/react-query';
+import {useCallback, useEffect, useRef, useState} from 'react';
+import {Alert, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
 interface ChattingRoomProps {
@@ -47,7 +47,6 @@ export const ChattingRoom: React.FC<ChattingRoomProps> = ({roomId}) => {
     };
   }, []);
 
-  // !FIXED : 렌더링 되기 전에 이미 스크롤이 아래로 내려간 상태라서 안된것처럼 보인거임
   useEffect(() => {
     console.log('first', first);
     if (first) {
@@ -160,7 +159,7 @@ export const ChattingRoom: React.FC<ChattingRoomProps> = ({roomId}) => {
           <Text className="text-white text-[16px]">{roomData?.name}</Text>
         </View>
         <TouchableOpacity onPress={handleAnalysis}>
-          <AntDesignIcons name="linechart" color="white" size={20} />
+          {/* <AntDesignIcons name="linechart" color="white" size={20} /> */}
         </TouchableOpacity>
       </View>
       <ChatMessages
